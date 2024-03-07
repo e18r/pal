@@ -1,8 +1,20 @@
 <body>
 <script>
+const reverse = text => {
+  let result = "";
+  for(let i = text.length; i >= 0; i--) {
+    const chr = text.charAt(i);
+      if(chr.match(/[a-z]/i)) {
+        result += chr;
+      }
+  }
+  return result;
+}
+const output = document.createElement("input");
 const input = document.createElement("input");
 input.setAttribute("autofocus", "autofocus");
-input.onkeydown = e => console.log(e.key);
+input.onkeyup = () => output.value = reverse(input.value);
 document.body.append(input);
+document.body.append(output);
 </script>
 </body>
