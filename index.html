@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <body>
 <script>
 
@@ -115,8 +116,8 @@ stem.style.caretColor = "red";
 stem.onkeydown = press;
 stem.onkeyup = type;
 canvas.append(stem);
-document.body.onmouseover = () => stem.focus();
-document.body.onclick = () => stem.focus();
+window.onmouseover = () => stem.focus();
+window.onclick = () => stem.focus();
 
 const endContainer = document.createElement("div");
 endContainer.style.position = "absolute";
