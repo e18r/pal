@@ -104,6 +104,10 @@ document.body.append(canvas);
 
 const stem = document.createElement("input");
 stem.setAttribute("autofocus", "autofocus");
+stem.setAttribute("autocomplete", "off");
+stem.setAttribute("autocorrect", "off");
+stem.setAttribute("autocapitalize", "off");
+stem.setAttribute("spellcheck", "false");
 stem.style.position = "relative";
 stem.style.zIndex = 1;
 stem.style.width = "100%";
