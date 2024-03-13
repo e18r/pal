@@ -1,6 +1,7 @@
-* mobile-first
-** overflow de texto en nueva línea
-* múltiples palíndromos con Enter
+* escalable
+** TODO mobile-first
+** DONE overflow de texto en nueva línea
+** múltiples palíndromos con Enter
 * en verde cuando es palíndromo
 * centro del palíndromo
 ** resaltar el centro del palíndromo
