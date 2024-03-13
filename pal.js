@@ -138,8 +138,10 @@ end.style.color = "#A0A0A0";
 end.onclick = () => integrate();
 endContainer.append(end);
 
-canvas.style.border = "2px dotted red";
-stem.style.border = "3px dotted gray";
-endContainer.style.border = "2px dashed blue";
-placeholder.style.border = "2px outset yellow";
-end.style.border = "2px groove green";
+if (window.location.search === "?dev") {
+  canvas.style.border = "2px dotted red";
+  stem.style.border = "3px dotted gray";
+  endContainer.style.border = "2px dashed blue";
+  placeholder.style.border = "2px outset yellow";
+  end.style.border = "2px groove green";
+}
