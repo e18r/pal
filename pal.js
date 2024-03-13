@@ -90,15 +90,6 @@ const press = e => {
   // }
 };
 
-document.body.style.margin = 0;
-
-const canvas = document.createElement("div");
-canvas.style.margin = "4rem";
-canvas.style.fontSize = "3rem";
-canvas.style.fontFamily = "serif";
-canvas.style.wordBreak = "break-all";
-document.body.append(canvas);
-
 const stem = document.createElement("span");
 stem.contentEditable = "plaintext-only";
 stem.setAttribute("autofocus", "autofocus");
@@ -110,13 +101,22 @@ stem.style.outline = "none";
 stem.style.caretColor = "red";
 stem.onkeydown = press;
 stem.onkeyup = type;
-canvas.append(stem);
 window.onmouseover = () => stem.focus();
 window.onclick = () => stem.focus();
 
 const suggest = document.createElement("span");
 suggest.style.color = "gray";
+
+const canvas = document.createElement("div");
+canvas.style.margin = "4rem";
+canvas.style.fontSize = "3rem";
+canvas.style.fontFamily = "serif";
+canvas.style.wordBreak = "break-all";
+canvas.append(stem);
 canvas.append(suggest);
+
+document.body.style.margin = 0;
+document.body.append(canvas);
 
 if (window.location.search === "?dev") {
   canvas.style.border = "2px dotted red";
