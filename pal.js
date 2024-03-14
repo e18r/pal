@@ -18,8 +18,7 @@ const ascii = {
   "ú": "u",
   "ù": "u",
   "û": "u",
-  "ü": "u",
-  "ñ": "n"
+  "ü": "u"
 };
 
 const safe = {
@@ -55,7 +54,7 @@ const normalize = text => {
   for (let chr in ascii) {
     norm = norm.replaceAll(chr, ascii[chr]);
   }
-  norm = norm.replaceAll(/[^a-z]/g, "");
+  norm = norm.replaceAll(/[^a-zñ]/g, "");
   return norm;
 };
 
