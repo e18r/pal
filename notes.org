@@ -1,5 +1,5 @@
 * escalable
-** TODO mobile-first
+** TODO mobile-first: bigger font, fit width
 ** DONE overflow de texto en nueva línea
 ** múltiples palíndromos con Enter
 * feedback cuando es palíndromo
@@ -14,3 +14,4 @@
 * bug: line breaks
 * refactor names: stem -> input, etc.
 * hoja de papel
+* focus with caret in last position
