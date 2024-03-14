@@ -7,5 +7,4 @@
 ** usuario selecciona el centro del palíndromo
 * bug: ligaturas?
 * shortest palindrome
-* hoja de papel
 * bug: quitar tags dentro de input

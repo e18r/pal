@@ -138,7 +138,10 @@ const suggest = document.createElement("span");
 suggest.style.color = "gray";
 
 const canvas = document.createElement("div");
-canvas.style.margin = "4rem";
+canvas.style.padding = "1rem";
+canvas.style.boxSizing = "border-box";
+canvas.style.minHeight = "100%";
+canvas.style.backgroundColor = "white";
 canvas.style.fontSize = "3rem";
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
@@ -146,11 +149,20 @@ canvas.append(input);
 canvas.append(suggest);
 
 document.body.style.margin = 0;
+document.body.style.padding = "1rem";
+document.body.style.boxSizing = "border-box";
+document.body.style.minHeight = "100%";
+document.body.style.backgroundColor = "gray";
 document.body.append(canvas);
+
+const html = document.documentElement;
+html.style.boxSizing = "border-box";
+html.style.height = "100%";
 
 window.onclick = click;
 
 if (window.location.search === "?dev") {
+  html.style.border = "5px solid red";
   document.body.style.border = "1px dotted blue";
   canvas.style.border = "2px dashed green";
   suggest.style.border = "3px solid yellow";
