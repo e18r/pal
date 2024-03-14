@@ -103,8 +103,7 @@ stem.style.borderLeftStyle = "solid";
 stem.style.borderLeftColor = "transparent";
 stem.onkeydown = press;
 stem.onkeyup = type;
-window.onmouseover = () => stem.focus();
-window.onclick = () => stem.focus();
+stem.onblur = () => stem.focus();
 
 const suggest = document.createElement("span");
 suggest.style.color = "gray";

@@ -9,5 +9,4 @@
 ** centro != cursor
 ** usuario selecciona el centro del palíndromo
 ** refactor stem to input, end to suggest
-* bug: window click sets caret at the beginning
 * bug: ñ
