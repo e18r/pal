@@ -90,7 +90,8 @@ const press = e => {
 };
 
 const focus = () => {
-  const sel = window.getSelection();
+  if (document.activeElement === stem) return;
+  stem.focus();
   sel.selectAllChildren(stem);
   sel.collapseToEnd();
 };
@@ -108,7 +109,6 @@ stem.style.borderLeftStyle = "solid";
 stem.style.borderLeftColor = "transparent";
 stem.onkeydown = press;
 stem.onkeyup = type;
-stem.onblur = () => setTimeout(() => focus(), 0);
 
 const suggest = document.createElement("span");
 suggest.style.color = "gray";
@@ -123,6 +123,9 @@ canvas.append(suggest);
 
 document.body.style.margin = 0;
 document.body.append(canvas);
+
+const sel = window.getSelection();
+window.onclick = () => focus();
 
 if (window.location.search === "?dev") {
   canvas.style.border = "2px dotted red";

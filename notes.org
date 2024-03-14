@@ -12,4 +12,5 @@
 * bug: ligaturas?
 * shortest palindrome
 * bug: line breaks
-* bug: focus on Android - add back window onclick
+* refactor names: stem -> input, etc.
+* hoja de papel
