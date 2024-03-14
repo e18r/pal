@@ -31,6 +31,8 @@ const safe = {
   " ": "&nbsp;"
 };
 
+const selection = window.getSelection();
+
 let lastCaret = 0;
 
 const isPalindrome = text => {
@@ -76,12 +78,6 @@ const caret = () => {
   }
 };
 
-const click = e => {
-  if (e.target === input) return;
-  input.focus();
-  caret();
-};
-
 const integrate = () => {
   input.innerHTML += suggest.innerHTML;
   suggest.innerHTML = "";
@@ -104,6 +100,12 @@ const keyRelease = e => {
 
 const blur = e => {
   lastCaret = selection.anchorOffset;
+};
+
+const click = e => {
+  if (e.target === input) return;
+  input.focus();
+  caret();
 };
 
 const input = document.createElement("span");
@@ -135,7 +137,6 @@ canvas.append(suggest);
 document.body.style.margin = 0;
 document.body.append(canvas);
 
-const selection = window.getSelection();
 window.onclick = click;
 
 if (window.location.search === "?dev") {
