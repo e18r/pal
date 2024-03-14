@@ -8,3 +8,4 @@
 * bug: ligaturas?
 * shortest palindrome
 * bug: quitar tags dentro de input
+* bug: líneas muy pegadas
