@@ -21,16 +21,6 @@ const ascii = {
   "ü": "u"
 };
 
-const safe = {
-  "&": "&amp;",
-  "<": "&lt;",
-  ">": "&gt;",
-  "\"": "&quot;",
-  "\'": "&#39;",
-  "/": "&#x2F;",
-  " ": "&nbsp;"
-};
-
 const selection = window.getSelection();
 
 let lastCaret = 0;
@@ -60,14 +50,6 @@ const normalize = text => {
   }
   norm = norm.replaceAll(/[^a-zñ]/g, "");
   return norm;
-};
-
-const sanitize = text => {
-  let sane = text;
-  for (let chr in safe) {
-    sane = sane.replaceAll(chr, safe[chr]);
-  }
-  return sane;
 };
 
 const caret = () => {
