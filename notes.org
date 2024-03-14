@@ -12,3 +12,4 @@
 * bug: ligaturas?
 * shortest palindrome
 * bug: line breaks
+* bug: focus on Android
