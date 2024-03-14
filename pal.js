@@ -151,9 +151,9 @@ document.body.append(canvas);
 window.onclick = click;
 
 if (window.location.search === "?dev") {
-  canvas.style.border = "2px dotted red";
-  input.style.border = "3px dotted gray";
-  suggest.style.border = "2px dashed pink";
+  document.body.style.border = "1px dotted blue";
+  canvas.style.border = "2px dashed green";
+  suggest.style.border = "3px solid yellow";
   const button = document.createElement("button");
   button.innerHTML = "focus";
   button.onclick = () => focus();
