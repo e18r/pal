@@ -9,4 +9,6 @@
 ** centro != cursor
 ** usuario selecciona el centro del palíndromo
 ** refactor stem to input, end to suggest
-* bug: firefox contentEditable
+* bug: ligaturas?
+* shortest palindrome
+* bug: line breaks

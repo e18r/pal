@@ -89,8 +89,14 @@ const press = e => {
   // }
 };
 
+const focus = () => {
+  const sel = window.getSelection();
+  sel.selectAllChildren(stem);
+  sel.collapseToEnd();
+};
+
 const stem = document.createElement("span");
-stem.contentEditable = "plaintext-only";
+stem.contentEditable = "true";
 stem.setAttribute("autofocus", "autofocus");
 stem.setAttribute("autocomplete", "off");
 stem.setAttribute("autocorrect", "off");
@@ -102,7 +108,7 @@ stem.style.borderLeftStyle = "solid";
 stem.style.borderLeftColor = "transparent";
 stem.onkeydown = press;
 stem.onkeyup = type;
-stem.onblur = () => stem.focus();
+stem.onblur = () => setTimeout(() => focus(), 0);
 
 const suggest = document.createElement("span");
 suggest.style.color = "gray";
