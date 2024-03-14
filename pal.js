@@ -31,6 +31,8 @@ const safe = {
   " ": "&nbsp;"
 };
 
+let lastCaret = 0;
+
 const isPalindrome = text => {
   return text.split("").reverse().join("") === text;
 };
@@ -68,11 +70,14 @@ const sanitize = text => {
 
 const caret = () => {
   selection.selectAllChildren(input);
-  selection.collapseToEnd();
+  selection.collapseToStart();
+  for(let i = 0; i < lastCaret; i++) {
+    selection.modify("move", "forward", "character");
+  }
 };
 
-const focus = () => {
-  if (document.activeElement === input) return;
+const click = e => {
+  if (e.target === input) return;
   input.focus();
   caret();
 };
@@ -80,7 +85,10 @@ const focus = () => {
 const integrate = () => {
   input.innerHTML += suggest.innerHTML;
   suggest.innerHTML = "";
-  caret();
+  selection.selectAllChildren(input);
+  selection.collapseToEnd();
+  selection.modify("move", "backward", "character");
+  selection.modify("move", "forward", "character");
 };
 
 const keyPress = e => {
@@ -92,6 +100,10 @@ const keyPress = e => {
 
 const keyRelease = e => {
   suggest.innerHTML = palindromize(normalize(input.innerText));
+};
+
+const blur = e => {
+  lastCaret = selection.anchorOffset;
 };
 
 const input = document.createElement("span");
@@ -107,6 +119,7 @@ input.style.borderLeftStyle = "solid";
 input.style.borderLeftColor = "transparent";
 input.onkeydown = keyPress;
 input.onkeyup = keyRelease;
+input.onblur = blur;
 
 const suggest = document.createElement("span");
 suggest.style.color = "gray";
@@ -123,10 +136,14 @@ document.body.style.margin = 0;
 document.body.append(canvas);
 
 const selection = window.getSelection();
-window.onclick = () => focus();
+window.onclick = click;
 
 if (window.location.search === "?dev") {
   canvas.style.border = "2px dotted red";
   input.style.border = "3px dotted gray";
   suggest.style.border = "2px dashed pink";
+  const button = document.createElement("button");
+  button.innerHTML = "focus";
+  button.onclick = () => focus();
+  canvas.append(button);
 }

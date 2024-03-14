@@ -10,4 +10,3 @@
 * bug: ligaturas?
 * shortest palindrome
 * hoja de papel
-* focus with caret in last position
