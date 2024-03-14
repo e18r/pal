@@ -66,9 +66,21 @@ const sanitize = text => {
   return sane;
 };
 
+const caret = () => {
+  selection.selectAllChildren(input);
+  selection.collapseToEnd();
+};
+
+const focus = () => {
+  if (document.activeElement === input) return;
+  input.focus();
+  caret();
+};
+
 const integrate = () => {
   input.innerHTML += suggest.innerHTML;
   suggest.innerHTML = "";
+  caret();
 };
 
 const keyPress = e => {
@@ -80,13 +92,6 @@ const keyPress = e => {
 
 const keyRelease = e => {
   suggest.innerHTML = palindromize(normalize(input.innerText));
-};
-
-const focus = () => {
-  if (document.activeElement === input) return;
-  input.focus();
-  selection.selectAllChildren(input);
-  selection.collapseToEnd();
 };
 
 const input = document.createElement("span");
