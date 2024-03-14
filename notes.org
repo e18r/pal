@@ -2,7 +2,8 @@
 ** TODO mobile-first
 ** DONE overflow de texto en nueva línea
 ** múltiples palíndromos con Enter
-* en verde cuando es palíndromo
+* feedback cuando es palíndromo
+** borde verde punteado
 * centro del palíndromo
 ** resaltar el centro del palíndromo
 ** centro != cursor
