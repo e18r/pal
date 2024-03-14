@@ -99,6 +99,8 @@ stem.setAttribute("autocapitalize", "off");
 stem.setAttribute("spellcheck", "false");
 stem.style.outline = "none";
 stem.style.caretColor = "red";
+stem.style.borderLeftStyle = "solid";
+stem.style.borderLeftColor = "transparent";
 stem.onkeydown = press;
 stem.onkeyup = type;
 window.onmouseover = () => stem.focus();
