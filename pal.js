@@ -67,22 +67,15 @@ const sanitize = text => {
 };
 
 const integrate = () => {
-  stem.value += end.innerHTML;
-  end.innerHTML = "";
+  input.innerHTML += suggest.innerHTML;
+  suggest.innerHTML = "";
 };
 
 const keyPress = e => {
-  // if (
-  //   e.key === "Enter"
-  //     || (e.key === "ArrowRight" && stem.selectionStart === stem.value.length)
-  // ) integrate();
-  // else if (e.key === "Backspace" || e.key === "Delete") {
-  //   const nextLength = stem.value.length - 1;
-  //   placeholder.innerHTML = sanitize(stem.value.substring(0, nextLength));
-  // }
-  // else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
-  //   placeholder.innerHTML = sanitize(stem.value + e.key);
-  // }
+  if (e.key === "Enter") {
+    integrate();
+    e.preventDefault();
+  }
 };
 
 const keyRelease = e => {

@@ -9,6 +9,5 @@
 ** usuario selecciona el centro del palíndromo
 * bug: ligaturas?
 * shortest palindrome
-* bug: line breaks
 * hoja de papel
 * focus with caret in last position
