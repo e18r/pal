@@ -72,7 +72,7 @@ const integrate = () => {
 };
 
 const type = e => {
-  suggest.innerHTML = palindromize(normalize(stem.innerText));
+  suggest.innerHTML = palindromize(normalize(input.innerText));
 };
 
 const press = e => {
@@ -90,25 +90,25 @@ const press = e => {
 };
 
 const focus = () => {
-  if (document.activeElement === stem) return;
-  stem.focus();
-  sel.selectAllChildren(stem);
-  sel.collapseToEnd();
+  if (document.activeElement === input) return;
+  input.focus();
+  selection.selectAllChildren(input);
+  selection.collapseToEnd();
 };
 
-const stem = document.createElement("span");
-stem.contentEditable = "true";
-stem.setAttribute("autofocus", "autofocus");
-stem.setAttribute("autocomplete", "off");
-stem.setAttribute("autocorrect", "off");
-stem.setAttribute("autocapitalize", "off");
-stem.setAttribute("spellcheck", "false");
-stem.style.outline = "none";
-stem.style.caretColor = "red";
-stem.style.borderLeftStyle = "solid";
-stem.style.borderLeftColor = "transparent";
-stem.onkeydown = press;
-stem.onkeyup = type;
+const input = document.createElement("span");
+input.contentEditable = "true";
+input.setAttribute("autofocus", "autofocus");
+input.setAttribute("autocomplete", "off");
+input.setAttribute("autocorrect", "off");
+input.setAttribute("autocapitalize", "off");
+input.setAttribute("spellcheck", "false");
+input.style.outline = "none";
+input.style.caretColor = "red";
+input.style.borderLeftStyle = "solid";
+input.style.borderLeftColor = "transparent";
+input.onkeydown = press;
+input.onkeyup = type;
 
 const suggest = document.createElement("span");
 suggest.style.color = "gray";
@@ -118,17 +118,17 @@ canvas.style.margin = "4rem";
 canvas.style.fontSize = "3rem";
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
-canvas.append(stem);
+canvas.append(input);
 canvas.append(suggest);
 
 document.body.style.margin = 0;
 document.body.append(canvas);
 
-const sel = window.getSelection();
+const selection = window.getSelection();
 window.onclick = () => focus();
 
 if (window.location.search === "?dev") {
   canvas.style.border = "2px dotted red";
-  stem.style.border = "3px dotted gray";
+  input.style.border = "3px dotted gray";
   suggest.style.border = "2px dashed pink";
 }

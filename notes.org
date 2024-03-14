@@ -12,6 +12,5 @@
 * bug: ligaturas?
 * shortest palindrome
 * bug: line breaks
-* refactor names: stem -> input, etc.
 * hoja de papel
 * focus with caret in last position
