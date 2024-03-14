@@ -96,6 +96,16 @@ const keyPress = e => {
 
 const keyRelease = e => {
   suggest.innerHTML = palindromize(normalize(input.innerText));
+  if (input.innerText === "") {
+    input.style.borderColor = "transparent";
+    input.style.caretColor = "red";
+  } else if (isPalindrome(normalize(input.innerText))) {
+    input.style.borderColor = "green";
+    input.style.caretColor = "green";
+  } else {
+    input.style.borderColor = "red";
+    input.style.caretColor = "red";
+  }
 };
 
 const blur = e => {
@@ -117,8 +127,9 @@ input.setAttribute("autocapitalize", "off");
 input.setAttribute("spellcheck", "false");
 input.style.outline = "none";
 input.style.caretColor = "red";
-input.style.borderLeftStyle = "solid";
-input.style.borderLeftColor = "transparent";
+input.style.borderWidth = "2px";
+input.style.borderStyle = "dashed";
+input.style.borderColor = "transparent";
 input.onkeydown = keyPress;
 input.onkeyup = keyRelease;
 input.onblur = blur;

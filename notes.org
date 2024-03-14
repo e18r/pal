@@ -1,8 +1,6 @@
 * escalable
 ** mobile-first: bigger font, fit width
 ** múltiples palíndromos con Enter
-* feedback cuando es palíndromo
-** borde verde punteado
 * centro del palíndromo
 ** resaltar el centro del palíndromo
 ** centro != cursor
@@ -10,3 +8,4 @@
 * bug: ligaturas?
 * shortest palindrome
 * hoja de papel
+* bug: quitar tags dentro de input
