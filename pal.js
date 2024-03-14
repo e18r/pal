@@ -71,11 +71,7 @@ const integrate = () => {
   end.innerHTML = "";
 };
 
-const type = e => {
-  suggest.innerHTML = palindromize(normalize(input.innerText));
-};
-
-const press = e => {
+const keyPress = e => {
   // if (
   //   e.key === "Enter"
   //     || (e.key === "ArrowRight" && stem.selectionStart === stem.value.length)
@@ -87,6 +83,10 @@ const press = e => {
   // else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
   //   placeholder.innerHTML = sanitize(stem.value + e.key);
   // }
+};
+
+const keyRelease = e => {
+  suggest.innerHTML = palindromize(normalize(input.innerText));
 };
 
 const focus = () => {
@@ -107,8 +107,8 @@ input.style.outline = "none";
 input.style.caretColor = "red";
 input.style.borderLeftStyle = "solid";
 input.style.borderLeftColor = "transparent";
-input.onkeydown = press;
-input.onkeyup = type;
+input.onkeydown = keyPress;
+input.onkeyup = keyRelease;
 
 const suggest = document.createElement("span");
 suggest.style.color = "gray";

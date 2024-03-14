@@ -1,6 +1,5 @@
 * escalable
-** TODO mobile-first: bigger font, fit width
-** DONE overflow de texto en nueva línea
+** mobile-first: bigger font, fit width
 ** múltiples palíndromos con Enter
 * feedback cuando es palíndromo
 ** borde verde punteado
@@ -8,7 +7,6 @@
 ** resaltar el centro del palíndromo
 ** centro != cursor
 ** usuario selecciona el centro del palíndromo
-** refactor stem to input, end to suggest
 * bug: ligaturas?
 * shortest palindrome
 * bug: line breaks
