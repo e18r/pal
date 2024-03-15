@@ -1,7 +1,7 @@
 * mobile-first: bigger font, fit width, etc.
 * múltiples palíndromos con Enter
 * centro del palíndromo
-** resaltar el centro del palíndromo
+** resaltar el centro del palíndromo: toca poner un elemento dentro de input, lo cual tiene implicaciones para el caret, aunque puede que ponerlo adelanta y ya sea suficiente. Luego está el problema de transformar el índice del texto normalizado, al índice del texto inicial, con espacios sobre todo.
 ** sugerir en ambas direcciones, escribiendo en el centro
 ** usuario selecciona el centro del palíndromo
 * sugerencias negativas: borrar
