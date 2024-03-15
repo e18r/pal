@@ -4,6 +4,10 @@
 ** resaltar el centro del palíndromo
 ** sugerir en ambas direcciones, escribiendo en el centro
 ** usuario selecciona el centro del palíndromo
+* sugerencias negativas: borrar
+* sugerencias en el medio del texto
 * bug: ligaturas?
 * bug: quitar tags dentro de input
 * bug: líneas muy pegadas
+* caret adelante al hacer click en frente, atrás al hacer click atrás
+* botón de sugerir palíndromos usando IA
