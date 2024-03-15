@@ -58,12 +58,21 @@ const findEnd = chunks => {
 };
 
 const normalize = text => {
-  let norm = text.toLowerCase();
+  text = text.toLowerCase();
   for (let chr in ascii) {
-    norm = norm.replaceAll(chr, ascii[chr]);
+    text = text.replaceAll(chr, ascii[chr]);
   }
-  norm = norm.replaceAll(/[^a-zñ]/g, "");
-  return norm;
+  const textArray = text.split("");
+  const normArray = [];
+  const map = {};
+  for (let i = 0; i < textArray.length; i++) {
+    if (textArray[i].match(/[a-zñ0-9]/)) {
+      map[normArray.length] = i;
+      normArray.push(textArray[i]);
+    }
+  }
+  const norm = normArray.join("");
+  return {norm, map};
 };
 
 const caretLast = () => {
@@ -95,13 +104,13 @@ const keyPress = e => {
 };
 
 const keyRelease = e => {
-  const normal = normalize(input.innerText);
-  const chunks = getChunks(normal);
+  const {norm, map} = normalize(input.innerText);
+  const chunks = getChunks(norm);
   const end = findEnd(chunks);
   suggest.innerText = end;
   if (input.innerText === "") {
     input.style.borderColor = "transparent";
-  } else if (isPalindrome(normalize(input.innerText))) {
+  } else if (isPalindrome(norm)) {
     input.style.borderColor = "green";
   } else {
     input.style.borderColor = "red";
