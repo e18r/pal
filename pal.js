@@ -66,7 +66,7 @@ const normalize = text => {
   return norm;
 };
 
-const caret = () => {
+const caretLast = () => {
   selection.selectAllChildren(input);
   selection.collapseToStart();
   for(let i = 0; i < lastCaret; i++) {
@@ -74,13 +74,17 @@ const caret = () => {
   }
 };
 
-const integrate = () => {
-  input.innerHTML += suggest.innerHTML;
-  suggest.innerHTML = "";
+const caretEnd = () => {
   selection.selectAllChildren(input);
   selection.collapseToEnd();
   selection.modify("move", "backward", "character");
   selection.modify("move", "forward", "character");
+};
+
+const integrate = () => {
+  input.innerHTML += suggest.innerHTML;
+  suggest.innerHTML = "";
+  caretEnd();
 };
 
 const keyPress = e => {
@@ -97,13 +101,10 @@ const keyRelease = e => {
   suggest.innerText = end;
   if (input.innerText === "") {
     input.style.borderColor = "transparent";
-    input.style.caretColor = "red";
   } else if (isPalindrome(normalize(input.innerText))) {
     input.style.borderColor = "green";
-    input.style.caretColor = "green";
   } else {
     input.style.borderColor = "red";
-    input.style.caretColor = "red";
   }
 };
 
@@ -114,7 +115,7 @@ const blur = e => {
 const click = e => {
   if (e.target === input) return;
   input.focus();
-  caret();
+  caretLast();
 };
 
 const input = document.createElement("span");
@@ -125,7 +126,6 @@ input.setAttribute("autocorrect", "off");
 input.setAttribute("autocapitalize", "off");
 input.setAttribute("spellcheck", "false");
 input.style.outline = "none";
-input.style.caretColor = "red";
 input.style.borderWidth = "2px";
 input.style.borderStyle = "dashed";
 input.style.borderColor = "transparent";
