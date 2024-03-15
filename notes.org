@@ -9,3 +9,4 @@
 * bug: quitar tags dentro de input
 * bug: líneas muy pegadas
 * sugerir en ambas direcciones
+* publicar palíndromos, darles like
