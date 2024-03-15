@@ -11,3 +11,4 @@
 * bug: líneas muy pegadas
 * caret adelante al hacer click en frente, atrás al hacer click atrás
 * botón de sugerir palíndromos usando IA
+* publicar palíndromos, darles like
