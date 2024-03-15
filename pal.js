@@ -29,18 +29,32 @@ const isPalindrome = text => {
   return text.split("").reverse().join("") === text;
 };
 
-const palindromize = text => {
-  if (isPalindrome(text)) return "";
-  let isCore = true;
-  let core = text.charAt(text.length - 1);
-  let end = "";
-  for (let i = text.length - 2; i >= 0; i--) {
-    if (!isCore || text.charAt(i) !== core) {
-      isCore = false;
-      end += text.charAt(i);
+const getChunks = text => {
+  chunks = [];
+  for (let i = 0; i < text.length; i++) {
+    for (let j = i+1; j <= text.length; j++) {
+      if (text[i] !== text[j]) {
+        chunks.push(text.substring(i, j));
+        i = j-1;
+        break;
+      }
     }
   }
-  return end;
+  return chunks;
+};
+
+const findEnd = chunks => {
+  for (let i = Math.floor(chunks.length / 2); i < chunks.length; i++) {
+    for (let j = 1; j < chunks.length - i; j++) {
+      if (chunks[i-j] !== chunks[i+j]) {
+        break;
+      }
+      if (i+j === chunks.length - 1) {
+        return chunks.slice(0, i-j).reverse().join("");
+      }
+    }
+  }
+  return chunks.slice(0, chunks.length - 1).reverse().join("");
 };
 
 const normalize = text => {
@@ -77,7 +91,10 @@ const keyPress = e => {
 };
 
 const keyRelease = e => {
-  suggest.innerHTML = palindromize(normalize(input.innerText));
+  const normal = normalize(input.innerText);
+  const chunks = getChunks(normal);
+  const end = findEnd(chunks);
+  suggest.innerText = end;
   if (input.innerText === "") {
     input.style.borderColor = "transparent";
     input.style.caretColor = "red";

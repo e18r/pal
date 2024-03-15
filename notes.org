@@ -6,6 +6,6 @@
 ** centro != cursor
 ** usuario selecciona el centro del palíndromo
 * bug: ligaturas?
-* shortest palindrome
 * bug: quitar tags dentro de input
 * bug: líneas muy pegadas
+* sugerir en ambas direcciones
