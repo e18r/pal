@@ -1,11 +1,9 @@
-* escalable
-** mobile-first: bigger font, fit width
-** múltiples palíndromos con Enter
+* mobile-first: bigger font, fit width, etc.
+* múltiples palíndromos con Enter
 * centro del palíndromo
 ** resaltar el centro del palíndromo
-** centro != cursor
+** sugerir en ambas direcciones, escribiendo en el centro
 ** usuario selecciona el centro del palíndromo
 * bug: ligaturas?
 * bug: quitar tags dentro de input
 * bug: líneas muy pegadas
-* sugerir en ambas direcciones
