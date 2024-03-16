@@ -12,3 +12,4 @@
 * botón de sugerir palíndromos usando IA
 * publicar palíndromos, darles like
 * integrate with tab
+* rename end to suggestEnd, or just suggest

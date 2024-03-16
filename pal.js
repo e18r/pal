@@ -59,6 +59,18 @@ const findEnd = chunks => {
   return {end, coreIndex: chunks.length - 1};
 };
 
+const split = (chunks, coreIndex, map, text) => {
+  const normStart = chunks.slice(0, coreIndex).join("");
+  const normStartIndex = normStart.length;
+  const startIndex = map[normStartIndex];
+  const normEndIndex = normStartIndex + chunks[coreIndex].length;
+  const endIndex = map[normEndIndex];
+  const start = text.substring(0, startIndex);
+  const core = text.substring(startIndex, endIndex);
+  const userEnd = text.substring(endIndex);
+  return {start, core, userEnd};
+};
+
 const normalize = text => {
   text = text.toLowerCase();
   for (let chr in ascii) {
@@ -73,6 +85,7 @@ const normalize = text => {
       normArray.push(textArray[i]);
     }
   }
+  map[normArray.length] = textArray.length;
   const norm = normArray.join("");
   return {norm, map};
 };
@@ -111,17 +124,20 @@ const keyPress = e => {
 };
 
 const keyRelease = e => {
-  const {norm, map} = normalize(input.innerText);
+  const text = input.innerText;
+  const {norm, map} = normalize(text);
   const chunks = getChunks(norm);
   const {end, coreIndex} = findEnd(chunks);
   suggest.innerText = end;
   if (input.innerText === "") {
     input.style.borderColor = "transparent";
+    return;
   } else if (isPalindrome(norm)) {
     input.style.borderColor = "green";
   } else {
     input.style.borderColor = "red";
   }
+  const {start, core, userEnd} = split(chunks, coreIndex, map, text);
 };
 
 const blur = e => {
