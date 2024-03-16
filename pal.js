@@ -50,11 +50,13 @@ const findEnd = chunks => {
         break;
       }
       if (i+j === chunks.length - 1) {
-        return chunks.slice(0, i-j).reverse().join("");
+        const end = chunks.slice(0, i-j).reverse().join("");
+        return {end, coreIndex: i};
       }
     }
   }
-  return chunks.slice(0, chunks.length - 1).reverse().join("");
+  const end = chunks.slice(0, chunks.length - 1).reverse().join("");
+  return {end, coreIndex: chunks.length - 1};
 };
 
 const normalize = text => {
@@ -111,7 +113,7 @@ const keyPress = e => {
 const keyRelease = e => {
   const {norm, map} = normalize(input.innerText);
   const chunks = getChunks(norm);
-  const end = findEnd(chunks);
+  const {end, coreIndex} = findEnd(chunks);
   suggest.innerText = end;
   if (input.innerText === "") {
     input.style.borderColor = "transparent";
