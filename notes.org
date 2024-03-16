@@ -7,7 +7,6 @@
 * sugerencias negativas: borrar
 * sugerencias en el medio del texto
 * bug: ligaturas?
-* bug: quitar tags dentro de input
 * bug: líneas muy pegadas
 * caret adelante al hacer click en frente, atrás al hacer click atrás
 * botón de sugerir palíndromos usando IA

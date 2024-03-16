@@ -75,7 +75,11 @@ const normalize = text => {
   return {norm, map};
 };
 
-const caretLast = () => {
+const saveCaret = () => {
+  lastCaret = selection.anchorOffset;
+};
+
+const restoreCaret = () => {
   selection.selectAllChildren(input);
   selection.collapseToStart();
   for(let i = 0; i < lastCaret; i++) {
@@ -100,7 +104,8 @@ const keyPress = e => {
   if (e.key === "Enter") {
     integrate();
     e.preventDefault();
-  }
+  } else if (e.ctrlKey && ["i", "u", "b"].includes(e.key.toLowerCase()))
+    e.preventDefault();
 };
 
 const keyRelease = e => {
@@ -118,13 +123,13 @@ const keyRelease = e => {
 };
 
 const blur = e => {
-  lastCaret = selection.anchorOffset;
+  saveCaret();
 };
 
 const click = e => {
   if (e.target === input) return;
   input.focus();
-  caretLast();
+  restoreCaret();
 };
 
 const input = document.createElement("span");
