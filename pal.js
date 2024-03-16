@@ -60,14 +60,15 @@ const findEnd = chunks => {
 };
 
 const split = (chunks, coreIndex, map, text) => {
+  if (chunks.length === 0) return {start: "", core: "", userEnd: ""};
   const normStart = chunks.slice(0, coreIndex).join("");
   const normStartIndex = normStart.length;
   const startIndex = map[normStartIndex];
-  const normEndIndex = normStartIndex + chunks[coreIndex].length;
+  const normEndIndex = normStartIndex + chunks[coreIndex].length - 1;
   const endIndex = map[normEndIndex];
   const start = text.substring(0, startIndex);
-  const core = text.substring(startIndex, endIndex);
-  const userEnd = text.substring(endIndex);
+  const core = text.substring(startIndex, endIndex + 1);
+  const userEnd = text.substring(endIndex + 1);
   return {start, core, userEnd};
 };
 
@@ -131,13 +132,15 @@ const keyRelease = e => {
   suggest.innerText = end;
   if (input.innerText === "") {
     input.style.borderColor = "transparent";
-    return;
   } else if (isPalindrome(norm)) {
     input.style.borderColor = "green";
   } else {
     input.style.borderColor = "red";
   }
   const {start, core, userEnd} = split(chunks, coreIndex, map, text);
+  startNode.innerText = start;
+  coreNode.innerText = core;
+  userEndNode.innerText = userEnd;
 };
 
 const blur = e => {
@@ -149,6 +152,18 @@ const click = e => {
   input.focus();
   restoreCaret();
 };
+
+const startNode = document.createElement("span");
+
+const coreNode = document.createElement("span");
+coreNode.style.backgroundColor = "green";
+
+const userEndNode = document.createElement("span");
+
+const highlight = document.createElement("div");
+highlight.append(startNode);
+highlight.append(coreNode);
+highlight.append(userEndNode);
 
 const input = document.createElement("span");
 input.contentEditable = "true";
@@ -176,6 +191,7 @@ canvas.style.backgroundColor = "white";
 canvas.style.fontSize = "3rem";
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
+canvas.append(highlight);
 canvas.append(input);
 canvas.append(suggest);
 
