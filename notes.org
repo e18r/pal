@@ -1,19 +1,22 @@
-* mobile-first: bigger font, fit width, etc.
-* múltiples palíndromos con Enter
-* sugerir en ambas direcciones, escribiendo en el centro
-* usuario selecciona el centro del palíndromo
-* sugerencias negativas: borrar
-* sugerencias en el medio del texto
-* bug: ligaturas?
-* bug: líneas muy pegadas
-* caret adelante al hacer click en frente, atrás al hacer click atrás
-* botón de sugerir palíndromos usando IA
-* publicar palíndromos, darles like
-* integrate with tab
-* rename end to userEnd
-* initial caret animation
-
+* fixes:
+** rename end to userEnd
+** bug: líneas muy pegadas
+** bug: ligaturas?
+* features:
+** initial caret animation
+** integrate with tab
+** caret adelante al hacer click en frente, atrás al hacer click atrás
+** mobile-first: bigger font, fit width, etc.
+* wishes:
+** sugerencias negativas: borrar
+** sugerencias en el medio del texto
+¿cómo hacerlo sin violar el principio de cambiar lo que esribe el usuario?
+** publicar palíndromos, darles like
+** botón de sugerir palíndromos usando IA
+** usuario selecciona el centro del palíndromo
+** sugerir en ambas direcciones, escribiendo en el centro
+** múltiples palíndromos con Enter
 * principios:
-* siempre lo escrito es un palíndromo
-* no cambiar lo que le usuarie escribe (mejor subrayar, etc.)
-* suggestStart | userStart | core | userEnd | suggestEnd
+** siempre lo escrito es un palíndromo
+** no cambiar lo que le usuarie escribe (mejor subrayar, etc.)
+** suggestStart | userStart | core | userEnd | suggestEnd
