@@ -8,6 +8,7 @@
 ** mobile-first: bigger font, fit width, etc.
 ** hoja con borde resaltado
 * wishes:
+** texto en URL
 ** sugerencias negativas: borrar
 ** sugerencias en el medio del texto
 ¿cómo hacerlo sin violar el principio de cambiar lo que esribe le usuarie?
