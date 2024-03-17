@@ -43,24 +43,24 @@ const getChunks = text => {
   return chunks;
 };
 
-const findEnd = chunks => {
+const suggest = chunks => {
   for (let i = Math.floor(chunks.length / 2); i < chunks.length; i++) {
     for (let j = 1; j < chunks.length - i; j++) {
       if (chunks[i-j] !== chunks[i+j]) {
         break;
       }
       if (i+j === chunks.length - 1) {
-        const end = chunks.slice(0, i-j).reverse().join("");
-        return {end, coreIndex: i};
+        const tail = chunks.slice(0, i-j).reverse().join("");
+        return {tail, coreIndex: i};
       }
     }
   }
-  const end = chunks.slice(0, chunks.length - 1).reverse().join("");
-  return {end, coreIndex: chunks.length - 1};
+  const tail = chunks.slice(0, chunks.length - 1).reverse().join("");
+  return {tail, coreIndex: chunks.length - 1};
 };
 
 const split = (chunks, coreIndex, map, text) => {
-  if (chunks.length === 0) return {start: "", core: "", userEnd: ""};
+  if (chunks.length === 0) return {start: "", core: "", end: ""};
   const normStart = chunks.slice(0, coreIndex).join("");
   const normStartIndex = normStart.length;
   const startIndex = map[normStartIndex];
@@ -68,8 +68,8 @@ const split = (chunks, coreIndex, map, text) => {
   const endIndex = map[normEndIndex];
   const start = text.substring(0, startIndex);
   const core = text.substring(startIndex, endIndex + 1);
-  const userEnd = text.substring(endIndex + 1);
-  return {start, core, userEnd};
+  const end = text.substring(endIndex + 1);
+  return {start, core, end};
 };
 
 const normalize = text => {
@@ -111,8 +111,8 @@ const caretEnd = () => {
 };
 
 const integrate = () => {
-  input.innerHTML += suggest.innerHTML;
-  suggest.innerHTML = "";
+  input.innerHTML += tailNode.innerHTML;
+  tailNode.innerHTML = "";
   caretEnd();
 };
 
@@ -128,21 +128,21 @@ const keyRelease = e => {
   const text = input.innerText;
   const {norm, map} = normalize(text);
   const chunks = getChunks(norm);
-  const {end, coreIndex} = findEnd(chunks);
-  suggest.innerText = end;
-  const {start, core, userEnd} = split(chunks, coreIndex, map, text);
+  const {tail, coreIndex} = suggest(chunks);
+  tailNode.innerText = tail;
+  const {start, core, end} = split(chunks, coreIndex, map, text);
   startNode.innerText = start;
   coreNode.innerText = core;
-  userEndNode.innerText = userEnd;
+  endNode.innerText = end;
   if (norm && isPalindrome(norm)) {
     startNode.style.borderColor = "lightgreen";
     coreNode.style.borderStyle = "lightgreen";
-    userEndNode.style.borderColor = "lightgreen";
+    endNode.style.borderColor = "lightgreen";
   }
   else {
     startNode.style.borderColor = "transparent";
     coreNode.style.borderColor = "transparent";
-    userEndNode.style.borderColor = "transparent";
+    endNode.style.borderColor = "transparent";
   }
 };
 
@@ -167,17 +167,17 @@ coreNode.style.borderWidth = "3px";
 coreNode.style.borderStyle = "solid none";
 coreNode.style.borderColor = "transparent";
 
-const userEndNode = document.createElement("span");
-userEndNode.style.borderWidth = "3px";
-userEndNode.style.borderStyle = "solid solid solid none";
-userEndNode.style.borderColor = "transparent";
+const endNode = document.createElement("span");
+endNode.style.borderWidth = "3px";
+endNode.style.borderStyle = "solid solid solid none";
+endNode.style.borderColor = "transparent";
 
 const highlight = document.createElement("div");
 highlight.style.height = "0px";
 highlight.style.color = "transparent";
 highlight.append(startNode);
 highlight.append(coreNode);
-highlight.append(userEndNode);
+highlight.append(endNode);
 
 const input = document.createElement("span");
 input.contentEditable = "true";
@@ -194,8 +194,8 @@ input.onkeydown = keyPress;
 input.onkeyup = keyRelease;
 input.onblur = blur;
 
-const suggest = document.createElement("span");
-suggest.style.color = "darkgray";
+const tailNode = document.createElement("span");
+tailNode.style.color = "darkgray";
 
 const angel = document.createElement("div");
 angel.style.display = "inline-block";
@@ -210,7 +210,7 @@ canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
 canvas.append(highlight);
 canvas.append(input);
-canvas.append(suggest);
+canvas.append(tailNode);
 canvas.append(angel);
 
 document.body.style.margin = 0;
@@ -233,7 +233,7 @@ if (window.location.search === "?dev") {
   highlight.style.border = "2px solid fuchsia";
   coreNode.style.color = "red";
   input.style.border = "2px dashed red";
-  suggest.style.border = "3px solid yellow";
+  tailNode.style.border = "3px solid yellow";
   const button = document.createElement("button");
   button.innerHTML = "focus";
   button.onclick = () => focus();

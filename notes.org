@@ -1,7 +1,6 @@
 * fixes:
-** rename end to userEnd
 ** bug: ligaturas?
-* features:
+* mejoras:
 ** initial caret animation
 ** integrate with tab
 ** caret adelante al hacer click en frente, atrás al hacer click atrás
@@ -20,4 +19,4 @@
 * principios:
 ** siempre lo escrito es un palíndromo
 ** no cambiar lo que le usuarie escribe (mejor subrayar, etc.)
-** suggestStart | userStart | core | userEnd | suggestEnd
+** head | start | core | end | tail
