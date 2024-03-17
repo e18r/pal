@@ -117,7 +117,7 @@ const integrate = () => {
 };
 
 const keyPress = e => {
-  if (e.key === "Enter") {
+  if (["Enter", "Tab"].includes(e.key)) {
     integrate();
     e.preventDefault();
   } else if (e.ctrlKey && ["i", "u", "b"].includes(e.key.toLowerCase()))

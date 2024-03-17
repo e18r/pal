@@ -1,7 +1,6 @@
 * fixes:
 * mejoras:
 ** initial caret animation
-** integrate with tab
 ** caret adelante al hacer click en frente, atrás al hacer click atrás
 ** mobile-first: bigger font, fit width, etc.
 ** hoja con borde resaltado
