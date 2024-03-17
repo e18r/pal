@@ -110,6 +110,26 @@ const caretEnd = () => {
   selection.modify("move", "forward", "character");
 };
 
+const blink = () => {
+  startNode.animate(
+    {
+      borderColor: ["black", "transparent", "black"],
+      easing: "step-end"
+    },
+    {
+      duration: 1000,
+      iterations: Infinity
+    }
+  );
+  input.style.caretColor = "transparent";
+};
+
+const unblink = () => {
+  const animations = startNode.getAnimations();
+  animations.forEach(animation => animation.cancel());
+  input.style.caretColor = "black";
+};
+
 const integrate = () => {
   input.innerHTML += tailNode.innerHTML;
   tailNode.innerHTML = "";
@@ -136,14 +156,14 @@ const keyRelease = e => {
   endNode.innerText = end;
   if (norm && isPalindrome(norm)) {
     startNode.style.borderColor = "lightgreen";
-    coreNode.style.borderStyle = "lightgreen";
+    coreNode.style.borderColor = "lightgreen";
     endNode.style.borderColor = "lightgreen";
-  }
-  else {
+  } else {
     startNode.style.borderColor = "transparent";
     coreNode.style.borderColor = "transparent";
     endNode.style.borderColor = "transparent";
   }
+  if (text) unblink(); else blink();
 };
 
 const blur = e => {
@@ -226,6 +246,8 @@ html.style.boxSizing = "border-box";
 html.style.minHeight = "100%";
 
 window.onclick = click;
+
+blink();
 
 if (window.location.search === "?dev") {
   html.style.border = "5px solid red";
