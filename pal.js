@@ -178,7 +178,7 @@ suggest.style.color = "gray";
 const canvas = document.createElement("div");
 canvas.style.padding = "1rem";
 canvas.style.boxSizing = "border-box";
-canvas.style.minHeight = "100%";
+canvas.style.height = "100%";
 canvas.style.backgroundColor = "white";
 canvas.style.fontSize = "3rem";
 canvas.style.fontFamily = "serif";
@@ -189,14 +189,14 @@ canvas.append(suggest);
 
 document.body.style.margin = 0;
 document.body.style.padding = "1rem";
-document.body.style.boxSizing = "border-box";
-document.body.style.minHeight = "100%";
+document.body.style.flex = 1;
 document.body.style.backgroundColor = "gray";
 document.body.append(canvas);
 
 const html = document.documentElement;
+html.style.display = "flex";
 html.style.boxSizing = "border-box";
-html.style.height = "100%";
+html.style.minHeight = "100%";
 
 window.onclick = click;
 
