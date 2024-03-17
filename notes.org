@@ -11,9 +11,9 @@
 * publicar palíndromos, darles like
 * integrate with tab
 * rename end to userEnd
+* initial caret animation
 
 * principios:
 * siempre lo escrito es un palíndromo
 * no cambiar lo que le usuarie escribe (mejor subrayar, etc.)
 * suggestStart | userStart | core | userEnd | suggestEnd
-* initial caret animation

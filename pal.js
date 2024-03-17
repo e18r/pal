@@ -175,6 +175,9 @@ input.onblur = blur;
 const suggest = document.createElement("span");
 suggest.style.color = "gray";
 
+const angel = document.createElement("div");
+angel.style.display = "inline-block";
+
 const canvas = document.createElement("div");
 canvas.style.padding = "1rem";
 canvas.style.boxSizing = "border-box";
@@ -186,6 +189,7 @@ canvas.style.wordBreak = "break-all";
 canvas.append(highlight);
 canvas.append(input);
 canvas.append(suggest);
+canvas.append(angel);
 
 document.body.style.margin = 0;
 document.body.style.padding = "1rem";
