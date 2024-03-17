@@ -130,13 +130,6 @@ const keyRelease = e => {
   const chunks = getChunks(norm);
   const {end, coreIndex} = findEnd(chunks);
   suggest.innerText = end;
-  if (input.innerText === "") {
-    input.style.borderColor = "transparent";
-  } else if (isPalindrome(norm)) {
-    input.style.borderColor = "green";
-  } else {
-    input.style.borderColor = "red";
-  }
   const {start, core, userEnd} = split(chunks, coreIndex, map, text);
   startNode.innerText = start;
   coreNode.innerText = core;
@@ -156,11 +149,13 @@ const click = e => {
 const startNode = document.createElement("span");
 
 const coreNode = document.createElement("span");
-coreNode.style.backgroundColor = "green";
+coreNode.style.backgroundColor = "lightgreen";
 
 const userEndNode = document.createElement("span");
 
 const highlight = document.createElement("div");
+highlight.style.height = "0px";
+highlight.style.color = "transparent";
 highlight.append(startNode);
 highlight.append(coreNode);
 highlight.append(userEndNode);
@@ -173,9 +168,6 @@ input.setAttribute("autocorrect", "off");
 input.setAttribute("autocapitalize", "off");
 input.setAttribute("spellcheck", "false");
 input.style.outline = "none";
-input.style.borderWidth = "2px";
-input.style.borderStyle = "dashed";
-input.style.borderColor = "transparent";
 input.onkeydown = keyPress;
 input.onkeyup = keyRelease;
 input.onblur = blur;
@@ -212,7 +204,9 @@ if (window.location.search === "?dev") {
   html.style.border = "5px solid red";
   document.body.style.border = "1px dotted blue";
   canvas.style.border = "2px dashed green";
-  highlight.style.border = "1px solid fuchsia";
+  highlight.style.border = "2px solid fuchsia";
+  coreNode.style.color = "red";
+  input.style.border = "2px dashed red";
   suggest.style.border = "3px solid yellow";
   const button = document.createElement("button");
   button.innerHTML = "focus";

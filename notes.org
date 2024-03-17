@@ -1,6 +1,5 @@
 * mobile-first: bigger font, fit width, etc.
 * múltiples palíndromos con Enter
-* resaltar el centro del palíndromo: subrayar
 * sugerir en ambas direcciones, escribiendo en el centro
 * usuario selecciona el centro del palíndromo
 * sugerencias negativas: borrar
@@ -17,3 +16,4 @@
 * siempre lo escrito es un palíndromo
 * no cambiar lo que le usuarie escribe (mejor subrayar, etc.)
 * suggestStart | userStart | core | userEnd | suggestEnd
+* initial caret animation
