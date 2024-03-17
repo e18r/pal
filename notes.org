@@ -1,5 +1,4 @@
 * fixes:
-** bug: ligaturas?
 * mejoras:
 ** initial caret animation
 ** integrate with tab

@@ -208,6 +208,7 @@ canvas.style.backgroundColor = "white";
 canvas.style.fontSize = "3rem";
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
+canvas.style.fontVariantLigatures = "none";
 canvas.append(highlight);
 canvas.append(input);
 canvas.append(tailNode);
