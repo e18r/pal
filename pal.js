@@ -134,6 +134,16 @@ const keyRelease = e => {
   startNode.innerText = start;
   coreNode.innerText = core;
   userEndNode.innerText = userEnd;
+  if (norm && isPalindrome(norm)) {
+    startNode.style.borderColor = "lightgreen";
+    coreNode.style.borderStyle = "lightgreen";
+    userEndNode.style.borderColor = "lightgreen";
+  }
+  else {
+    startNode.style.borderColor = "transparent";
+    coreNode.style.borderColor = "transparent";
+    userEndNode.style.borderColor = "transparent";
+  }
 };
 
 const blur = e => {
@@ -147,11 +157,20 @@ const click = e => {
 };
 
 const startNode = document.createElement("span");
+startNode.style.borderWidth = "3px";
+startNode.style.borderStyle = "solid none solid solid";
+startNode.style.borderColor = "transparent";
 
 const coreNode = document.createElement("span");
 coreNode.style.backgroundColor = "lightgreen";
+coreNode.style.borderWidth = "3px";
+coreNode.style.borderStyle = "solid none";
+coreNode.style.borderColor = "transparent";
 
 const userEndNode = document.createElement("span");
+userEndNode.style.borderWidth = "3px";
+userEndNode.style.borderStyle = "solid solid solid none";
+userEndNode.style.borderColor = "transparent";
 
 const highlight = document.createElement("div");
 highlight.style.height = "0px";
@@ -168,12 +187,15 @@ input.setAttribute("autocorrect", "off");
 input.setAttribute("autocapitalize", "off");
 input.setAttribute("spellcheck", "false");
 input.style.outline = "none";
+input.style.borderWidth = "2px";
+input.style.borderStyle = "solid none solid solid";
+input.style.borderColor = "transparent";
 input.onkeydown = keyPress;
 input.onkeyup = keyRelease;
 input.onblur = blur;
 
 const suggest = document.createElement("span");
-suggest.style.color = "gray";
+suggest.style.color = "darkgray";
 
 const angel = document.createElement("div");
 angel.style.display = "inline-block";

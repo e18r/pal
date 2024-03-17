@@ -1,16 +1,16 @@
 * fixes:
 ** rename end to userEnd
-** bug: líneas muy pegadas
 ** bug: ligaturas?
 * features:
 ** initial caret animation
 ** integrate with tab
 ** caret adelante al hacer click en frente, atrás al hacer click atrás
 ** mobile-first: bigger font, fit width, etc.
+** hoja con borde resaltado
 * wishes:
 ** sugerencias negativas: borrar
 ** sugerencias en el medio del texto
-¿cómo hacerlo sin violar el principio de cambiar lo que esribe el usuario?
+¿cómo hacerlo sin violar el principio de cambiar lo que esribe le usuarie?
 ** publicar palíndromos, darles like
 ** botón de sugerir palíndromos usando IA
 ** usuario selecciona el centro del palíndromo
