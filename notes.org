@@ -1,7 +1,6 @@
 * fixes:
 * mejoras:
-** mobile-first: bigger font, fit width, etc.
-** hoja con borde resaltado
+** testing on mobile
 * wishes:
 ** texto en URL
 ** sugerencias negativas: borrar

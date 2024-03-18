@@ -226,23 +226,27 @@ const angel = document.createElement("div");
 angel.style.display = "inline-block";
 
 const canvas = document.createElement("div");
-canvas.style.padding = "1rem";
+canvas.style.borderWidth = "1px";
+canvas.style.borderStyle = "solid";
+canvas.style.borderColor = "gray";
+canvas.style.padding = "2rem";
 canvas.style.boxSizing = "border-box";
 canvas.style.height = "100%";
 canvas.style.backgroundColor = "white";
-canvas.style.fontSize = "3rem";
+canvas.style.fontSize = "4rem";
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
 canvas.style.fontVariantLigatures = "none";
+canvas.style.boxShadow = "1rem 1rem 1rem #404040";
 canvas.append(highlight);
 canvas.append(input);
 canvas.append(tailNode);
 canvas.append(angel);
 
 document.body.style.margin = 0;
-document.body.style.padding = "1rem";
+document.body.style.padding = "2rem";
 document.body.style.flex = 1;
-document.body.style.backgroundColor = "gray";
+document.body.style.backgroundColor = "darkgray";
 document.body.append(canvas);
 
 const html = document.documentElement;
