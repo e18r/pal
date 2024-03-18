@@ -130,21 +130,7 @@ const unblink = () => {
   input.style.caretColor = "black";
 };
 
-const integrate = () => {
-  input.innerHTML += tailNode.innerHTML;
-  tailNode.innerHTML = "";
-  caretEnd();
-};
-
-const keyPress = e => {
-  if (["Enter", "Tab"].includes(e.key)) {
-    integrate();
-    e.preventDefault();
-  } else if (e.ctrlKey && ["i", "u", "b"].includes(e.key.toLowerCase()))
-    e.preventDefault();
-};
-
-const keyRelease = e => {
+const update = () => {
   const text = input.innerText;
   const {norm, map} = normalize(text);
   const chunks = getChunks(norm);
@@ -164,6 +150,21 @@ const keyRelease = e => {
     endNode.style.borderColor = "transparent";
   }
   if (text) unblink(); else blink();
+};
+
+const integrate = () => {
+  input.innerHTML += tailNode.innerHTML;
+  tailNode.innerHTML = "";
+  caretEnd();
+  update();
+};
+
+const keyPress = e => {
+  if (["Enter", "Tab"].includes(e.key)) {
+    integrate();
+    e.preventDefault();
+  } else if (e.ctrlKey && ["i", "u", "b"].includes(e.key.toLowerCase()))
+    e.preventDefault();
 };
 
 const blur = e => {
@@ -211,11 +212,15 @@ input.style.borderWidth = "2px";
 input.style.borderStyle = "solid none solid solid";
 input.style.borderColor = "transparent";
 input.onkeydown = keyPress;
-input.onkeyup = keyRelease;
+input.onkeyup = () => update();
+input.oncut = () => setTimeout(update, 0);
+input.onpaste = () => setTimeout(update, 0);
 input.onblur = blur;
 
 const tailNode = document.createElement("span");
 tailNode.style.color = "darkgray";
+tailNode.style.cursor = "pointer";
+tailNode.onclick = () => integrate();
 
 const angel = document.createElement("div");
 angel.style.display = "inline-block";
