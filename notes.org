@@ -1,8 +1,8 @@
 * fixes:
 * mejoras:
-** caret adelante al hacer click en frente, atrás al hacer click atrás
 ** mobile-first: bigger font, fit width, etc.
 ** hoja con borde resaltado
+** integrar con click en tailNode
 * wishes:
 ** texto en URL
 ** sugerencias negativas: borrar

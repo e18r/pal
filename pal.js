@@ -171,9 +171,9 @@ const blur = e => {
 };
 
 const click = e => {
-  if (e.target === input) return;
+  if (document.activeElement === input) return;
   input.focus();
-  restoreCaret();
+  caretEnd();
 };
 
 const startNode = document.createElement("span");
