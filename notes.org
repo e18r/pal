@@ -1,6 +1,5 @@
 * fixes:
 * mejoras:
-** resaltar core de forma que no se confunda con el caret
 * wishes:
 ** texto en URL
 ** botón de share

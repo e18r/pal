@@ -142,11 +142,11 @@ const update = () => {
   endNode.innerText = end;
   if (norm && isPalindrome(norm)) {
     startNode.style.borderColor = "lightgreen";
-    coreNode.style.borderColor = "lightgreen";
+    coreNode.style.backgroundColor = "lightgreen";
     endNode.style.borderColor = "lightgreen";
   } else {
     startNode.style.borderColor = "transparent";
-    coreNode.style.borderColor = "transparent";
+    coreNode.style.backgroundColor = "transparent";
     endNode.style.borderColor = "transparent";
   }
   if (text) unblink(); else blink();
@@ -183,10 +183,9 @@ startNode.style.borderStyle = "solid none solid solid";
 startNode.style.borderColor = "transparent";
 
 const coreNode = document.createElement("span");
-coreNode.style.backgroundColor = "lightgreen";
 coreNode.style.borderWidth = "3px";
 coreNode.style.borderStyle = "solid none";
-coreNode.style.borderColor = "transparent";
+coreNode.style.borderColor = "lightgreen";
 
 const endNode = document.createElement("span");
 endNode.style.borderWidth = "3px";
