@@ -178,17 +178,17 @@ const click = e => {
 };
 
 const startNode = document.createElement("span");
-startNode.style.borderWidth = "3px";
+startNode.style.borderWidth = "8px";
 startNode.style.borderStyle = "solid none solid solid";
 startNode.style.borderColor = "transparent";
 
 const coreNode = document.createElement("span");
-coreNode.style.borderWidth = "3px";
+coreNode.style.borderWidth = "8px";
 coreNode.style.borderStyle = "solid none";
 coreNode.style.borderColor = "lightgreen";
 
 const endNode = document.createElement("span");
-endNode.style.borderWidth = "3px";
+endNode.style.borderWidth = "8px";
 endNode.style.borderStyle = "solid solid solid none";
 endNode.style.borderColor = "transparent";
 
@@ -207,7 +207,7 @@ input.setAttribute("autocorrect", "off");
 input.setAttribute("autocapitalize", "off");
 input.setAttribute("spellcheck", "false");
 input.style.outline = "none";
-input.style.borderWidth = "2px";
+input.style.borderWidth = "8px";
 input.style.borderStyle = "solid none solid solid";
 input.style.borderColor = "transparent";
 input.onkeydown = keyPress;
@@ -232,7 +232,7 @@ canvas.style.padding = "2rem";
 canvas.style.boxSizing = "border-box";
 canvas.style.height = "100%";
 canvas.style.backgroundColor = "white";
-canvas.style.fontSize = "4rem";
+canvas.style.fontSize = "6rem";
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
 canvas.style.fontVariantLigatures = "none";
