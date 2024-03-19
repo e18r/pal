@@ -1,12 +1,14 @@
 * fixes:
 * mejoras:
-** testing on mobile
+** resaltar core de forma que no se confunda con el caret
 * wishes:
 ** texto en URL
+** botón de share
+** publicar palíndromos
+** dar like a palíndromos publicados
 ** sugerencias negativas: borrar
 ** sugerencias en el medio del texto
 ¿cómo hacerlo sin violar el principio de cambiar lo que esribe le usuarie?
-** publicar palíndromos, darles like
 ** botón de sugerir palíndromos usando IA
 ** usuario selecciona el centro del palíndromo
 ** sugerir en ambas direcciones, escribiendo en el centro
