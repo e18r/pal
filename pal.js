@@ -233,16 +233,13 @@ canvas.style.fontSize = "3rem";
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
 canvas.style.fontVariantLigatures = "none";
-canvas.style.boxShadow = "0.1rem 0.1rem 0.1rem #404040";
 canvas.append(highlight);
 canvas.append(input);
 canvas.append(tailNode);
 canvas.append(angel);
 
 document.body.style.margin = 0;
-document.body.style.padding = "0.5rem";
 document.body.style.flex = 1;
-document.body.style.backgroundColor = "darkgray";
 document.body.append(canvas);
 
 const html = document.documentElement;
