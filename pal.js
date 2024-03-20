@@ -178,17 +178,17 @@ const click = e => {
 };
 
 const startNode = document.createElement("span");
-startNode.style.borderWidth = "8px";
+startNode.style.borderWidth = "0.3rem";
 startNode.style.borderStyle = "solid none solid solid";
 startNode.style.borderColor = "transparent";
 
 const coreNode = document.createElement("span");
-coreNode.style.borderWidth = "8px";
+coreNode.style.borderWidth = "0.3rem";
 coreNode.style.borderStyle = "solid none";
 coreNode.style.borderColor = "lightgreen";
 
 const endNode = document.createElement("span");
-endNode.style.borderWidth = "8px";
+endNode.style.borderWidth = "0.3rem";
 endNode.style.borderStyle = "solid solid solid none";
 endNode.style.borderColor = "transparent";
 
@@ -207,7 +207,7 @@ input.setAttribute("autocorrect", "off");
 input.setAttribute("autocapitalize", "off");
 input.setAttribute("spellcheck", "false");
 input.style.outline = "none";
-input.style.borderWidth = "8px";
+input.style.borderWidth = "0.3rem";
 input.style.borderStyle = "solid none solid solid";
 input.style.borderColor = "transparent";
 input.onkeydown = keyPress;
@@ -225,25 +225,22 @@ const angel = document.createElement("div");
 angel.style.display = "inline-block";
 
 const canvas = document.createElement("div");
-canvas.style.borderWidth = "1px";
-canvas.style.borderStyle = "solid";
-canvas.style.borderColor = "gray";
-canvas.style.padding = "2rem";
+canvas.style.padding = "1rem";
 canvas.style.boxSizing = "border-box";
 canvas.style.height = "100%";
 canvas.style.backgroundColor = "white";
-canvas.style.fontSize = "6rem";
+canvas.style.fontSize = "3rem";
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
 canvas.style.fontVariantLigatures = "none";
-canvas.style.boxShadow = "1rem 1rem 1rem #404040";
+canvas.style.boxShadow = "0.1rem 0.1rem 0.1rem #404040";
 canvas.append(highlight);
 canvas.append(input);
 canvas.append(tailNode);
 canvas.append(angel);
 
 document.body.style.margin = 0;
-document.body.style.padding = "2rem";
+document.body.style.padding = "0.5rem";
 document.body.style.flex = 1;
 document.body.style.backgroundColor = "darkgray";
 document.body.append(canvas);

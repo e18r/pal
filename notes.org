@@ -1,5 +1,6 @@
 * fixes:
 * mejoras:
+** bordes que no se solapan
 * wishes:
 ** texto en URL
 ** botón de share
