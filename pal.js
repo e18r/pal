@@ -21,6 +21,14 @@ const ascii = {
   "ü": "u"
 };
 
+const palette = {
+  background: "white",
+  input: "black",
+  suggest: "darkgray",
+  core: "lightgreen",
+  palindrome: "lightgreen"
+};
+
 const selection = window.getSelection();
 
 let lastCaret = 0;
@@ -113,7 +121,7 @@ const caretEnd = () => {
 const blink = () => {
   startNode.animate(
     {
-      borderColor: ["black", "transparent", "black"],
+      borderColor: [palette.input, "transparent", palette.input],
       easing: "step-end"
     },
     {
@@ -127,7 +135,7 @@ const blink = () => {
 const unblink = () => {
   const animations = startNode.getAnimations();
   animations.forEach(animation => animation.cancel());
-  input.style.caretColor = "black";
+  input.style.caretColor = palette.input;
 };
 
 const update = () => {
@@ -141,12 +149,14 @@ const update = () => {
   coreNode.innerText = core;
   endNode.innerText = end;
   if (norm && isPalindrome(norm)) {
-    startNode.style.borderColor = "lightgreen";
-    coreNode.style.backgroundColor = "lightgreen";
-    endNode.style.borderColor = "lightgreen";
+    startNode.style.borderColor = palette.palindrome;
+    coreNode.style.backgroundColor = palette.palindrome;
+    coreNode.style.borderColor = palette.palindrome;
+    endNode.style.borderColor = palette.palindrome;
   } else {
     startNode.style.borderColor = "transparent";
     coreNode.style.backgroundColor = "transparent";
+    coreNode.style.borderColor = palette.core;
     endNode.style.borderColor = "transparent";
   }
   if (text) unblink(); else blink();
@@ -185,7 +195,7 @@ startNode.style.borderColor = "transparent";
 const coreNode = document.createElement("span");
 coreNode.style.borderWidth = "0.3rem";
 coreNode.style.borderStyle = "solid none";
-coreNode.style.borderColor = "lightgreen";
+coreNode.style.borderColor = palette.core;
 
 const endNode = document.createElement("span");
 endNode.style.borderWidth = "0.3rem";
@@ -210,6 +220,7 @@ input.style.outline = "none";
 input.style.borderWidth = "0.3rem";
 input.style.borderStyle = "solid none solid solid";
 input.style.borderColor = "transparent";
+input.style.color = palette.input;
 input.onkeydown = keyPress;
 input.onkeyup = () => update();
 input.oncut = () => setTimeout(update, 0);
@@ -217,7 +228,7 @@ input.onpaste = () => setTimeout(update, 0);
 input.onblur = blur;
 
 const tailNode = document.createElement("span");
-tailNode.style.color = "darkgray";
+tailNode.style.color = palette.suggest;
 tailNode.style.cursor = "pointer";
 tailNode.onclick = () => integrate();
 
@@ -228,7 +239,7 @@ const canvas = document.createElement("div");
 canvas.style.padding = "1rem";
 canvas.style.boxSizing = "border-box";
 canvas.style.height = "100%";
-canvas.style.backgroundColor = "white";
+canvas.style.backgroundColor = palette.background;
 canvas.style.fontSize = "3rem";
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
