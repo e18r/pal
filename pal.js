@@ -22,11 +22,11 @@ const ascii = {
 };
 
 const palette = {
-  background: "white",
+  background: "#FBF6EE",
   input: "black",
-  suggest: "darkgray",
-  core: "lightgreen",
-  palindrome: "lightgreen"
+  suggest: "#FFB534",
+  core: "#65B741",
+  palindrome: "#C1F2B0"
 };
 
 const selection = window.getSelection();
