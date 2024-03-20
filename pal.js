@@ -236,7 +236,7 @@ const angel = document.createElement("div");
 angel.style.display = "inline-block";
 
 const canvas = document.createElement("div");
-canvas.style.padding = "1rem";
+canvas.style.padding = "1rem 0.1rem 1rem 1rem";
 canvas.style.boxSizing = "border-box";
 canvas.style.height = "100%";
 canvas.style.backgroundColor = palette.background;
