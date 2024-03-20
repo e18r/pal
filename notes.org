@@ -1,5 +1,10 @@
 * fixes:
+** fix inconsistence between end and input with &nbsp and newlines
+** pasted newlines and other tags
+** favicon
 * mejoras:
+** tld: arenera?
+** separar las palabras con guiones
 * wishes:
 ** texto en URL
 ** botón de share
@@ -16,3 +21,5 @@
 ** siempre lo escrito es un palíndromo
 ** no cambiar lo que le usuarie escribe (mejor subrayar, etc.)
 ** head | start | core | end | tail
+** todo el texto, incluyendo url, es palindrómico
+** toda la página web es palindrómica, simétrica
