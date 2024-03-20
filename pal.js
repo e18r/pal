@@ -241,6 +241,7 @@ canvas.style.boxSizing = "border-box";
 canvas.style.height = "100%";
 canvas.style.backgroundColor = palette.background;
 canvas.style.fontSize = "3rem";
+canvas.style.lineHeight = 1.3;
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
 canvas.style.fontVariantLigatures = "none";
