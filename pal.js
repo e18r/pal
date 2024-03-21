@@ -224,7 +224,7 @@ input.style.color = palette.input;
 input.onkeydown = keyPress;
 input.onkeyup = () => update();
 input.oncut = () => setTimeout(update, 0);
-input.onpaste = () => setTimeout(update, 0);
+input.onpaste = e => e.preventDefault();
 input.onblur = blur;
 
 const tailNode = document.createElement("span");

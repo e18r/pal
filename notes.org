@@ -1,9 +1,9 @@
 * fixes:
-** deal with pasted format
 * mejoras:
-** tld: arenera?
 ** permitir newlines
+** permitir paste
 * wishes:
+** tld: arenera? o algo en inglés o en cualquier idioma como pal-lap
 ** texto en URL
 ** botón de share
 ** publicar palíndromos
