@@ -2,7 +2,6 @@
 ** deal with pasted format
 * mejoras:
 ** tld: arenera?
-** separar las palabras con guiones
 ** permitir newlines
 * wishes:
 ** texto en URL
