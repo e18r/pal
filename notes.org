@@ -1,9 +1,10 @@
 * fixes:
-** pasted newlines and other tags
+** deal with pasted format
 ** favicon
 * mejoras:
 ** tld: arenera?
 ** separar las palabras con guiones
+** permitir newlines
 * wishes:
 ** texto en URL
 ** botón de share
