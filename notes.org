@@ -1,6 +1,5 @@
 * fixes:
 ** deal with pasted format
-** favicon
 * mejoras:
 ** tld: arenera?
 ** separar las palabras con guiones
