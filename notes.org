@@ -1,5 +1,4 @@
 * fixes:
-** fix inconsistence between end and input with &nbsp and newlines
 ** pasted newlines and other tags
 ** favicon
 * mejoras:

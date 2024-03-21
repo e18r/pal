@@ -247,8 +247,8 @@ canvas.style.wordBreak = "break-all";
 canvas.style.fontVariantLigatures = "none";
 canvas.append(highlight);
 canvas.append(input);
-canvas.append(tailNode);
 canvas.append(angel);
+canvas.append(tailNode);
 
 document.body.style.margin = 0;
 document.body.style.flex = 1;
