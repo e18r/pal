@@ -1,9 +1,11 @@
 * fixes:
+** sólo quitar espacios al normalizar: minúsculas, quitar diacríticos, quitar espacios
 * mejoras:
 ** permitir newlines
 ** permitir paste
+** hacer otro repo para el back-end
+buscarle un nombre, buscarle un lugar de despliegue, pasar algunas notes allá
 * wishes:
-** tld: arenera? o algo en inglés o en cualquier idioma como pal-lap
 ** texto en URL
 ** botón de share
 ** publicar palíndromos
@@ -19,5 +21,5 @@
 ** siempre lo escrito es un palíndromo
 ** no cambiar lo que le usuarie escribe (mejor subrayar, etc.)
 ** head | start | core | end | tail
-** todo el texto, incluyendo url, es palindrómico
 ** toda la página web es palindrómica, simétrica
+** pal (front) indr (back) ?
