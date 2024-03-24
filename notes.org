@@ -1,5 +1,4 @@
 * fixes:
-** sólo quitar espacios al normalizar: minúsculas, quitar diacríticos, quitar espacios
 * mejoras:
 ** permitir newlines
 ** permitir paste

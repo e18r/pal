@@ -89,7 +89,7 @@ const normalize = text => {
   const normArray = [];
   const map = {};
   for (let i = 0; i < textArray.length; i++) {
-    if (textArray[i].match(/[a-zñ0-9]/)) {
+    if (textArray[i].match(/[a-z0-9ñçß]/)) {
       map[normArray.length] = i;
       normArray.push(textArray[i]);
     }
