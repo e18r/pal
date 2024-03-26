@@ -53,13 +53,16 @@ const getChunks = text => {
 
 const suggest = chunks => {
   for (let i = Math.floor(chunks.length / 2); i < chunks.length; i++) {
-    for (let j = 1; j < chunks.length - i; j++) {
-      if (chunks[i-j] !== chunks[i+j]) {
+    const start = chunks.slice(0, i).join("");
+    const end = chunks.slice(i+1).join("");
+    for(let j = 0; j < end.length; j++) {
+      if (start[start.length - 1 - j] !== end[j]) {
         break;
       }
-      if (i+j === chunks.length - 1) {
-        const tail = chunks.slice(0, i-j).reverse().join("");
-        return {tail, coreIndex: i};
+      if (j === end.length -1) {
+        const unmatchedStart = start.substring(0, start.length - 1 - j);
+        const tail = unmatchedStart.split("").reverse().join("");
+        return {tail, coreIndex: i}
       }
     }
   }
