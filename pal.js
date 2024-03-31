@@ -119,6 +119,25 @@ const getCards = async () => {
   });
 };
 
+const publishPalindrome = async () => {
+  const response = await fetch(indr + "/publish", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      text: input.innerText
+    })
+  });
+  const id = await response.text();
+  // TODO: card view
+  Object.values(list.children).forEach(card => list.removeChild(card));
+  // TODO: add new card without deleting the rest
+  getCards();
+  input.innerText = "";
+  update();
+};
+
 const saveCaret = () => {
   lastCaret = selection.anchorOffset;
 };
@@ -173,11 +192,13 @@ const update = () => {
     coreNode.style.backgroundColor = palette.palindrome;
     coreNode.style.borderColor = palette.palindrome;
     endNode.style.borderColor = palette.palindrome;
+    publish.style.display = "inline";
   } else {
     startNode.style.borderColor = "transparent";
     coreNode.style.backgroundColor = "transparent";
     coreNode.style.borderColor = palette.core;
     endNode.style.borderColor = "transparent";
+    publish.style.display = "none";
   }
   if (text) unblink(); else blink();
 };
@@ -247,13 +268,20 @@ input.oncut = () => setTimeout(update, 0);
 input.onpaste = e => e.preventDefault();
 input.onblur = blur;
 
+const angel = document.createElement("div");
+angel.style.display = "inline-block";
+
 const tailNode = document.createElement("span");
 tailNode.style.color = palette.suggest;
 tailNode.style.cursor = "pointer";
 tailNode.onclick = () => integrate();
 
-const angel = document.createElement("div");
-angel.style.display = "inline-block";
+const publish = document.createElement("img");
+publish.setAttribute("src", "./publish.png");
+publish.style.height = "2rem";
+publish.style.marginLeft = "0.3rem";
+publish.style.display = "none";
+publish.onclick = publishPalindrome;
 
 const canvas = document.createElement("div");
 canvas.style.padding = "1rem 0.1rem 1rem 1rem";
@@ -268,6 +296,7 @@ canvas.append(highlight);
 canvas.append(input);
 canvas.append(angel);
 canvas.append(tailNode);
+canvas.append(publish);
 
 const list = document.createElement("div");
 getCards();
