@@ -102,6 +102,21 @@ const normalize = text => {
   return {norm, map};
 };
 
+const getCards = async () => {
+  const response = await fetch("http://localhost:3000/list");
+  const palindromes = await response.json();
+  palindromes.forEach(palindrome => {
+    const card = document.createElement("div");
+    card.style.borderStyle = "solid";
+    card.style.borderWidth = "1px";
+    card.style.height = "3rem";
+    card.style.fontSize = "2rem";
+    card.style.textAlign = "center";
+    card.innerText = palindrome["text"];
+    list.append(card);
+  });
+};
+
 const saveCaret = () => {
   lastCaret = selection.anchorOffset;
 };
@@ -241,7 +256,6 @@ angel.style.display = "inline-block";
 const canvas = document.createElement("div");
 canvas.style.padding = "1rem 0.1rem 1rem 1rem";
 canvas.style.boxSizing = "border-box";
-canvas.style.height = "100%";
 canvas.style.backgroundColor = palette.background;
 canvas.style.fontSize = "3rem";
 canvas.style.lineHeight = 1.3;
@@ -253,9 +267,13 @@ canvas.append(input);
 canvas.append(angel);
 canvas.append(tailNode);
 
+const list = document.createElement("div");
+getCards();
+
 document.body.style.margin = 0;
 document.body.style.flex = 1;
 document.body.append(canvas);
+document.body.append(list);
 
 const html = document.documentElement;
 html.style.display = "flex";
