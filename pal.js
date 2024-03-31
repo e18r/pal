@@ -1,3 +1,5 @@
+const indr = "http://192.168.0.251:3000"
+
 const ascii = {
   "á": "a",
   "à": "a",
@@ -103,7 +105,7 @@ const normalize = text => {
 };
 
 const getCards = async () => {
-  const response = await fetch("http://localhost:3000/list");
+  const response = await fetch(indr + "/list");
   const palindromes = await response.json();
   palindromes.forEach(palindrome => {
     const card = document.createElement("div");
