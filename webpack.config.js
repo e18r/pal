@@ -5,6 +5,7 @@ const fs = require("node:fs/promises");
 module.exports = async () => {
   try {
     const indrURL = await fs.readFile("./indr.url", {encoding: "utf-8"});
+    console.log("indr URL: ", indrURL, "\n");
     return {
       entry: "./src/pal.js",
       output: {
