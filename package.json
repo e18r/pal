@@ -1,0 +1,23 @@
+{
+  "name": "pal",
+  "version": "1.0.0",
+  "description": "front-end for palindr.com",
+  "private": true,
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/e18r/pal.git"
+  },
+  "author": "e18r",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/e18r/pal/issues"
+  },
+  "homepage": "https://github.com/e18r/pal#readme",
+  "devDependencies": {
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
