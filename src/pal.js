@@ -1,4 +1,4 @@
-const indr = "http://192.168.0.251:3000"
+const indr = INDR_URL;
 
 const ascii = {
   "á": "a",
