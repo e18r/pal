@@ -17,7 +17,7 @@ module.exports = () => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        INDR_URL: JSON.stringify(indrURL)
+        $INDR_URL: JSON.stringify(indrURL)
       }),
     ],
     mode: settings[env]["mode"]

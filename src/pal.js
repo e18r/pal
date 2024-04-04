@@ -1,4 +1,4 @@
-const indr = INDR_URL;
+const indr = $INDR_URL;
 
 const ascii = {
   "á": "a",
