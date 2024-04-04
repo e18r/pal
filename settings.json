@@ -1,0 +1,14 @@
+{
+  "prod": {
+    "indrURL": "https://indr-prod.ue.r.appspot.com",
+    "mode": "production"
+  },
+  "test": {
+    "indrURL": "https://indr-test-8.ue.r.appspot.com",
+    "mode": "production"
+  },
+  "dev": {
+    "indrURL": "http://localhost:3000",
+    "mode": "development"
+  }
+}
