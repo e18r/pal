@@ -192,6 +192,7 @@ const update = () => {
     coreNode.style.backgroundColor = palette.palindrome;
     coreNode.style.borderColor = palette.palindrome;
     endNode.style.borderColor = palette.palindrome;
+    publishNode.style.width = input.offsetWidth + "px";
     publish.style.display = "inline";
   } else {
     startNode.style.borderColor = "transparent";
@@ -279,9 +280,19 @@ tailNode.onclick = () => integrate();
 const publish = document.createElement("img");
 publish.setAttribute("src", "./publish.png");
 publish.style.height = "2rem";
-publish.style.marginLeft = "0.3rem";
 publish.style.display = "none";
+publish.style.cursor = "pointer";
 publish.onclick = publishPalindrome;
+
+const publishNode = document.createElement("div");
+publishNode.style.borderStyle = "solid";
+publishNode.style.borderColor = "transparent";
+publishNode.style.borderWidth = "0.3rem";
+publishNode.style.height = "2rem";
+publishNode.style.textAlign = "center";
+publishNode.style.lineHeight = "initial";
+publishNode.style.fontSize = "initial";
+publishNode.append(publish);
 
 const canvas = document.createElement("div");
 canvas.style.padding = "1rem 0.1rem 1rem 1rem";
@@ -292,11 +303,11 @@ canvas.style.lineHeight = 1.3;
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
 canvas.style.fontVariantLigatures = "none";
+canvas.append(publishNode);
 canvas.append(highlight);
 canvas.append(input);
 canvas.append(angel);
 canvas.append(tailNode);
-canvas.append(publish);
 
 const list = document.createElement("div");
 getCards();
@@ -319,6 +330,8 @@ if (window.location.search === "?dev") {
   html.style.border = "5px solid red";
   document.body.style.border = "1px dotted blue";
   canvas.style.border = "2px dashed green";
+  publish.style.border = "1px dashed blue";
+  publishNode.style.border = "0.5px dotted red";
   highlight.style.border = "2px solid fuchsia";
   coreNode.style.color = "red";
   input.style.border = "2px dashed red";
