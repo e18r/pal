@@ -22,8 +22,12 @@ module.exports = () => {
     ],
     mode: settings[env]["mode"],
     devServer: {
-      static: "./dist"
+      static: "./dist",
+      client: {
+        overlay: false
+      }
     }// ,
     // devtool: "eval-cheap-source-map"
+    // disable for production
   };
 };

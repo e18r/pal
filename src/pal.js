@@ -33,6 +33,7 @@ const palette = {
 
 const selection = window.getSelection();
 
+let online = false;
 let lastCaret = 0;
 let lastCardId = 0;
 
@@ -106,6 +107,7 @@ const normalize = text => {
 };
 
 const getCards = async () => {
+  if (!online) return;
   const response = await fetch(indr + "/list?after=" + lastCardId);
   const palindromes = await response.json();
   palindromes.forEach(palindrome => {
@@ -194,7 +196,7 @@ const update = () => {
     coreNode.style.borderColor = palette.palindrome;
     endNode.style.borderColor = palette.palindrome;
     publishNode.style.width = input.offsetWidth + "px";
-    publish.style.display = "inline";
+    if (online) publish.style.display = "inline";
   } else {
     startNode.style.borderColor = "transparent";
     coreNode.style.backgroundColor = "transparent";
@@ -229,6 +231,21 @@ const click = e => {
   if (document.activeElement === input) return;
   input.focus();
   caretEnd();
+}
+
+const isOnline = async () => {
+  try {
+    await fetch(indr);
+    online = true;
+  } catch (err) {
+    online = false;
+  }
+};
+
+const start = async () => {
+  blink();
+  isOnline();
+  setInterval(isOnline, 5000);
 };
 
 const publish = document.createElement("img");
@@ -326,7 +343,7 @@ html.style.minHeight = "100%";
 
 window.onclick = click;
 
-blink();
+start();
 
 if (window.location.search === "?dev") {
   html.style.border = "5px solid red";
