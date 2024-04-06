@@ -120,6 +120,7 @@ const getCards = async () => {
 };
 
 const publishPalindrome = async () => {
+  if (!confirm(input.innerText)) return;
   const response = await fetch(indr + "/publish", {
     method: "POST",
     headers: {
