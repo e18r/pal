@@ -8,7 +8,7 @@
     "mode": "production"
   },
   "dev": {
-    "indrURL": "http://localhost:3000",
+    "indrURL": "http://192.168.0.251:3000",
     "mode": "development"
   }
 }
