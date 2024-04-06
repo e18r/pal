@@ -229,6 +229,23 @@ const click = e => {
   caretEnd();
 };
 
+const publish = document.createElement("img");
+publish.setAttribute("src", "./publish.png");
+publish.style.height = "2rem";
+publish.style.display = "none";
+publish.style.cursor = "pointer";
+publish.onclick = publishPalindrome;
+
+const publishNode = document.createElement("div");
+publishNode.style.borderStyle = "solid";
+publishNode.style.borderColor = "transparent";
+publishNode.style.borderWidth = "0.3rem";
+publishNode.style.height = "2rem";
+publishNode.style.textAlign = "center";
+publishNode.style.lineHeight = "initial";
+publishNode.style.fontSize = "initial";
+publishNode.append(publish);
+
 const startNode = document.createElement("span");
 startNode.style.borderWidth = "0.3rem";
 startNode.style.borderStyle = "solid none solid solid";
@@ -276,23 +293,6 @@ const tailNode = document.createElement("span");
 tailNode.style.color = palette.suggest;
 tailNode.style.cursor = "pointer";
 tailNode.onclick = () => integrate();
-
-const publish = document.createElement("img");
-publish.setAttribute("src", "./publish.png");
-publish.style.height = "2rem";
-publish.style.display = "none";
-publish.style.cursor = "pointer";
-publish.onclick = publishPalindrome;
-
-const publishNode = document.createElement("div");
-publishNode.style.borderStyle = "solid";
-publishNode.style.borderColor = "transparent";
-publishNode.style.borderWidth = "0.3rem";
-publishNode.style.height = "2rem";
-publishNode.style.textAlign = "center";
-publishNode.style.lineHeight = "initial";
-publishNode.style.fontSize = "initial";
-publishNode.append(publish);
 
 const canvas = document.createElement("div");
 canvas.style.padding = "1rem 0.1rem 1rem 1rem";
