@@ -34,6 +34,7 @@ const palette = {
 const selection = window.getSelection();
 
 let lastCaret = 0;
+let lastCardId = 0;
 
 const isPalindrome = text => {
   return text.split("").reverse().join("") === text;
@@ -105,7 +106,7 @@ const normalize = text => {
 };
 
 const getCards = async () => {
-  const response = await fetch(indr + "/list");
+  const response = await fetch(indr + "/list?after=" + lastCardId);
   const palindromes = await response.json();
   palindromes.forEach(palindrome => {
     const card = document.createElement("div");
@@ -115,8 +116,9 @@ const getCards = async () => {
     card.style.fontSize = "2rem";
     card.style.textAlign = "center";
     card.innerText = palindrome["text"];
-    list.append(card);
+    list.prepend(card);
   });
+  lastCardId = parseInt(palindromes[palindromes.length - 1]["id"]);
 };
 
 const publishPalindrome = async () => {
@@ -132,8 +134,6 @@ const publishPalindrome = async () => {
   });
   const id = await response.text();
   // TODO: card view
-  Object.values(list.children).forEach(card => list.removeChild(card));
-  // TODO: add new card without deleting the rest
   getCards();
   input.innerText = "";
   update();
