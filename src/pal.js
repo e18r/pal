@@ -218,6 +218,7 @@ const keyPress = e => {
     e.preventDefault();
   } else if (e.ctrlKey && ["i", "u", "b"].includes(e.key.toLowerCase()))
     e.preventDefault();
+  else if (e.repeat) update();
 };
 
 const blur = e => {

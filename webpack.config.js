@@ -23,6 +23,7 @@ module.exports = () => {
     mode: settings[env]["mode"],
     devServer: {
       static: "./dist"
-    }
+    }// ,
+    // devtool: "eval-cheap-source-map"
   };
 };
