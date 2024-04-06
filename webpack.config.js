@@ -20,6 +20,9 @@ module.exports = () => {
         $INDR_URL: JSON.stringify(indrURL)
       }),
     ],
-    mode: settings[env]["mode"]
+    mode: settings[env]["mode"],
+    devServer: {
+      static: "./dist"
+    }
   };
 };
