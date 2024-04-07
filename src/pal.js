@@ -243,9 +243,10 @@ const isOnline = async () => {
 };
 
 const start = async () => {
-  blink();
-  isOnline();
   setInterval(isOnline, 5000);
+  blink();
+  await isOnline();
+  getCards();
 };
 
 const publish = document.createElement("img");
@@ -329,7 +330,6 @@ canvas.append(angel);
 canvas.append(tailNode);
 
 const list = document.createElement("div");
-getCards();
 
 document.body.style.margin = 0;
 document.body.style.flex = 1;
