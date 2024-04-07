@@ -326,6 +326,7 @@ canvas.style.fontSize = "3rem";
 canvas.style.lineHeight = 1.3;
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
+canvas.onclick = click;
 canvas.style.fontVariantLigatures = "none";
 canvas.append(publishNode);
 canvas.append(highlight);
@@ -345,8 +346,6 @@ const html = document.documentElement;
 html.style.display = "flex";
 html.style.boxSizing = "border-box";
 html.style.minHeight = "100%";
-
-window.onclick = click;
 
 start();
 
