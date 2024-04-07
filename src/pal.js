@@ -114,9 +114,13 @@ const getCards = async () => {
     const card = document.createElement("div");
     card.style.borderStyle = "solid";
     card.style.borderWidth = "1px";
-    card.style.height = "3rem";
+    card.style.height = "4rem";
     card.style.fontSize = "2rem";
-    card.style.textAlign = "center";
+    card.style.display = "flex";
+    card.style.alignContent = "center";
+    card.style.justifyContent = "center";
+    card.style.flexWrap = "wrap";
+    card.style.overflowX = "auto";
     card.innerText = palindrome["text"];
     list.prepend(card);
   });
@@ -333,6 +337,7 @@ const list = document.createElement("div");
 
 document.body.style.margin = 0;
 document.body.style.flex = 1;
+document.body.style.maxWidth = "100%";
 document.body.append(canvas);
 document.body.append(list);
 
