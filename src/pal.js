@@ -110,6 +110,7 @@ const getCards = async () => {
   if (!online) return;
   const response = await fetch(indr + "/list?after=" + lastCardId);
   const palindromes = await response.json();
+  if (palindromes.length === 0) return;
   palindromes.forEach(palindrome => {
     const card = document.createElement("div");
     card.style.borderStyle = "solid";
