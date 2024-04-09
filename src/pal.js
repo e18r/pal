@@ -33,7 +33,12 @@ const palette = {
 
 const selection = window.getSelection();
 
+const INITIAL_ONLINE_INTERVAL = 500;
+const ONLINE_INTERVAL_MULTIPLIER = 1.5;
+
 let online = false;
+let onlineInterval = INITIAL_ONLINE_INTERVAL;
+let onlineTimeout;
 let lastCaret = 0;
 let lastCardId = 0;
 
@@ -108,7 +113,14 @@ const normalize = text => {
 
 const getCards = async () => {
   if (!online) return;
-  const response = await fetch(indr + "/list?after=" + lastCardId);
+  let response;
+  try {
+    response = await fetch(indr + "/list?after=" + lastCardId);
+  } catch (err) {
+    console.log("list: network issue");
+    networkIssue();
+    return;
+  }
   const palindromes = await response.json();
   if (palindromes.length === 0) return;
   palindromes.forEach(palindrome => {
@@ -130,15 +142,22 @@ const getCards = async () => {
 
 const publishPalindrome = async () => {
   if (!confirm(input.innerText)) return;
-  const response = await fetch(indr + "/publish", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      text: input.innerText
-    })
-  });
+  let response;
+  try {
+    response = await fetch(indr + "/publish", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        text: input.innerText
+      })
+    });
+  } catch (err) {
+    console.log("publish: network issue");
+    networkIssue();
+    return;
+  }
   const id = await response.text();
   // TODO: card view
   getCards();
@@ -185,6 +204,11 @@ const unblink = () => {
   input.style.caretColor = palette.input;
 };
 
+const togglePublish = show => {
+  if (show) publish.style.display = "inline";
+  else publish.style.display = "none";
+};
+
 const update = () => {
   const text = input.innerText;
   const {norm, map} = normalize(text);
@@ -201,13 +225,14 @@ const update = () => {
     coreNode.style.borderColor = palette.palindrome;
     endNode.style.borderColor = palette.palindrome;
     publishNode.style.width = input.offsetWidth + "px";
-    if (online) publish.style.display = "inline";
+    if (online) togglePublish(true);
+    else togglePublish(false);
   } else {
     startNode.style.borderColor = "transparent";
     coreNode.style.backgroundColor = "transparent";
     coreNode.style.borderColor = palette.core;
     endNode.style.borderColor = "transparent";
-    publish.style.display = "none";
+    togglePublish(false);
   }
   if (text) unblink(); else blink();
 };
@@ -238,20 +263,39 @@ const click = e => {
   caretEnd();
 }
 
+const networkIssue = () => {
+  clearTimeout(onlineTimeout);
+  onlineInterval = INITIAL_ONLINE_INTERVAL;
+  isOnline();
+};
+
 const isOnline = async () => {
   try {
     await fetch(indr);
-    online = true;
+    console.log("online");
+    if (online) onlineInterval *= ONLINE_INTERVAL_MULTIPLIER;
+    else {
+      online = true;
+      onlineInterval = INITIAL_ONLINE_INTERVAL;
+      getCards();
+      update();
+    }
   } catch (err) {
-    online = false;
+    console.log("off");
+    if (online) {
+      online = false;
+      onlineInterval = INITIAL_ONLINE_INTERVAL;
+      update();
+    }
   }
+  console.log("wait", onlineInterval / 1000, "seconds");
+  onlineTimeout = setTimeout(isOnline, onlineInterval);
 };
 
 const start = async () => {
-  setInterval(isOnline, 5000);
+  isOnline();
   blink();
-  await isOnline();
-  getCards();
+  setInterval(getCards, 10000);
 };
 
 const publish = document.createElement("img");
