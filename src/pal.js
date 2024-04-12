@@ -35,14 +35,14 @@ const selection = window.getSelection();
 
 const INITIAL_ONLINE_INTERVAL = 500;
 const ONLINE_INTERVAL_MULTIPLIER = 1.5;
-const TEMPLATE_CARD_TEXT = "Se dice: de ti seré si te decides";
-const DEFAULT_CARD_AMOUNT = 5;
+const LOADING_CARD_TEXT = "Se dice: de ti seré si te decides";
+const LOADING_CARD_AMOUNT = 5;
 
 let online = false;
 let onlineInterval = INITIAL_ONLINE_INTERVAL;
 let onlineTimeout;
 let lastCaret = 0;
-let templateCards = [];
+let loadingCards = [];
 let lastCardId = 0;
 
 const isPalindrome = text => {
@@ -129,9 +129,9 @@ const createCard = () => {
   return card;
 };
 
-const setTemplate = card => {
-  card.className = "template";
-  card.innerText = TEMPLATE_CARD_TEXT;
+const setLoading = card => {
+  card.className = "loading";
+  card.innerText = LOADING_CARD_TEXT;
   card.style.textShadow = "0 0 10px black";
   card.style.color = "transparent";
   card.style.userSelect = "none";
@@ -149,18 +149,18 @@ const setText = (card, text) => {
   card.innerText = text;
 };
 
-const addTemplateCards = () => {
-  for (let i = 0; i < DEFAULT_CARD_AMOUNT; i++) {
+const addLoadingCards = () => {
+  for (let i = 0; i < LOADING_CARD_AMOUNT; i++) {
     const card = createCard();
-    setTemplate(card);
+    setLoading(card);
     list.prepend(card);
-    templateCards.unshift(card);
+    loadingCards.unshift(card);
   }
 };
 
 const addCard = text => {
-  if (templateCards.length) {
-    const card = templateCards.pop();
+  if (loadingCards.length) {
+    const card = loadingCards.pop();
     populate(card, text);
   } else {
     const card = createCard();
@@ -170,9 +170,9 @@ const addCard = text => {
 };
 
 const finishLoading = () => {
-  if (templateCards.length) {
-    templateCards.forEach(card => card.remove());
-    templateCards = [];
+  if (loadingCards.length) {
+    loadingCards.forEach(card => card.remove());
+    ladingCards = [];
   }
 };
 
@@ -353,7 +353,7 @@ const isOnline = async () => {
 
 const start = async () => {
   isOnline();
-  addTemplateCards();
+  addLoadingCards();
   blink();
   setInterval(getCards, 10000);
 };
