@@ -35,11 +35,14 @@ const selection = window.getSelection();
 
 const INITIAL_ONLINE_INTERVAL = 500;
 const ONLINE_INTERVAL_MULTIPLIER = 1.5;
+const TEMPLATE_CARD_TEXT = "Se dice: de ti seré si te decides";
+const DEFAULT_CARD_AMOUNT = 5;
 
 let online = false;
 let onlineInterval = INITIAL_ONLINE_INTERVAL;
 let onlineTimeout;
 let lastCaret = 0;
+let templateCards = [];
 let lastCardId = 0;
 
 const isPalindrome = text => {
@@ -111,6 +114,68 @@ const normalize = text => {
   return {norm, map};
 };
 
+const createCard = () => {
+  const card = document.createElement("div");
+  card.style.borderStyle = "solid";
+  card.style.borderWidth = "1px";
+  card.style.borderColor = "black";
+  card.style.height = "4rem";
+  card.style.fontSize = "2rem";
+  card.style.display = "flex";
+  card.style.alignContent = "center";
+  card.style.justifyContent = "center";
+  card.style.flexWrap = "wrap";
+  card.style.overflowX = "auto";
+  return card;
+};
+
+const setTemplate = card => {
+  card.className = "template";
+  card.innerText = TEMPLATE_CARD_TEXT;
+  card.style.textShadow = "0 0 10px black";
+  card.style.color = "transparent";
+  card.style.userSelect = "none";
+};
+
+const populate = (card, text) => {
+  card.className = "populated";
+  card.innerText = text;
+  card.style.textShadow = "initial";
+  card.style.color = "black";
+  card.style.userSelect = "initial";
+};
+
+const setText = (card, text) => {
+  card.innerText = text;
+};
+
+const addTemplateCards = () => {
+  for (let i = 0; i < DEFAULT_CARD_AMOUNT; i++) {
+    const card = createCard();
+    setTemplate(card);
+    list.prepend(card);
+    templateCards.unshift(card);
+  }
+};
+
+const addCard = text => {
+  if (templateCards.length) {
+    const card = templateCards.pop();
+    populate(card, text);
+  } else {
+    const card = createCard();
+    setText(card, text);
+    list.prepend(card);
+  }
+};
+
+const finishLoading = () => {
+  if (templateCards.length) {
+    templateCards.forEach(card => card.remove());
+    templateCards = [];
+  }
+};
+
 const getCards = async () => {
   if (!online) return;
   let response;
@@ -119,25 +184,19 @@ const getCards = async () => {
   } catch (err) {
     console.log("list: network issue");
     networkIssue();
+    finishLoading();
     return;
   }
   const palindromes = await response.json();
-  if (palindromes.length === 0) return;
+  if (palindromes.length === 0) {
+    finishLoading();
+    return;
+  }
   palindromes.forEach(palindrome => {
-    const card = document.createElement("div");
-    card.style.borderStyle = "solid";
-    card.style.borderWidth = "1px";
-    card.style.height = "4rem";
-    card.style.fontSize = "2rem";
-    card.style.display = "flex";
-    card.style.alignContent = "center";
-    card.style.justifyContent = "center";
-    card.style.flexWrap = "wrap";
-    card.style.overflowX = "auto";
-    card.innerText = palindrome["text"];
-    list.prepend(card);
+    addCard(palindrome["text"]);
   });
   lastCardId = parseInt(palindromes[palindromes.length - 1]["id"]);
+  finishLoading();
 };
 
 const publishPalindrome = async () => {
@@ -294,6 +353,7 @@ const isOnline = async () => {
 
 const start = async () => {
   isOnline();
+  addTemplateCards();
   blink();
   setInterval(getCards, 10000);
 };
