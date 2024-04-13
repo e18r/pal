@@ -338,7 +338,7 @@ const networkIssue = () => {
   isOnline();
 };
 
-const isOnline = async () => {
+const isOnline = async first => {
   try {
     await fetch(indr);
     console.log("online");
@@ -346,16 +346,18 @@ const isOnline = async () => {
     else {
       online = true;
       onlineInterval = INITIAL_ONLINE_INTERVAL;
-      addLoadingCards();
+      if (!first) {
+        addLoadingCards();
+        update();
+      }
       getCards();
-      update();
     }
   } catch (err) {
     console.log("off");
     if (online) {
       online = false;
       onlineInterval = INITIAL_ONLINE_INTERVAL;
-      update();
+      if (!first) update();
     }
     finishLoading();
   }
@@ -364,7 +366,7 @@ const isOnline = async () => {
 };
 
 const start = async () => {
-  isOnline();
+  isOnline(true);
   addLoadingCards();
   blink();
   setInterval(getCards, 10000);
