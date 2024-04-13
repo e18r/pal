@@ -182,7 +182,7 @@ const addCard = text => {
 const finishLoading = () => {
   if (loadingCards.length) {
     loadingCards.forEach(card => card.remove());
-    ladingCards = [];
+    loadingCards = [];
   }
 };
 
@@ -346,6 +346,7 @@ const isOnline = async () => {
     else {
       online = true;
       onlineInterval = INITIAL_ONLINE_INTERVAL;
+      addLoadingCards();
       getCards();
       update();
     }
@@ -356,6 +357,7 @@ const isOnline = async () => {
       onlineInterval = INITIAL_ONLINE_INTERVAL;
       update();
     }
+    finishLoading();
   }
   console.log("wait", onlineInterval / 1000, "seconds");
   onlineTimeout = setTimeout(isOnline, onlineInterval);
