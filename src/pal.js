@@ -132,9 +132,18 @@ const createCard = () => {
 const setLoading = card => {
   card.className = "loading";
   card.innerText = LOADING_CARD_TEXT;
-  card.style.textShadow = "0 0 10px black";
   card.style.color = "transparent";
   card.style.userSelect = "none";
+  card.animate(
+    {
+      textShadow: ["0 0 10px black", "0 0 10px gray", "0 0 10px black"],
+      easing: "ease-in"
+    },
+    {
+      duration: 1500,
+      iterations: Infinity
+    }
+  );
 };
 
 const populate = (card, text) => {
@@ -143,6 +152,7 @@ const populate = (card, text) => {
   card.style.textShadow = "initial";
   card.style.color = "black";
   card.style.userSelect = "initial";
+  card.getAnimations().forEach(animation => animation.cancel());
 };
 
 const setText = (card, text) => {
