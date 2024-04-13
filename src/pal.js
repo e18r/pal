@@ -42,8 +42,8 @@ let online = false;
 let onlineInterval = INITIAL_ONLINE_INTERVAL;
 let onlineTimeout;
 let lastCaret = 0;
-let loadingCards = [];
-let lastCardId = 0;
+const loadingCards = [];
+const cardIds = [];
 
 const isPalindrome = text => {
   return text.split("").reverse().join("") === text;
@@ -168,7 +168,9 @@ const addLoadingCards = () => {
   }
 };
 
-const addCard = text => {
+const addCard = (text, id) => {
+  if (cardIds.includes(id)) return;
+  else cardIds.push(id);
   if (loadingCards.length) {
     const card = loadingCards.pop();
     populate(card, text);
@@ -190,7 +192,7 @@ const getCards = async () => {
   if (!online) return;
   let response;
   try {
-    response = await fetch(indr + "/list?after=" + lastCardId);
+    response = await fetch(indr + "/list?after=" + cardIds[cardIds.length - 1]);
   } catch (err) {
     networkIssue();
     finishLoading();
@@ -202,9 +204,8 @@ const getCards = async () => {
     return;
   }
   palindromes.forEach(palindrome => {
-    addCard(palindrome["text"]);
+    addCard(palindrome["text"], palindrome["id"]);
   });
-  lastCardId = parseInt(palindromes[palindromes.length - 1]["id"]);
   finishLoading();
 };
 
