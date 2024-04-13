@@ -192,7 +192,6 @@ const getCards = async () => {
   try {
     response = await fetch(indr + "/list?after=" + lastCardId);
   } catch (err) {
-    console.log("list: network issue");
     networkIssue();
     finishLoading();
     return;
@@ -223,7 +222,6 @@ const publishPalindrome = async () => {
       })
     });
   } catch (err) {
-    console.log("publish: network issue");
     networkIssue();
     return;
   }
@@ -341,7 +339,6 @@ const networkIssue = () => {
 const isOnline = async first => {
   try {
     await fetch(indr);
-    console.log("online");
     if (online) onlineInterval *= ONLINE_INTERVAL_MULTIPLIER;
     else {
       online = true;
@@ -353,7 +350,6 @@ const isOnline = async first => {
       getCards();
     }
   } catch (err) {
-    console.log("off");
     if (online) {
       online = false;
       onlineInterval = INITIAL_ONLINE_INTERVAL;
@@ -361,7 +357,6 @@ const isOnline = async first => {
     }
     finishLoading();
   }
-  console.log("wait", onlineInterval / 1000, "seconds");
   onlineTimeout = setTimeout(isOnline, onlineInterval);
 };
 
