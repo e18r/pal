@@ -33,7 +33,7 @@ const palette = {
 
 const selection = window.getSelection();
 
-const INITIAL_ONLINE_INTERVAL = 500;
+const INITIAL_ONLINE_INTERVAL = 1000;
 const ONLINE_INTERVAL_MULTIPLIER = 1.5;
 const LOADING_CARD_TEXT = "Se dice: de ti seré si te decides";
 const LOADING_CARD_AMOUNT = 5;
