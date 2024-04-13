@@ -211,6 +211,7 @@ const getCards = async () => {
 
 const publishPalindrome = async () => {
   if (!confirm(input.innerText)) return;
+  publishLoading(true);
   let response;
   try {
     response = await fetch(indr + "/publish", {
@@ -226,11 +227,12 @@ const publishPalindrome = async () => {
     networkIssue();
     return;
   }
-  const id = await response.text();
+  // const id = await response.text();
   // TODO: card view
   getCards();
   input.innerText = "";
   update();
+  publishLoading(false);
 };
 
 const saveCaret = () => {
@@ -275,6 +277,12 @@ const unblink = () => {
 const togglePublish = show => {
   if (show) publish.style.display = "inline";
   else publish.style.display = "none";
+};
+
+const publishLoading = loading => {
+  console.log("loading", loading);
+  if (loading) publish.setAttribute("src", "./loading.gif");
+  else publish.setAttribute("src", "./publish.png");
 };
 
 const update = () => {
