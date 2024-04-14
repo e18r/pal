@@ -331,6 +331,11 @@ const keyPress = e => {
 
 const blur = e => {
   saveCaret();
+  unblink();
+};
+
+const focus = e => {
+  if (input.innerHTML === "") blink();
 };
 
 const click = e => {
@@ -432,6 +437,7 @@ input.onkeyup = () => update();
 input.oncut = () => setTimeout(update, 0);
 input.onpaste = e => e.preventDefault();
 input.onblur = blur;
+input.onfocus = focus;
 
 const angel = document.createElement("div");
 angel.style.display = "inline-block";
