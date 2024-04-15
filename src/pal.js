@@ -1,7 +1,5 @@
 import palette from "./palette.js";
 
-const indr = $INDR_URL;
-
 const ascii = {
   "á": "a",
   "à": "a",
@@ -27,14 +25,9 @@ const ascii = {
 
 const selection = window.getSelection();
 
-const INITIAL_ONLINE_INTERVAL = 1000;
-const ONLINE_INTERVAL_MULTIPLIER = 1.5;
 const LOADING_CARD_TEXT = "Se dice: de ti seré si te decides";
 const LOADING_CARD_AMOUNT = 5;
 
-let online = false;
-let onlineInterval = INITIAL_ONLINE_INTERVAL;
-let onlineTimeout;
 let lastCaret = 0;
 const loadingCards = [];
 const cardIds = [];
@@ -337,36 +330,6 @@ const click = e => {
   input.focus();
   caretEnd();
 }
-
-const networkIssue = () => {
-  clearTimeout(onlineTimeout);
-  onlineInterval = INITIAL_ONLINE_INTERVAL;
-  isOnline();
-};
-
-const isOnline = async first => {
-  try {
-    await fetch(indr);
-    if (online) onlineInterval *= ONLINE_INTERVAL_MULTIPLIER;
-    else {
-      online = true;
-      onlineInterval = INITIAL_ONLINE_INTERVAL;
-      if (!first) {
-        addLoadingCards();
-        update();
-      }
-      getCards();
-    }
-  } catch (err) {
-    if (online) {
-      online = false;
-      onlineInterval = INITIAL_ONLINE_INTERVAL;
-      if (!first) update();
-    }
-    finishLoading();
-  }
-  onlineTimeout = setTimeout(isOnline, onlineInterval);
-};
 
 const start = async () => {
   isOnline(true);
