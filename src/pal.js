@@ -1,3 +1,5 @@
+import palette from "./palette.js";
+
 const indr = $INDR_URL;
 
 const ascii = {
@@ -23,14 +25,6 @@ const ascii = {
   "ü": "u"
 };
 
-const palette = {
-  background: "#FBF6EE",
-  input: "black",
-  suggest: "#FFB534",
-  core: "#65B741",
-  palindrome: "#C1F2B0"
-};
-
 const selection = window.getSelection();
 
 const INITIAL_ONLINE_INTERVAL = 1000;
@@ -50,7 +44,7 @@ const isPalindrome = text => {
 };
 
 const getChunks = text => {
-  chunks = [];
+  const chunks = [];
   for (let i = 0; i < text.length; i++) {
     for (let j = i+1; j <= text.length; j++) {
       if (text[i] !== text[j]) {
