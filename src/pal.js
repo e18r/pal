@@ -214,6 +214,7 @@ const publishPalindrome = async () => {
     });
   } catch (err) {
     indr.networkIssue();
+    publishLoading(false);
     return;
   }
   // const id = await response.text();
