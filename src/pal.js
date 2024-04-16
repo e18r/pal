@@ -333,8 +333,19 @@ const click = e => {
   caretEnd();
 }
 
+document.addEventListener("online", e => {
+  if (!cardIds.length && !loadingCards.length) addLoadingCards();
+  if (input.innerText) update();
+  getCards();
+});
+
+document.addEventListener("offline", e => {
+  if (input.innerText) update();
+  finishLoading();
+});
+
 const start = async () => {
-  indr.isOnline(true);
+  indr.isOnline();
   addLoadingCards();
   blink();
   setInterval(getCards, 10000);

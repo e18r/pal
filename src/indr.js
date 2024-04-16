@@ -2,6 +2,8 @@ const indr = $INDR_URL;
 
 const INITIAL_ONLINE_INTERVAL = 1000;
 const ONLINE_INTERVAL_MULTIPLIER = 1.5;
+const ONLINE = new Event("online");
+const OFFLINE = new Event("offline");
 
 let online = false;
 let onlineInterval = INITIAL_ONLINE_INTERVAL;
@@ -13,26 +15,21 @@ const networkIssue = () => {
   isOnline();
 };
 
-const isOnline = async first => {
+const isOnline = async () => {
   try {
     await fetch(indr);
     if (online) onlineInterval *= ONLINE_INTERVAL_MULTIPLIER;
     else {
       online = true;
       onlineInterval = INITIAL_ONLINE_INTERVAL;
-      if (!first) {
-        addLoadingCards();
-        update();
-      }
-      getCards();
+      document.dispatchEvent(ONLINE);
     }
   } catch (err) {
     if (online) {
       online = false;
       onlineInterval = INITIAL_ONLINE_INTERVAL;
-      if (!first) update();
+      document.dispatchEvent(OFFLINE);
     }
-    finishLoading();
   }
   onlineTimeout = setTimeout(isOnline, onlineInterval);
 };
