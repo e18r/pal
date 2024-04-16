@@ -35,4 +35,6 @@ const monitor = async () => {
   nextMonitor = setTimeout(monitor, onlineInterval);
 };
 
-export default {indr, online, networkIssue, monitor};
+const isOnline = () => online;
+
+export default {indr, isOnline, networkIssue, monitor};

@@ -172,12 +172,12 @@ const addCard = (text, id) => {
 const finishLoading = () => {
   if (loadingCards.length) {
     loadingCards.forEach(card => card.remove());
-    loadingCards = [];
+    loadingCards.splice(0, loadingCards.length);
   }
 };
 
 const getCards = async () => {
-  if (!indr.online) return;
+  if (!indr.isOnline()) return;
   let response;
   try {
     const lastCardId = cardIds[cardIds.length - 1];
@@ -290,7 +290,7 @@ const update = () => {
     coreNode.style.borderColor = palette.palindrome;
     endNode.style.borderColor = palette.palindrome;
     publishNode.style.width = input.offsetWidth + "px";
-    if (indr.online) togglePublish(true);
+    if (indr.isOnline()) togglePublish(true);
     else togglePublish(false);
   } else {
     startNode.style.borderColor = "transparent";
@@ -345,8 +345,9 @@ document.addEventListener("offline", e => {
 });
 
 const start = async () => {
-  indr.monitor();
   addLoadingCards();
+  indr.monitor();
+  if (!indr.isOnline()) finishLoading();
   blink();
   setInterval(getCards, 10000);
 };
