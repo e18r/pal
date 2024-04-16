@@ -270,7 +270,6 @@ const togglePublish = show => {
 };
 
 const publishLoading = loading => {
-  console.log("loading", loading);
   if (loading) publish.setAttribute("src", "./loading.gif");
   else publish.setAttribute("src", "./publish.png");
 };
