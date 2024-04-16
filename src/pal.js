@@ -345,7 +345,7 @@ document.addEventListener("offline", e => {
 });
 
 const start = async () => {
-  indr.isOnline();
+  indr.monitor();
   addLoadingCards();
   blink();
   setInterval(getCards, 10000);

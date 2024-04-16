@@ -2,20 +2,21 @@ const indr = $INDR_URL;
 
 const INITIAL_ONLINE_INTERVAL = 1000;
 const ONLINE_INTERVAL_MULTIPLIER = 1.5;
+
 const ONLINE = new Event("online");
 const OFFLINE = new Event("offline");
 
 let online = false;
 let onlineInterval = INITIAL_ONLINE_INTERVAL;
-let onlineTimeout;
+let nextMonitor;
 
 const networkIssue = () => {
-  clearTimeout(onlineTimeout);
+  clearTimeout(nextMonitor);
   onlineInterval = INITIAL_ONLINE_INTERVAL;
-  isOnline();
+  monitor();
 };
 
-const isOnline = async () => {
+const monitor = async () => {
   try {
     await fetch(indr);
     if (online) onlineInterval *= ONLINE_INTERVAL_MULTIPLIER;
@@ -31,7 +32,7 @@ const isOnline = async () => {
       document.dispatchEvent(OFFLINE);
     }
   }
-  onlineTimeout = setTimeout(isOnline, onlineInterval);
+  nextMonitor = setTimeout(monitor, onlineInterval);
 };
 
-export default {indr, online, networkIssue, isOnline};
+export default {indr, online, networkIssue, monitor};
