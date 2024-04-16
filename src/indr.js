@@ -36,3 +36,5 @@ const isOnline = async first => {
   }
   onlineTimeout = setTimeout(isOnline, onlineInterval);
 };
+
+export default {indr, online, networkIssue, isOnline};

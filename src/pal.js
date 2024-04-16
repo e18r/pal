@@ -1,3 +1,4 @@
+import indr from "./indr.js";
 import palette from "./palette.js";
 
 const ascii = {
@@ -176,12 +177,13 @@ const finishLoading = () => {
 };
 
 const getCards = async () => {
-  if (!online) return;
+  if (!indr.online) return;
   let response;
   try {
-    response = await fetch(indr + "/list?after=" + cardIds[cardIds.length - 1]);
+    const lastCardId = cardIds[cardIds.length - 1];
+    response = await fetch(indr.indr + "/list?after=" + lastCardId);
   } catch (err) {
-    networkIssue();
+    indr.networkIssue();
     finishLoading();
     return;
   }
@@ -201,7 +203,7 @@ const publishPalindrome = async () => {
   publishLoading(true);
   let response;
   try {
-    response = await fetch(indr + "/publish", {
+    response = await fetch(indr.indr + "/publish", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -211,7 +213,7 @@ const publishPalindrome = async () => {
       })
     });
   } catch (err) {
-    networkIssue();
+    indr.networkIssue();
     return;
   }
   // const id = await response.text();
@@ -288,7 +290,7 @@ const update = () => {
     coreNode.style.borderColor = palette.palindrome;
     endNode.style.borderColor = palette.palindrome;
     publishNode.style.width = input.offsetWidth + "px";
-    if (online) togglePublish(true);
+    if (indr.online) togglePublish(true);
     else togglePublish(false);
   } else {
     startNode.style.borderColor = "transparent";
@@ -332,7 +334,7 @@ const click = e => {
 }
 
 const start = async () => {
-  isOnline(true);
+  indr.isOnline(true);
   addLoadingCards();
   blink();
   setInterval(getCards, 10000);
