@@ -1,5 +1,6 @@
 import indr from "./indr.js";
 import palette from "./palette.js";
+import list from "./list.js";
 
 const ascii = {
   "á": "a",
@@ -118,7 +119,7 @@ const publishPalindrome = async () => {
   }
   // const id = await response.text();
   // TODO: card view
-  getCards();
+  list.getCards();
   input.innerText = "";
   update();
   publishLoading(false);
@@ -233,22 +234,19 @@ const click = e => {
 }
 
 document.addEventListener("online", e => {
-  if (!cardIds.length && !loadingCards.length) addLoadingCards();
   if (input.innerText) update();
-  getCards();
 });
 
 document.addEventListener("offline", e => {
   if (input.innerText) update();
-  finishLoading();
 });
 
 const start = async () => {
-  addLoadingCards();
+  list.addLoadingCards();
   indr.monitor();
-  if (!indr.isOnline()) finishLoading();
+  if (!indr.isOnline()) list.finishLoading();
   blink();
-  setInterval(getCards, 10000);
+  setInterval(list.getCards, 10000);
 };
 
 const publish = document.createElement("img");
@@ -337,7 +335,7 @@ document.body.style.margin = 0;
 document.body.style.flex = 1;
 document.body.style.maxWidth = "100%";
 document.body.append(canvas);
-document.body.append(list);
+document.body.append(list.list);
 
 const html = document.documentElement;
 html.style.display = "flex";

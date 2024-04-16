@@ -1,3 +1,5 @@
+import indr from "./indr.js";
+
 const LOADING_CARD_TEXT = "Se dice: de ti seré si te decides";
 const LOADING_CARD_AMOUNT = 5;
 
@@ -100,4 +102,15 @@ const getCards = async () => {
   finishLoading();
 };
 
+document.addEventListener("online", e => {
+  if (!cardIds.length && !loadingCards.length) addLoadingCards();
+  getCards();
+});
+
+document.addEventListener("offline", e => {
+  finishLoading();
+});
+
 const list = document.createElement("div");
+
+export default { addLoadingCards, finishLoading, getCards, list };
