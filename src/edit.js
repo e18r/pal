@@ -186,6 +186,7 @@ const update = () => {
   coreNode.innerText = core;
   endNode.innerText = end;
   if (norm && isPalindrome(norm)) {
+    input.style.borderStyle = "solid";
     startNode.style.borderColor = palette.palindrome;
     coreNode.style.backgroundColor = palette.palindrome;
     coreNode.style.borderColor = palette.palindrome;
@@ -194,6 +195,7 @@ const update = () => {
     if (indr.isOnline()) togglePublish(true);
     else togglePublish(false);
   } else {
+    input.style.borderStyle = "solid none solid solid";
     startNode.style.borderColor = "transparent";
     coreNode.style.backgroundColor = "transparent";
     coreNode.style.borderColor = palette.core;
