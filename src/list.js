@@ -111,6 +111,10 @@ document.addEventListener("offline", e => {
   finishLoading();
 });
 
+document.addEventListener("publish", e => {
+  getCards();
+});
+
 const list = document.createElement("div");
 
 export default { addLoadingCards, finishLoading, getCards, list };

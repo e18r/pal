@@ -1,6 +1,8 @@
 import palette from "./palette.js";
 import indr from "./indr.js";
 
+const PUBLISH = new Event("publish");
+
 const ascii = {
   "á": "a",
   "à": "a",
@@ -118,7 +120,7 @@ const publishPalindrome = async () => {
   }
   // const id = await response.text();
   // TODO: card view
-  list.getCards();
+  document.dispatchEvent(PUBLISH);
   input.innerText = "";
   update();
   publishLoading(false);
