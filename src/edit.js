@@ -1,3 +1,6 @@
+import palette from "./palette.js";
+import indr from "./indr.js";
+
 const ascii = {
   "á": "a",
   "à": "a",
@@ -332,3 +335,5 @@ if (window.location.search === "?dev") {
   button.onclick = () => focus();
   canvas.append(button);
 }
+
+export default { blink, canvas };
