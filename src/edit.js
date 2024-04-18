@@ -185,13 +185,14 @@ const update = () => {
   startHigh.innerText = start;
   coreHigh.innerText = core;
   endHigh.innerText = end;
+  tailHigh.innerText = tail;
   if (norm && isPalindrome(norm)) {
     input.style.borderStyle = "solid";
     startHigh.style.borderColor = palette.palindrome;
     coreHigh.style.backgroundColor = palette.palindrome;
     coreHigh.style.borderColor = palette.palindrome;
     endHigh.style.borderColor = palette.palindrome;
-    publishNode.style.width = input.offsetWidth + "px";
+    tailHigh.style.borderColor = palette.palindrome;
     if (indr.isOnline()) togglePublish(true);
     else togglePublish(false);
   } else {
@@ -200,6 +201,7 @@ const update = () => {
     coreHigh.style.backgroundColor = "transparent";
     coreHigh.style.borderColor = palette.core;
     endHigh.style.borderColor = "transparent";
+    tailHigh.style.borderColor = "transparent";
     togglePublish(false);
   }
   if (text) unblink(); else blink();
@@ -252,11 +254,8 @@ publish.style.cursor = "pointer";
 publish.onclick = publishPalindrome;
 
 const publishNode = document.createElement("div");
-publishNode.style.borderStyle = "solid";
-publishNode.style.borderColor = "transparent";
-publishNode.style.borderWidth = "0.3rem";
+publishNode.style.margin = "auto";
 publishNode.style.height = "2rem";
-publishNode.style.textAlign = "center";
 publishNode.style.lineHeight = "initial";
 publishNode.style.fontSize = "initial";
 publishNode.append(publish);
@@ -273,8 +272,13 @@ coreHigh.style.borderColor = palette.core;
 
 const endHigh = document.createElement("span");
 endHigh.style.borderWidth = "0.3rem";
-endHigh.style.borderStyle = "solid solid solid none";
+endHigh.style.borderStyle = "solid none";
 endHigh.style.borderColor = "transparent";
+
+const tailHigh = document.createElement("span");
+tailHigh.style.borderWidth = "0.3rem";
+tailHigh.style.borderStyle = "solid solid solid none";
+tailHigh.style.borderColor = "transparent";
 
 const highlight = document.createElement("div");
 highlight.style.height = "0px";
@@ -282,6 +286,7 @@ highlight.style.color = "transparent";
 highlight.append(startHigh);
 highlight.append(coreHigh);
 highlight.append(endHigh);
+highlight.append(tailHigh);
 
 const input = document.createElement("span");
 input.contentEditable = "true";
@@ -318,6 +323,7 @@ canvas.style.fontSize = "3rem";
 canvas.style.lineHeight = 1.3;
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
+canvas.style.textAlign = "center";
 canvas.onclick = click;
 canvas.style.fontVariantLigatures = "none";
 canvas.append(publishNode);
