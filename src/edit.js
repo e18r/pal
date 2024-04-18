@@ -146,7 +146,7 @@ const caretEnd = () => {
 };
 
 const blink = () => {
-  startNode.animate(
+  startHigh.animate(
     {
       borderColor: [palette.input, "transparent", palette.input],
       easing: "step-end"
@@ -160,7 +160,7 @@ const blink = () => {
 };
 
 const unblink = () => {
-  const animations = startNode.getAnimations();
+  const animations = startHigh.getAnimations();
   animations.forEach(animation => animation.cancel());
   input.style.caretColor = palette.input;
 };
@@ -182,24 +182,24 @@ const update = () => {
   const {tail, coreIndex} = suggest(chunks);
   tailNode.innerText = tail;
   const {start, core, end} = split(chunks, coreIndex, map, text);
-  startNode.innerText = start;
-  coreNode.innerText = core;
-  endNode.innerText = end;
+  startHigh.innerText = start;
+  coreHigh.innerText = core;
+  endHigh.innerText = end;
   if (norm && isPalindrome(norm)) {
     input.style.borderStyle = "solid";
-    startNode.style.borderColor = palette.palindrome;
-    coreNode.style.backgroundColor = palette.palindrome;
-    coreNode.style.borderColor = palette.palindrome;
-    endNode.style.borderColor = palette.palindrome;
+    startHigh.style.borderColor = palette.palindrome;
+    coreHigh.style.backgroundColor = palette.palindrome;
+    coreHigh.style.borderColor = palette.palindrome;
+    endHigh.style.borderColor = palette.palindrome;
     publishNode.style.width = input.offsetWidth + "px";
     if (indr.isOnline()) togglePublish(true);
     else togglePublish(false);
   } else {
     input.style.borderStyle = "solid none solid solid";
-    startNode.style.borderColor = "transparent";
-    coreNode.style.backgroundColor = "transparent";
-    coreNode.style.borderColor = palette.core;
-    endNode.style.borderColor = "transparent";
+    startHigh.style.borderColor = "transparent";
+    coreHigh.style.backgroundColor = "transparent";
+    coreHigh.style.borderColor = palette.core;
+    endHigh.style.borderColor = "transparent";
     togglePublish(false);
   }
   if (text) unblink(); else blink();
@@ -261,27 +261,27 @@ publishNode.style.lineHeight = "initial";
 publishNode.style.fontSize = "initial";
 publishNode.append(publish);
 
-const startNode = document.createElement("span");
-startNode.style.borderWidth = "0.3rem";
-startNode.style.borderStyle = "solid none solid solid";
-startNode.style.borderColor = "transparent";
+const startHigh = document.createElement("span");
+startHigh.style.borderWidth = "0.3rem";
+startHigh.style.borderStyle = "solid none solid solid";
+startHigh.style.borderColor = "transparent";
 
-const coreNode = document.createElement("span");
-coreNode.style.borderWidth = "0.3rem";
-coreNode.style.borderStyle = "solid none";
-coreNode.style.borderColor = palette.core;
+const coreHigh = document.createElement("span");
+coreHigh.style.borderWidth = "0.3rem";
+coreHigh.style.borderStyle = "solid none";
+coreHigh.style.borderColor = palette.core;
 
-const endNode = document.createElement("span");
-endNode.style.borderWidth = "0.3rem";
-endNode.style.borderStyle = "solid solid solid none";
-endNode.style.borderColor = "transparent";
+const endHigh = document.createElement("span");
+endHigh.style.borderWidth = "0.3rem";
+endHigh.style.borderStyle = "solid solid solid none";
+endHigh.style.borderColor = "transparent";
 
 const highlight = document.createElement("div");
 highlight.style.height = "0px";
 highlight.style.color = "transparent";
-highlight.append(startNode);
-highlight.append(coreNode);
-highlight.append(endNode);
+highlight.append(startHigh);
+highlight.append(coreHigh);
+highlight.append(endHigh);
 
 const input = document.createElement("span");
 input.contentEditable = "true";
@@ -331,7 +331,7 @@ if (window.location.search === "?dev") {
   publish.style.border = "1px dashed blue";
   publishNode.style.border = "0.5px dotted red";
   highlight.style.border = "2px solid fuchsia";
-  coreNode.style.color = "red";
+  coreHigh.style.color = "red";
   input.style.border = "2px dashed red";
   tailNode.style.border = "3px solid yellow";
   const button = document.createElement("button");
