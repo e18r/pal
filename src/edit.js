@@ -49,22 +49,26 @@ const getChunks = text => {
 };
 
 const suggest = chunks => {
-  for (let i = Math.floor(chunks.length / 2); i < chunks.length; i++) {
+  for (let i = 1; i < chunks.length; i++) {
     const start = chunks.slice(0, i).join("");
     const end = chunks.slice(i+1).join("");
-    for(let j = 0; j < end.length; j++) {
+    const length = Math.min(start.length, end.length);
+    for(let j = 0; j < length; j++) {
       if (start[start.length - 1 - j] !== end[j]) {
         break;
       }
-      if (j === end.length -1) {
+      if (j === length - 1) {
+        const unmatchedEnd = end.substring(j + 1);
+        const head = unmatchedEnd.split("").reverse().join("");
         const unmatchedStart = start.substring(0, start.length - 1 - j);
         const tail = unmatchedStart.split("").reverse().join("");
-        return {tail, coreIndex: i}
+        return {head, coreIndex: i, tail}
       }
     }
   }
+  const head = "";
   const tail = chunks.slice(0, chunks.length - 1).reverse().join("");
-  return {tail, coreIndex: chunks.length - 1};
+  return {head, coreIndex: chunks.length - 1, tail};
 };
 
 const split = (chunks, coreIndex, map, text) => {
@@ -179,7 +183,8 @@ const update = () => {
   const text = input.innerText;
   const {norm, map} = normalize(text);
   const chunks = getChunks(norm);
-  const {tail, coreIndex} = suggest(chunks);
+  const {head, coreIndex, tail} = suggest(chunks);
+  headNode.innerText = head;
   tailNode.innerText = tail;
   const {start, core, end} = split(chunks, coreIndex, map, text);
   startHigh.innerText = start;
@@ -208,6 +213,8 @@ const update = () => {
 };
 
 const integrate = () => {
+  input.innerHTML = headNode.innerHTML + input.innerHTML;
+  headNode.innerHTML = "";
   input.innerHTML += tailNode.innerHTML;
   tailNode.innerHTML = "";
   caretEnd();
@@ -288,6 +295,11 @@ highlight.append(coreHigh);
 highlight.append(endHigh);
 highlight.append(tailHigh);
 
+const headNode = document.createElement("span");
+headNode.style.color = palette.suggest;
+headNode.style.cursor = "pointer";
+headNode.onclick = () => integrate();
+
 const input = document.createElement("span");
 input.contentEditable = "true";
 input.setAttribute("autofocus", "autofocus");
@@ -328,6 +340,7 @@ canvas.onclick = click;
 canvas.style.fontVariantLigatures = "none";
 canvas.append(publishNode);
 canvas.append(highlight);
+canvas.append(headNode);
 canvas.append(input);
 canvas.append(angel);
 canvas.append(tailNode);
@@ -338,12 +351,9 @@ if (window.location.search === "?dev") {
   publishNode.style.border = "0.5px dotted red";
   highlight.style.border = "2px solid fuchsia";
   coreHigh.style.color = "red";
+  headNode.style.border = "3px solid yellow";
   input.style.border = "2px dashed red";
   tailNode.style.border = "3px solid yellow";
-  const button = document.createElement("button");
-  button.innerHTML = "focus";
-  button.onclick = () => focus();
-  canvas.append(button);
 }
 
 export default { blink, canvas };
