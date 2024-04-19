@@ -161,6 +161,7 @@ document.addEventListener("offline", e => {
 });
 
 const publish = document.createElement("img");
+publish.id = "publish";
 publish.setAttribute("src", "./publish.png");
 publish.style.height = "2rem";
 publish.style.display = "none";
@@ -168,6 +169,7 @@ publish.style.cursor = "pointer";
 publish.onclick = publishPalindrome;
 
 const publishNode = document.createElement("div");
+publishNode.id = "publishNode";
 publishNode.style.margin = "auto";
 publishNode.style.height = "2rem";
 publishNode.style.lineHeight = "initial";
@@ -175,31 +177,37 @@ publishNode.style.fontSize = "initial";
 publishNode.append(publish);
 
 const headHigh = document.createElement("span");
+headHigh.id = "headHigh";
 headHigh.style.borderWidth = "0.3rem";
 headHigh.style.borderStyle = "solid none solid solid";
 headHigh.style.borderColor = "transparent";
 
 const startHigh = document.createElement("span");
+startHigh.id = "startHigh";
 startHigh.style.borderWidth = "0.3rem";
 startHigh.style.borderStyle = "solid none solid solid";
 startHigh.style.borderColor = "transparent";
 
 const coreHigh = document.createElement("span");
+coreHigh.id = "coreHigh";
 coreHigh.style.borderWidth = "0.3rem";
 coreHigh.style.borderStyle = "solid none";
 coreHigh.style.borderColor = palette.core;
 
 const endHigh = document.createElement("span");
+endHigh.id = "endHigh";
 endHigh.style.borderWidth = "0.3rem";
 endHigh.style.borderStyle = "solid none";
 endHigh.style.borderColor = "transparent";
 
 const tailHigh = document.createElement("span");
+tailHigh.id = "tailHigh";
 tailHigh.style.borderWidth = "0.3rem";
 tailHigh.style.borderStyle = "solid solid solid none";
 tailHigh.style.borderColor = "transparent";
 
 const highlight = document.createElement("div");
+highlight.id = "highlight";
 highlight.style.height = "0px";
 highlight.style.color = "transparent";
 highlight.append(headHigh);
@@ -209,11 +217,13 @@ highlight.append(endHigh);
 highlight.append(tailHigh);
 
 const headNode = document.createElement("span");
+headNode.id = "headNode";
 headNode.style.color = palette.suggest;
 headNode.style.cursor = "pointer";
 headNode.onclick = () => integrate();
 
 const input = document.createElement("span");
+input.id = "input";
 input.contentEditable = "true";
 input.setAttribute("autofocus", "autofocus");
 input.setAttribute("autocomplete", "off");
@@ -233,14 +243,17 @@ input.onblur = blur;
 input.onfocus = focus;
 
 const angel = document.createElement("div");
+angel.id = "angel";
 angel.style.display = "inline-block";
 
 const tailNode = document.createElement("span");
+tailNode.id = "tailNode";
 tailNode.style.color = palette.suggest;
 tailNode.style.cursor = "pointer";
 tailNode.onclick = () => integrate();
 
 const canvas = document.createElement("div");
+canvas.id = "canvas";
 canvas.style.padding = "1rem 0.1rem 1rem 1rem";
 canvas.style.boxSizing = "border-box";
 canvas.style.backgroundColor = palette.background;
