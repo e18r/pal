@@ -104,3 +104,5 @@ const normalize = text => {
   const norm = normArray.join("");
   return {norm, map};
 };
+
+export default { isPalindrome, getChunks, suggest, split, normalize };

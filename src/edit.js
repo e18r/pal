@@ -1,5 +1,6 @@
 import palette from "./palette.js";
 import indr from "./indr.js";
+import palindrome from "./palindrome.js";
 
 const PUBLISH = new Event("publish");
 
@@ -85,19 +86,19 @@ const publishLoading = loading => {
 
 const update = () => {
   const text = input.innerText;
-  const {norm, map} = normalize(text);
-  const chunks = getChunks(norm);
-  const suggestions = suggest(chunks);
+  const {norm, map} = palindrome.normalize(text);
+  const chunks = palindrome.getChunks(norm);
+  const suggestions = palindrome.suggest(chunks);
   const {head, coreIndex, tail} = suggestions[0];
   headNode.innerText = head;
   tailNode.innerText = tail;
-  const {start, core, end} = split(chunks, coreIndex, map, text);
+  const {start, core, end} = palindrome.split(chunks, coreIndex, map, text);
   headHigh.innerText = head;
   startHigh.innerText = start;
   coreHigh.innerText = core;
   endHigh.innerText = end;
   tailHigh.innerText = tail;
-  if (norm && isPalindrome(norm)) {
+  if (norm && palindrome.isPalindrome(norm)) {
     input.style.borderStyle = "solid";
     startHigh.style.borderColor = palette.palindrome;
     coreHigh.style.backgroundColor = palette.palindrome;
