@@ -49,6 +49,7 @@ const getChunks = text => {
 };
 
 const suggest = chunks => {
+  const suggestions = [];
   for (let i = 1; i < chunks.length; i++) {
     const start = chunks.slice(0, i).join("");
     const end = chunks.slice(i+1).join("");
@@ -62,13 +63,23 @@ const suggest = chunks => {
         const head = unmatchedEnd.split("").reverse().join("");
         const unmatchedStart = start.substring(0, start.length - 1 - j);
         const tail = unmatchedStart.split("").reverse().join("");
-        return {head, coreIndex: i, tail}
+        suggestions.push({coreIndex: i, head, tail});
       }
     }
   }
-  const head = "";
+  suggestions.sort((a, b) => {
+    const lengthA = a.head.length + a.tail.length;
+    const lengthB = b.head.length + b.tail.length;
+    if (lengthA === lengthB) {
+      return a.head.length - b.head.length;
+    } else return lengthA - lengthB;
+  });
   const tail = chunks.slice(0, chunks.length - 1).reverse().join("");
-  return {head, coreIndex: chunks.length - 1, tail};
+  suggestions.push({coreIndex: chunks.length - 1, head: "", tail});
+  if (tail === "") return suggestions;
+  const head = chunks.slice(1).reverse().join("");
+  suggestions.push({coreIndex: 0, head, tail: ""});
+  return suggestions;
 };
 
 const split = (chunks, coreIndex, map, text) => {
@@ -183,7 +194,8 @@ const update = () => {
   const text = input.innerText;
   const {norm, map} = normalize(text);
   const chunks = getChunks(norm);
-  const {head, coreIndex, tail} = suggest(chunks);
+  const suggestions = suggest(chunks);
+  const {head, coreIndex, tail} = suggestions[0];
   headNode.innerText = head;
   tailNode.innerText = tail;
   const {start, core, end} = split(chunks, coreIndex, map, text);
