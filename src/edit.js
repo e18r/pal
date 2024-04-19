@@ -187,6 +187,7 @@ const update = () => {
   headNode.innerText = head;
   tailNode.innerText = tail;
   const {start, core, end} = split(chunks, coreIndex, map, text);
+  headHigh.innerText = head;
   startHigh.innerText = start;
   coreHigh.innerText = core;
   endHigh.innerText = end;
@@ -267,6 +268,11 @@ publishNode.style.lineHeight = "initial";
 publishNode.style.fontSize = "initial";
 publishNode.append(publish);
 
+const headHigh = document.createElement("span");
+headHigh.style.borderWidth = "0.3rem";
+headHigh.style.borderStyle = "solid none solid solid";
+headHigh.style.borderColor = "transparent";
+
 const startHigh = document.createElement("span");
 startHigh.style.borderWidth = "0.3rem";
 startHigh.style.borderStyle = "solid none solid solid";
@@ -290,6 +296,7 @@ tailHigh.style.borderColor = "transparent";
 const highlight = document.createElement("div");
 highlight.style.height = "0px";
 highlight.style.color = "transparent";
+highlight.append(headHigh);
 highlight.append(startHigh);
 highlight.append(coreHigh);
 highlight.append(endHigh);
