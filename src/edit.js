@@ -55,7 +55,7 @@ const caretEnd = () => {
 };
 
 const blink = () => {
-  startHigh.animate(
+  headHigh.animate(
     {
       borderColor: [palette.input, "transparent", palette.input],
       easing: "step-end"
@@ -69,7 +69,7 @@ const blink = () => {
 };
 
 const unblink = () => {
-  const animations = startHigh.getAnimations();
+  const animations = headHigh.getAnimations();
   animations.forEach(animation => animation.cancel());
   input.style.caretColor = palette.input;
 };
@@ -99,7 +99,7 @@ const update = () => {
   endHigh.innerText = end;
   tailHigh.innerText = tail;
   if (norm && palindrome.isPalindrome(norm)) {
-    input.style.borderStyle = "solid";
+    headHigh.style.borderColor = palette.palindrome;
     startHigh.style.borderColor = palette.palindrome;
     coreHigh.style.backgroundColor = palette.palindrome;
     coreHigh.style.borderColor = palette.palindrome;
@@ -108,7 +108,7 @@ const update = () => {
     if (indr.isOnline()) togglePublish(true);
     else togglePublish(false);
   } else {
-    input.style.borderStyle = "solid none solid solid";
+    headHigh.style.borderColor = "transparent";
     startHigh.style.borderColor = "transparent";
     coreHigh.style.backgroundColor = "transparent";
     coreHigh.style.borderColor = palette.core;
@@ -185,7 +185,7 @@ headHigh.style.borderColor = "transparent";
 const startHigh = document.createElement("span");
 startHigh.id = "startHigh";
 startHigh.style.borderWidth = "0.3rem";
-startHigh.style.borderStyle = "solid none solid solid";
+startHigh.style.borderStyle = "solid none";
 startHigh.style.borderColor = "transparent";
 
 const coreHigh = document.createElement("span");
@@ -218,6 +218,9 @@ highlight.append(tailHigh);
 
 const headNode = document.createElement("span");
 headNode.id = "headNode";
+headNode.style.borderWidth = "0.3rem";
+headNode.style.borderStyle = "solid none solid solid";
+headNode.style.borderColor = "transparent";
 headNode.style.color = palette.suggest;
 headNode.style.cursor = "pointer";
 headNode.onclick = () => integrate();
@@ -232,7 +235,7 @@ input.setAttribute("autocapitalize", "off");
 input.setAttribute("spellcheck", "false");
 input.style.outline = "none";
 input.style.borderWidth = "0.3rem";
-input.style.borderStyle = "solid none solid solid";
+input.style.borderStyle = "solid none";
 input.style.borderColor = "transparent";
 input.style.color = palette.input;
 input.onkeydown = keyPress;
@@ -248,6 +251,9 @@ angel.style.display = "inline-block";
 
 const tailNode = document.createElement("span");
 tailNode.id = "tailNode";
+tailNode.style.borderWidth = "0.3rem";
+tailNode.style.borderStyle = "solid solid solid none";
+tailNode.style.borderColor = "transparent";
 tailNode.style.color = palette.suggest;
 tailNode.style.cursor = "pointer";
 tailNode.onclick = () => integrate();
