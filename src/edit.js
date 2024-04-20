@@ -74,9 +74,16 @@ const unblink = () => {
   input.style.caretColor = palette.input;
 };
 
-const togglePublish = show => {
-  if (show) publish.style.display = "inline";
-  else publish.style.display = "none";
+const togglePublish = enabled => {
+  if (enabled) {
+    publish.style.cursor = "pointer";
+    publish.onclick = publishPalindrome;
+    publish.style.opacity = 1;
+  } else {
+    publish.style.cursor = "initial";
+    publish.onclick = false;
+    publish.style.opacity = 0.2;
+  }
 };
 
 const publishLoading = loading => {
@@ -246,17 +253,13 @@ const publish = document.createElement("img");
 publish.id = "publish";
 publish.setAttribute("src", "./publish.png");
 publish.style.height = "2rem";
-publish.style.display = "none";
-publish.style.cursor = "pointer";
-publish.onclick = publishPalindrome;
+publish.style.opacity = 0.2;
 
-const publishNode = document.createElement("div");
-publishNode.id = "publishNode";
-publishNode.style.margin = "auto";
-publishNode.style.height = "2rem";
-publishNode.style.lineHeight = "initial";
-publishNode.style.fontSize = "initial";
-publishNode.append(publish);
+const tools = document.createElement("div");
+tools.id = "tools";
+tools.style.lineHeight = "initial";
+tools.style.fontSize = "initial";
+tools.append(publish);
 
 const canvas = document.createElement("div");
 canvas.id = "canvas";
@@ -270,17 +273,17 @@ canvas.style.wordBreak = "break-all";
 canvas.style.textAlign = "center";
 canvas.onclick = click;
 canvas.style.fontVariantLigatures = "none";
-canvas.append(publishNode);
 canvas.append(highlight);
 canvas.append(headNode);
 canvas.append(input);
 canvas.append(angel);
 canvas.append(tailNode);
+canvas.append(tools);
 
 if (window.location.search === "?dev") {
   canvas.style.border = "2px dashed green";
   publish.style.border = "1px dashed blue";
-  publishNode.style.border = "0.5px dotted red";
+  tools.style.border = "0.5px dotted red";
   highlight.style.border = "2px solid fuchsia";
   coreHigh.style.color = "red";
   headNode.style.border = "3px solid yellow";
