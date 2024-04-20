@@ -30,8 +30,7 @@ const publishPalindrome = async () => {
   // const id = await response.text();
   // TODO: card view
   document.dispatchEvent(PUBLISH);
-  input.innerText = "";
-  update();
+  eraseText();
   publishLoading(false);
 };
 
@@ -91,6 +90,23 @@ const publishLoading = loading => {
   else publish.setAttribute("src", "./publish.png");
 };
 
+const eraseText = () => {
+  input.innerText = "";
+  update();
+};
+
+const toggleErase = enabled => {
+  if (enabled) {
+    erase.style.cursor = "pointer";
+    erase.onclick = eraseText;
+    erase.style.opacity = 1;
+  } else {
+    erase.style.cursor = "initial";
+    erase.onclick = false;
+    erase.style.opacity = 0.2;
+  }
+};
+
 const update = () => {
   const text = input.innerText;
   const {norm, map} = palindrome.normalize(text);
@@ -123,7 +139,13 @@ const update = () => {
     tailHigh.style.borderColor = "transparent";
     togglePublish(false);
   }
-  if (text) unblink(); else blink();
+  if (text) {
+    unblink();
+    toggleErase(true);
+  } else {
+    toggleErase(false);
+    blink();
+  }
 };
 
 const integrate = () => {
@@ -255,11 +277,20 @@ publish.setAttribute("src", "./publish.png");
 publish.style.height = "2rem";
 publish.style.opacity = 0.2;
 
+const erase = document.createElement("img");
+erase.id = "erase";
+erase.setAttribute("src", "./erase.png");
+erase.style.height = "2rem";
+erase.style.opacity = 0.2;
+erase.style.marginLeft = "2rem";
+
 const tools = document.createElement("div");
 tools.id = "tools";
 tools.style.lineHeight = "initial";
 tools.style.fontSize = "initial";
+tools.style.marginTop = "1rem";
 tools.append(publish);
+tools.append(erase);
 
 const canvas = document.createElement("div");
 canvas.id = "canvas";
