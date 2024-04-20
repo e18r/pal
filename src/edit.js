@@ -160,22 +160,6 @@ document.addEventListener("offline", e => {
   if (input.innerText) update();
 });
 
-const publish = document.createElement("img");
-publish.id = "publish";
-publish.setAttribute("src", "./publish.png");
-publish.style.height = "2rem";
-publish.style.display = "none";
-publish.style.cursor = "pointer";
-publish.onclick = publishPalindrome;
-
-const publishNode = document.createElement("div");
-publishNode.id = "publishNode";
-publishNode.style.margin = "auto";
-publishNode.style.height = "2rem";
-publishNode.style.lineHeight = "initial";
-publishNode.style.fontSize = "initial";
-publishNode.append(publish);
-
 const headHigh = document.createElement("span");
 headHigh.id = "headHigh";
 headHigh.style.borderWidth = "0.3rem";
@@ -257,6 +241,22 @@ tailNode.style.borderColor = "transparent";
 tailNode.style.color = palette.suggest;
 tailNode.style.cursor = "pointer";
 tailNode.onclick = () => integrate();
+
+const publish = document.createElement("img");
+publish.id = "publish";
+publish.setAttribute("src", "./publish.png");
+publish.style.height = "2rem";
+publish.style.display = "none";
+publish.style.cursor = "pointer";
+publish.onclick = publishPalindrome;
+
+const publishNode = document.createElement("div");
+publishNode.id = "publishNode";
+publishNode.style.margin = "auto";
+publishNode.style.height = "2rem";
+publishNode.style.lineHeight = "initial";
+publishNode.style.fontSize = "initial";
+publishNode.append(publish);
 
 const canvas = document.createElement("div");
 canvas.id = "canvas";
