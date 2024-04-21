@@ -74,23 +74,6 @@ const unblink = () => {
   input.style.caretColor = palette.input;
 };
 
-const togglePublish = enabled => {
-  if (enabled) {
-    publish.style.cursor = "pointer";
-    publish.onclick = publishPalindrome;
-    publish.style.opacity = 1;
-  } else {
-    publish.style.cursor = "initial";
-    publish.onclick = false;
-    publish.style.opacity = 0.2;
-  }
-};
-
-const publishLoading = loading => {
-  if (loading) publish.setAttribute("src", "./loading.gif");
-  else publish.setAttribute("src", "./publish.png");
-};
-
 const eraseText = () => {
   preNode.innerText = "";
   preHigh.innerText = "";
@@ -100,34 +83,10 @@ const eraseText = () => {
   update();
 };
 
-const toggleErase = enabled => {
-  if (enabled) {
-    erase.style.cursor = "pointer";
-    erase.onclick = eraseText;
-    erase.style.opacity = 1;
-  } else {
-    erase.style.cursor = "initial";
-    erase.onclick = false;
-    erase.style.opacity = 0.2;
-  }
-};
-
 const flipText = () => {
   const flipped = endHigh.innerText + coreHigh.innerText + startHigh.innerText;
   input.innerText = flipped;
   update();
-};
-
-const toggleFlip = enabled => {
-  if (enabled) {
-    flip.style.cursor = "pointer";
-    flip.onclick = flipText;
-    flip.style.opacity = 1;
-  } else {
-    flip.style.cursor = "initial";
-    flip.onclick = false;
-    flip.style.opacity = 0.2;
-  }
 };
 
 const freezePalindrome = () => {
@@ -146,18 +105,6 @@ const thaw = () => {
   postNode.innerText = "";
   postHigh.innerText = "";
   update();
-};
-
-const toggleFreeze = enabled => {
-  if (enabled) {
-    freeze.style.cursor = "pointer";
-    freeze.onclick = freezePalindrome;
-    freeze.style.opacity = 1;
-  } else {
-    freeze.style.cursor = "initial";
-    freeze.onclick = false;
-    freeze.style.opacity = 0.2;
-  }
 };
 
 const update = () => {
@@ -349,48 +296,6 @@ postNode.style.color = palette.frozen;
 postNode.style.cursor = "pointer";
 postNode.onclick = () => thaw();
 
-const publish = document.createElement("img");
-publish.id = "publish";
-publish.setAttribute("src", "./publish.png");
-publish.style.height = "2rem";
-publish.style.opacity = 0.2;
-
-const publishNode = document.createElement("div");
-publishNode.id = "publishNode";
-publishNode.style.lineHeight = "initial";
-publishNode.style.fontSize = "initial";
-publishNode.style.marginBottom = "1rem";
-publishNode.append(publish);
-
-const erase = document.createElement("img");
-erase.id = "erase";
-erase.setAttribute("src", "./erase.png");
-erase.style.height = "2rem";
-erase.style.opacity = 0.2;
-
-const flip = document.createElement("img");
-flip.id = "flip";
-flip.setAttribute("src", "./flip.png");
-flip.style.height = "2rem";
-flip.style.opacity = 0.2;
-flip.style.marginLeft = "2rem";
-
-const freeze = document.createElement("img");
-freeze.id = "freeze";
-freeze.setAttribute("src", "./freeze.png");
-freeze.style.height = "2rem";
-freeze.style.opacity = 0.2;
-freeze.style.marginLeft = "2rem";
-
-const tools = document.createElement("div");
-tools.id = "tools";
-tools.style.lineHeight = "initial";
-tools.style.fontSize = "initial";
-tools.style.marginTop = "1rem";
-tools.append(erase);
-tools.append(flip);
-tools.append(freeze);
-
 const canvas = document.createElement("div");
 canvas.id = "canvas";
 canvas.style.padding = "1rem 0.1rem 1rem 1rem";
@@ -415,8 +320,6 @@ canvas.append(tools);
 
 if (window.location.search === "?dev") {
   canvas.style.border = "2px dashed green";
-  publish.style.border = "1px dashed blue";
-  tools.style.border = "0.5px dotted red";
   highlight.style.border = "2px solid fuchsia";
   coreHigh.style.color = "red";
   headNode.style.border = "3px solid yellow";
