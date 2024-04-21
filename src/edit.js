@@ -9,7 +9,8 @@ const selection = window.getSelection();
 let lastCaret = 0;
 
 const publishPalindrome = async () => {
-  if (!confirm(input.innerText)) return;
+  const palindrome = preNode.innerText + input.innerText + postNode.innerText;
+  if (!confirm(palindrome)) return;
   publishLoading(true);
   let response;
   try {
@@ -19,7 +20,7 @@ const publishPalindrome = async () => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        text: input.innerText
+        text: palindrome
       })
     });
   } catch (err) {
@@ -91,7 +92,11 @@ const publishLoading = loading => {
 };
 
 const eraseText = () => {
+  preNode.innerText = "";
+  preHigh.innerText = "";
   input.innerText = "";
+  postNode.innerText = "";
+  postHigh.innerText = "";
   update();
 };
 
@@ -108,7 +113,8 @@ const toggleErase = enabled => {
 };
 
 const flipText = () => {
-  input.innerText = endHigh.innerText + coreHigh.innerText + startHigh.innerText;
+  const flipped = endHigh.innerText + coreHigh.innerText + startHigh.innerText;
+  input.innerText = flipped;
   update();
 };
 
@@ -121,6 +127,36 @@ const toggleFlip = enabled => {
     flip.style.cursor = "initial";
     flip.onclick = false;
     flip.style.opacity = 0.2;
+  }
+};
+
+const freezePalindrome = () => {
+  preNode.innerText += startHigh.innerText;
+  postNode.innerText = endHigh.innerText + postNode.innerText;
+  input.innerText = coreHigh.innerText;
+  preHigh.innerText = preNode.innerText;
+  postHigh.innerText = postNode.innerText;
+  update();
+};
+
+const thaw = () => {
+  input.innerText = preNode.innerText + input.innerText + postNode.innerText;
+  preNode.innerText = "";
+  preHigh.innerText = "";
+  postNode.innerText = "";
+  postHigh.innerText = "";
+  update();
+};
+
+const toggleFreeze = enabled => {
+  if (enabled) {
+    freeze.style.cursor = "pointer";
+    freeze.onclick = freezePalindrome;
+    freeze.style.opacity = 1;
+  } else {
+    freeze.style.cursor = "initial";
+    freeze.onclick = false;
+    freeze.style.opacity = 0.2;
   }
 };
 
@@ -145,10 +181,10 @@ const update = () => {
     coreHigh.style.borderColor = palette.palindrome;
     endHigh.style.borderColor = palette.palindrome;
     tailHigh.style.borderColor = palette.palindrome;
-    if (indr.isOnline()) togglePublish(true);
-    else togglePublish(false);
     if (end !== start) toggleFlip(true);
     else toggleFlip(false);
+    if (start !== "") toggleFreeze(true);
+    else toggleFreeze(false);
   } else {
     headHigh.style.borderColor = "transparent";
     startHigh.style.borderColor = "transparent";
@@ -158,14 +194,16 @@ const update = () => {
     tailHigh.style.borderColor = "transparent";
     togglePublish(false);
     toggleFlip(false);
+    toggleFreeze(false);
   }
-  if (text) {
-    unblink();
-    toggleErase(true);
-  } else {
-    toggleErase(false);
-    blink();
-  }
+  if (indr.isOnline() && palindrome.isPalindrome(norm) &&
+      (norm || preNode.innerText)) togglePublish(true);
+  else togglePublish(false);
+
+  if (text) unblink();
+  else blink();
+  if (text || preNode.innerText) toggleErase(true);
+  else toggleErase(false);
 };
 
 const integrate = () => {
@@ -209,6 +247,9 @@ document.addEventListener("offline", e => {
   if (input.innerText) update();
 });
 
+const preHigh = document.createElement("span");
+preHigh.id = "preHigh";
+
 const headHigh = document.createElement("span");
 headHigh.id = "headHigh";
 headHigh.style.borderWidth = "0.3rem";
@@ -239,15 +280,26 @@ tailHigh.style.borderWidth = "0.3rem";
 tailHigh.style.borderStyle = "solid solid solid none";
 tailHigh.style.borderColor = "transparent";
 
+const postHigh = document.createElement("span");
+postHigh.id = "postHigh";
+
 const highlight = document.createElement("div");
 highlight.id = "highlight";
 highlight.style.height = "0px";
 highlight.style.color = "transparent";
+highlight.append(preHigh);
 highlight.append(headHigh);
 highlight.append(startHigh);
 highlight.append(coreHigh);
 highlight.append(endHigh);
 highlight.append(tailHigh);
+highlight.append(postHigh);
+
+const preNode = document.createElement("span");
+preNode.id = "preNode";
+preNode.style.color = palette.frozen;
+preNode.style.cursor = "pointer";
+preNode.onclick = () => thaw();
 
 const headNode = document.createElement("span");
 headNode.id = "headNode";
@@ -291,6 +343,12 @@ tailNode.style.color = palette.suggest;
 tailNode.style.cursor = "pointer";
 tailNode.onclick = () => integrate();
 
+const postNode = document.createElement("span");
+postNode.id = "postNode";
+postNode.style.color = palette.frozen;
+postNode.style.cursor = "pointer";
+postNode.onclick = () => thaw();
+
 const publish = document.createElement("img");
 publish.id = "publish";
 publish.setAttribute("src", "./publish.png");
@@ -311,6 +369,13 @@ flip.style.height = "2rem";
 flip.style.opacity = 0.2;
 flip.style.marginLeft = "2rem";
 
+const freeze = document.createElement("img");
+freeze.id = "freeze";
+freeze.setAttribute("src", "./freeze.png");
+freeze.style.height = "2rem";
+freeze.style.opacity = 0.2;
+freeze.style.marginLeft = "2rem";
+
 const tools = document.createElement("div");
 tools.id = "tools";
 tools.style.lineHeight = "initial";
@@ -319,6 +384,7 @@ tools.style.marginTop = "1rem";
 tools.append(publish);
 tools.append(erase);
 tools.append(flip);
+tools.append(freeze);
 
 const canvas = document.createElement("div");
 canvas.id = "canvas";
@@ -333,10 +399,12 @@ canvas.style.textAlign = "center";
 canvas.onclick = click;
 canvas.style.fontVariantLigatures = "none";
 canvas.append(highlight);
+canvas.append(preNode);
 canvas.append(headNode);
 canvas.append(input);
 canvas.append(angel);
 canvas.append(tailNode);
+canvas.append(postNode);
 canvas.append(tools);
 
 if (window.location.search === "?dev") {
