@@ -3,6 +3,7 @@ import indr from "./indr.js";
 import palindrome from "./palindrome.js";
 import tools from "./tools.js";
 import freezer from "./freezer.js";
+import suggest from "./suggest.js";
 
 const PUBLISH = new Event("publish");
 
@@ -56,26 +57,6 @@ const caretEnd = () => {
   selection.modify("move", "forward", "character");
 };
 
-const blink = () => {
-  headHigh.animate(
-    {
-      borderColor: [palette.input, "transparent", palette.input],
-      easing: "step-end"
-    },
-    {
-      duration: 1000,
-      iterations: Infinity
-    }
-  );
-  input.style.caretColor = "transparent";
-};
-
-const unblink = () => {
-  const animations = headHigh.getAnimations();
-  animations.forEach(animation => animation.cancel());
-  input.style.caretColor = palette.input;
-};
-
 const eraseText = () => {
   input.innerText = "";
   freezer.erase();
@@ -106,32 +87,27 @@ const update = () => {
   const chunks = palindrome.getChunks(norm);
   const suggestions = palindrome.suggest(chunks);
   const {head, coreIndex, tail} = suggestions[0];
-  headNode.innerText = head;
-  tailNode.innerText = tail;
+  suggest.set(head, tail);
   const {start, core, end} = palindrome.split(chunks, coreIndex, map, text);
-  headHigh.innerText = head;
   startHigh.innerText = start;
   coreHigh.innerText = core;
   endHigh.innerText = end;
-  tailHigh.innerText = tail;
   if (norm && palindrome.isPalindrome(norm)) {
-    headHigh.style.borderColor = palette.palindrome;
     startHigh.style.borderColor = palette.palindrome;
     coreHigh.style.backgroundColor = palette.palindrome;
     coreHigh.style.borderColor = palette.palindrome;
     endHigh.style.borderColor = palette.palindrome;
-    tailHigh.style.borderColor = palette.palindrome;
+    suggest.togglePalindrome(true);
     if (end !== start) tools.toggleFlip(true);
     else tools.toggleFlip(false);
     if (start !== "") tools.toggleFreeze(true);
     else tools.toggleFreeze(false);
   } else {
-    headHigh.style.borderColor = "transparent";
     startHigh.style.borderColor = "transparent";
     coreHigh.style.backgroundColor = "transparent";
     coreHigh.style.borderColor = palette.core;
     endHigh.style.borderColor = "transparent";
-    tailHigh.style.borderColor = "transparent";
+    suggest.togglePalindrome(false);
     tools.togglePublish(false);
     tools.toggleFlip(false);
     tools.toggleFreeze(false);
@@ -140,17 +116,15 @@ const update = () => {
       (norm || freezer.pre())) tools.togglePublish(true);
   else tools.togglePublish(false);
 
-  if (text) unblink();
-  else blink();
+  if (text) suggest.unblink();
+  else suggest.blink();
   if (text || freezer.pre()) tools.toggleErase(true);
   else tools.toggleErase(false);
 };
 
 const integrate = () => {
-  input.innerHTML = headNode.innerHTML + input.innerHTML;
-  headNode.innerHTML = "";
-  input.innerHTML += tailNode.innerHTML;
-  tailNode.innerHTML = "";
+  input.innerHTML = suggest.head() + input.innerHTML + suggest.tail();
+  suggest.erase();
   caretEnd();
   update();
 };
@@ -166,11 +140,11 @@ const keyPress = e => {
 
 const blur = e => {
   saveCaret();
-  unblink();
+  suggest.unblink();
 };
 
 const focus = e => {
-  if (input.innerHTML === "") blink();
+  if (input.innerHTML === "") suggest.blink();
 };
 
 const click = e => {
@@ -191,14 +165,9 @@ document.addEventListener("publishClicked", publishPalindrome);
 document.addEventListener("eraseClicked", eraseText);
 document.addEventListener("flipClicked", flipText);
 document.addEventListener("freezeClicked", freezePalindrome);
-
 document.addEventListener("thawClicked", thaw);
-
-const headHigh = document.createElement("span");
-headHigh.id = "headHigh";
-headHigh.style.borderWidth = "0.3rem";
-headHigh.style.borderStyle = "solid none solid solid";
-headHigh.style.borderColor = "transparent";
+document.addEventListener("headClicked", integrate);
+document.addEventListener("tailClicked", integrate);
 
 const startHigh = document.createElement("span");
 startHigh.id = "startHigh";
@@ -218,32 +187,17 @@ endHigh.style.borderWidth = "0.3rem";
 endHigh.style.borderStyle = "solid none";
 endHigh.style.borderColor = "transparent";
 
-const tailHigh = document.createElement("span");
-tailHigh.id = "tailHigh";
-tailHigh.style.borderWidth = "0.3rem";
-tailHigh.style.borderStyle = "solid solid solid none";
-tailHigh.style.borderColor = "transparent";
-
 const highlight = document.createElement("div");
 highlight.id = "highlight";
 highlight.style.height = "0px";
 highlight.style.color = "transparent";
 highlight.append(freezer.preHigh);
-highlight.append(headHigh);
+highlight.append(suggest.headHigh);
 highlight.append(startHigh);
 highlight.append(coreHigh);
 highlight.append(endHigh);
-highlight.append(tailHigh);
+highlight.append(suggest.tailHigh);
 highlight.append(freezer.postHigh);
-
-const headNode = document.createElement("span");
-headNode.id = "headNode";
-headNode.style.borderWidth = "0.3rem";
-headNode.style.borderStyle = "solid none solid solid";
-headNode.style.borderColor = "transparent";
-headNode.style.color = palette.suggest;
-headNode.style.cursor = "pointer";
-headNode.onclick = () => integrate();
 
 const input = document.createElement("span");
 input.id = "input";
@@ -269,15 +223,6 @@ const angel = document.createElement("div");
 angel.id = "angel";
 angel.style.display = "inline-block";
 
-const tailNode = document.createElement("span");
-tailNode.id = "tailNode";
-tailNode.style.borderWidth = "0.3rem";
-tailNode.style.borderStyle = "solid solid solid none";
-tailNode.style.borderColor = "transparent";
-tailNode.style.color = palette.suggest;
-tailNode.style.cursor = "pointer";
-tailNode.onclick = () => integrate();
-
 const canvas = document.createElement("div");
 canvas.id = "canvas";
 canvas.style.padding = "1rem 0.1rem 1rem 1rem";
@@ -293,10 +238,10 @@ canvas.style.fontVariantLigatures = "none";
 canvas.append(tools.publishNode);
 canvas.append(highlight);
 canvas.append(freezer.preNode);
-canvas.append(headNode);
+canvas.append(suggest.headNode);
 canvas.append(input);
 canvas.append(angel);
-canvas.append(tailNode);
+canvas.append(suggest.tailNode);
 canvas.append(freezer.postNode);
 canvas.append(tools.tools);
 
@@ -304,9 +249,7 @@ if (window.location.search === "?dev") {
   canvas.style.border = "2px dashed green";
   highlight.style.border = "2px solid fuchsia";
   coreHigh.style.color = "red";
-  headNode.style.border = "3px solid yellow";
   input.style.border = "2px dashed red";
-  tailNode.style.border = "3px solid yellow";
 }
 
-export default { blink, canvas };
+export default { blink: suggest.blink, canvas };
