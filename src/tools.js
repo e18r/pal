@@ -1,7 +1,12 @@
+const PUBLISH_CLICKED = new Event("publishClicked");
+const ERASE_CLICKED = new Event("eraseClicked");
+const FLIP_CLICKED = new Event("flipClicked");
+const FREEZE_CLICKED = new Event("freezeClicked");
+
 const togglePublish = enabled => {
   if (enabled) {
     publish.style.cursor = "pointer";
-    publish.onclick = publishPalindrome;
+    publish.onclick = () => document.dispatchEvent(PUBLISH_CLICKED);
     publish.style.opacity = 1;
   } else {
     publish.style.cursor = "initial";
@@ -18,7 +23,7 @@ const publishLoading = loading => {
 const toggleErase = enabled => {
   if (enabled) {
     erase.style.cursor = "pointer";
-    erase.onclick = eraseText;
+    erase.onclick = () => document.dispatchEvent(ERASE_CLICKED);
     erase.style.opacity = 1;
   } else {
     erase.style.cursor = "initial";
@@ -30,7 +35,7 @@ const toggleErase = enabled => {
 const toggleFlip = enabled => {
   if (enabled) {
     flip.style.cursor = "pointer";
-    flip.onclick = flipText;
+    flip.onclick = () => document.dispatchEvent(FLIP_CLICKED);
     flip.style.opacity = 1;
   } else {
     flip.style.cursor = "initial";
@@ -42,7 +47,7 @@ const toggleFlip = enabled => {
 const toggleFreeze = enabled => {
   if (enabled) {
     freeze.style.cursor = "pointer";
-    freeze.onclick = freezePalindrome;
+    freeze.onclick = () => document.dispatchEvent(FREEZE_CLICKED);
     freeze.style.opacity = 1;
   } else {
     freeze.style.cursor = "initial";
@@ -97,3 +102,13 @@ if (window.location.search === "?dev") {
   publish.style.border = "1px dashed blue";
   tools.style.border = "0.5px dotted red";
 }
+
+export default {
+  togglePublish,
+  publishLoading,
+  toggleErase,
+  toggleFlip,
+  toggleFreeze,
+  publishNode,
+  tools,
+};

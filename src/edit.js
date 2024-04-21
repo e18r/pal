@@ -1,6 +1,7 @@
 import palette from "./palette.js";
 import indr from "./indr.js";
 import palindrome from "./palindrome.js";
+import tools from "./tools.js";
 
 const PUBLISH = new Event("publish");
 
@@ -11,7 +12,7 @@ let lastCaret = 0;
 const publishPalindrome = async () => {
   const palindrome = preNode.innerText + input.innerText + postNode.innerText;
   if (!confirm(palindrome)) return;
-  publishLoading(true);
+  tools.publishLoading(true);
   let response;
   try {
     response = await fetch(indr.indr + "/publish", {
@@ -25,14 +26,14 @@ const publishPalindrome = async () => {
     });
   } catch (err) {
     indr.networkIssue();
-    publishLoading(false);
+    tools.publishLoading(false);
     return;
   }
   // const id = await response.text();
   // TODO: card view
   document.dispatchEvent(PUBLISH);
   eraseText();
-  publishLoading(false);
+  tools.publishLoading(false);
 };
 
 const saveCaret = () => {
@@ -128,10 +129,10 @@ const update = () => {
     coreHigh.style.borderColor = palette.palindrome;
     endHigh.style.borderColor = palette.palindrome;
     tailHigh.style.borderColor = palette.palindrome;
-    if (end !== start) toggleFlip(true);
-    else toggleFlip(false);
-    if (start !== "") toggleFreeze(true);
-    else toggleFreeze(false);
+    if (end !== start) tools.toggleFlip(true);
+    else tools.toggleFlip(false);
+    if (start !== "") tools.toggleFreeze(true);
+    else tools.toggleFreeze(false);
   } else {
     headHigh.style.borderColor = "transparent";
     startHigh.style.borderColor = "transparent";
@@ -139,18 +140,18 @@ const update = () => {
     coreHigh.style.borderColor = palette.core;
     endHigh.style.borderColor = "transparent";
     tailHigh.style.borderColor = "transparent";
-    togglePublish(false);
-    toggleFlip(false);
-    toggleFreeze(false);
+    tools.togglePublish(false);
+    tools.toggleFlip(false);
+    tools.toggleFreeze(false);
   }
   if (indr.isOnline() && palindrome.isPalindrome(norm) &&
-      (norm || preNode.innerText)) togglePublish(true);
-  else togglePublish(false);
+      (norm || preNode.innerText)) tools.togglePublish(true);
+  else tools.togglePublish(false);
 
   if (text) unblink();
   else blink();
-  if (text || preNode.innerText) toggleErase(true);
-  else toggleErase(false);
+  if (text || preNode.innerText) tools.toggleErase(true);
+  else tools.toggleErase(false);
 };
 
 const integrate = () => {
@@ -193,6 +194,11 @@ document.addEventListener("online", e => {
 document.addEventListener("offline", e => {
   if (input.innerText) update();
 });
+
+document.addEventListener("publishClicked", publishPalindrome);
+document.addEventListener("eraseClicked", eraseText);
+document.addEventListener("flipClicked", flipText);
+document.addEventListener("freezeClicked", freezePalindrome);
 
 const preHigh = document.createElement("span");
 preHigh.id = "preHigh";
@@ -308,7 +314,7 @@ canvas.style.wordBreak = "break-all";
 canvas.style.textAlign = "center";
 canvas.onclick = click;
 canvas.style.fontVariantLigatures = "none";
-canvas.append(publishNode);
+canvas.append(tools.publishNode);
 canvas.append(highlight);
 canvas.append(preNode);
 canvas.append(headNode);
@@ -316,7 +322,7 @@ canvas.append(input);
 canvas.append(angel);
 canvas.append(tailNode);
 canvas.append(postNode);
-canvas.append(tools);
+canvas.append(tools.tools);
 
 if (window.location.search === "?dev") {
   canvas.style.border = "2px dashed green";
