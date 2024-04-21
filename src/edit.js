@@ -355,12 +355,18 @@ publish.setAttribute("src", "./publish.png");
 publish.style.height = "2rem";
 publish.style.opacity = 0.2;
 
+const publishNode = document.createElement("div");
+publishNode.id = "publishNode";
+publishNode.style.lineHeight = "initial";
+publishNode.style.fontSize = "initial";
+publishNode.style.marginBottom = "1rem";
+publishNode.append(publish);
+
 const erase = document.createElement("img");
 erase.id = "erase";
 erase.setAttribute("src", "./erase.png");
 erase.style.height = "2rem";
 erase.style.opacity = 0.2;
-erase.style.marginLeft = "2rem";
 
 const flip = document.createElement("img");
 flip.id = "flip";
@@ -381,7 +387,6 @@ tools.id = "tools";
 tools.style.lineHeight = "initial";
 tools.style.fontSize = "initial";
 tools.style.marginTop = "1rem";
-tools.append(publish);
 tools.append(erase);
 tools.append(flip);
 tools.append(freeze);
@@ -398,6 +403,7 @@ canvas.style.wordBreak = "break-all";
 canvas.style.textAlign = "center";
 canvas.onclick = click;
 canvas.style.fontVariantLigatures = "none";
+canvas.append(publishNode);
 canvas.append(highlight);
 canvas.append(preNode);
 canvas.append(headNode);
