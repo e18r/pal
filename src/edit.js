@@ -11,7 +11,7 @@ const selection = window.getSelection();
 let lastCaret = 0;
 
 const publishPalindrome = async () => {
-  const palindrome = preNode.innerText + input.innerText + postNode.innerText;
+  const palindrome = freezer.pre() + input.innerText + freezer.post();
   if (!confirm(palindrome)) return;
   tools.publishLoading(true);
   let response;
