@@ -107,6 +107,23 @@ const toggleErase = enabled => {
   }
 };
 
+const flipText = () => {
+  input.innerText = endHigh.innerText + coreHigh.innerText + startHigh.innerText;
+  update();
+};
+
+const toggleFlip = enabled => {
+  if (enabled) {
+    flip.style.cursor = "pointer";
+    flip.onclick = flipText;
+    flip.style.opacity = 1;
+  } else {
+    flip.style.cursor = "initial";
+    flip.onclick = false;
+    flip.style.opacity = 0.2;
+  }
+};
+
 const update = () => {
   const text = input.innerText;
   const {norm, map} = palindrome.normalize(text);
@@ -130,6 +147,8 @@ const update = () => {
     tailHigh.style.borderColor = palette.palindrome;
     if (indr.isOnline()) togglePublish(true);
     else togglePublish(false);
+    if (end !== start) toggleFlip(true);
+    else toggleFlip(false);
   } else {
     headHigh.style.borderColor = "transparent";
     startHigh.style.borderColor = "transparent";
@@ -138,6 +157,7 @@ const update = () => {
     endHigh.style.borderColor = "transparent";
     tailHigh.style.borderColor = "transparent";
     togglePublish(false);
+    toggleFlip(false);
   }
   if (text) {
     unblink();
@@ -284,6 +304,13 @@ erase.style.height = "2rem";
 erase.style.opacity = 0.2;
 erase.style.marginLeft = "2rem";
 
+const flip = document.createElement("img");
+flip.id = "flip";
+flip.setAttribute("src", "./flip.png");
+flip.style.height = "2rem";
+flip.style.opacity = 0.2;
+flip.style.marginLeft = "2rem";
+
 const tools = document.createElement("div");
 tools.id = "tools";
 tools.style.lineHeight = "initial";
@@ -291,6 +318,7 @@ tools.style.fontSize = "initial";
 tools.style.marginTop = "1rem";
 tools.append(publish);
 tools.append(erase);
+tools.append(flip);
 
 const canvas = document.createElement("div");
 canvas.id = "canvas";
