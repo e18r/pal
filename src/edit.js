@@ -2,6 +2,7 @@ import palette from "./palette.js";
 import indr from "./indr.js";
 import palindrome from "./palindrome.js";
 import tools from "./tools.js";
+import freezer from "./freezer.js";
 
 const PUBLISH = new Event("publish");
 
@@ -76,11 +77,8 @@ const unblink = () => {
 };
 
 const eraseText = () => {
-  preNode.innerText = "";
-  preHigh.innerText = "";
   input.innerText = "";
-  postNode.innerText = "";
-  postHigh.innerText = "";
+  freezer.erase();
   update();
 };
 
@@ -91,20 +89,14 @@ const flipText = () => {
 };
 
 const freezePalindrome = () => {
-  preNode.innerText += startHigh.innerText;
-  postNode.innerText = endHigh.innerText + postNode.innerText;
+  freezer.add(startHigh.innerText, endHigh.innerText);
   input.innerText = coreHigh.innerText;
-  preHigh.innerText = preNode.innerText;
-  postHigh.innerText = postNode.innerText;
   update();
 };
 
 const thaw = () => {
-  input.innerText = preNode.innerText + input.innerText + postNode.innerText;
-  preNode.innerText = "";
-  preHigh.innerText = "";
-  postNode.innerText = "";
-  postHigh.innerText = "";
+  input.innerText = freezer.pre() + input.innerText + freezer.post();
+  freezer.erase();
   update();
 };
 
@@ -145,12 +137,12 @@ const update = () => {
     tools.toggleFreeze(false);
   }
   if (indr.isOnline() && palindrome.isPalindrome(norm) &&
-      (norm || preNode.innerText)) tools.togglePublish(true);
+      (norm || freezer.pre())) tools.togglePublish(true);
   else tools.togglePublish(false);
 
   if (text) unblink();
   else blink();
-  if (text || preNode.innerText) tools.toggleErase(true);
+  if (text || freezer.pre()) tools.toggleErase(true);
   else tools.toggleErase(false);
 };
 
@@ -200,8 +192,7 @@ document.addEventListener("eraseClicked", eraseText);
 document.addEventListener("flipClicked", flipText);
 document.addEventListener("freezeClicked", freezePalindrome);
 
-const preHigh = document.createElement("span");
-preHigh.id = "preHigh";
+document.addEventListener("thawClicked", thaw);
 
 const headHigh = document.createElement("span");
 headHigh.id = "headHigh";
@@ -233,26 +224,17 @@ tailHigh.style.borderWidth = "0.3rem";
 tailHigh.style.borderStyle = "solid solid solid none";
 tailHigh.style.borderColor = "transparent";
 
-const postHigh = document.createElement("span");
-postHigh.id = "postHigh";
-
 const highlight = document.createElement("div");
 highlight.id = "highlight";
 highlight.style.height = "0px";
 highlight.style.color = "transparent";
-highlight.append(preHigh);
+highlight.append(freezer.preHigh);
 highlight.append(headHigh);
 highlight.append(startHigh);
 highlight.append(coreHigh);
 highlight.append(endHigh);
 highlight.append(tailHigh);
-highlight.append(postHigh);
-
-const preNode = document.createElement("span");
-preNode.id = "preNode";
-preNode.style.color = palette.frozen;
-preNode.style.cursor = "pointer";
-preNode.onclick = () => thaw();
+highlight.append(freezer.postHigh);
 
 const headNode = document.createElement("span");
 headNode.id = "headNode";
@@ -296,12 +278,6 @@ tailNode.style.color = palette.suggest;
 tailNode.style.cursor = "pointer";
 tailNode.onclick = () => integrate();
 
-const postNode = document.createElement("span");
-postNode.id = "postNode";
-postNode.style.color = palette.frozen;
-postNode.style.cursor = "pointer";
-postNode.onclick = () => thaw();
-
 const canvas = document.createElement("div");
 canvas.id = "canvas";
 canvas.style.padding = "1rem 0.1rem 1rem 1rem";
@@ -316,12 +292,12 @@ canvas.onclick = click;
 canvas.style.fontVariantLigatures = "none";
 canvas.append(tools.publishNode);
 canvas.append(highlight);
-canvas.append(preNode);
+canvas.append(freezer.preNode);
 canvas.append(headNode);
 canvas.append(input);
 canvas.append(angel);
 canvas.append(tailNode);
-canvas.append(postNode);
+canvas.append(freezer.postNode);
 canvas.append(tools.tools);
 
 if (window.location.search === "?dev") {
