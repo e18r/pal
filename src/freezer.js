@@ -1,6 +1,6 @@
 import palette from "./palette.js";
 
-const THAW_CLICKED = "thawClicked";
+const THAW_CLICKED = new Event("thawClicked");
 
 const erase = () => {
   preNode.innerText = "";
