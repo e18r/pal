@@ -1,4 +1,5 @@
 const PUBLISH_CLICKED = new Event("publishClicked");
+const INTEGRATE_CLICKED = new Event("integrateClicked");
 const ERASE_CLICKED = new Event("eraseClicked");
 const FLIP_CLICKED = new Event("flipClicked");
 const FREEZE_CLICKED = new Event("freezeClicked");
@@ -18,6 +19,18 @@ const togglePublish = enabled => {
 const publishLoading = loading => {
   if (loading) publish.setAttribute("src", "./loading.gif");
   else publish.setAttribute("src", "./publish.png");
+};
+
+const toggleIntegrate = enabled => {
+  if (enabled) {
+    integrate.style.cursor = "pointer";
+    integrate.onclick = () => document.dispatchEvent(INTEGRATE_CLICKED);
+    integrate.style.opacity = 1;
+  } else {
+    integrate.style.cursor = "initial";
+    integrate.onclick = false;
+    integrate.style.opacity = 0.2;
+  }
 };
 
 const toggleErase = enabled => {
@@ -69,11 +82,18 @@ publishNode.style.fontSize = "initial";
 publishNode.style.marginBottom = "1rem";
 publishNode.append(publish);
 
+const integrate = document.createElement("img");
+integrate.id = "integrate";
+integrate.setAttribute("src", "./integrate.png");
+integrate.style.height = "2rem";
+integrate.style.opacity = 0.2;
+
 const erase = document.createElement("img");
 erase.id = "erase";
 erase.setAttribute("src", "./erase.png");
 erase.style.height = "2rem";
 erase.style.opacity = 0.2;
+erase.style.marginLeft = "2rem";
 
 const flip = document.createElement("img");
 flip.id = "flip";
@@ -94,6 +114,7 @@ tools.id = "tools";
 tools.style.lineHeight = "initial";
 tools.style.fontSize = "initial";
 tools.style.marginTop = "1rem";
+tools.append(integrate);
 tools.append(erase);
 tools.append(flip);
 tools.append(freeze);
@@ -106,6 +127,7 @@ if (window.location.search === "?dev") {
 export default {
   togglePublish,
   publishLoading,
+  toggleIntegrate,
   toggleErase,
   toggleFlip,
   toggleFreeze,

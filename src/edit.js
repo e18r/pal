@@ -84,9 +84,10 @@ const update = () => {
   if (indr.isOnline() && palindrome.isPalindrome(norm) &&
       (norm || freezer.pre())) tools.togglePublish(true);
   else tools.togglePublish(false);
-
   if (text) suggest.unblink();
   else suggest.blink();
+  if (head || tail) tools.toggleIntegrate(true);
+  else tools.toggleIntegrate(false);
   if (text || freezer.pre()) tools.toggleErase(true);
   else tools.toggleErase(false);
 };
@@ -130,6 +131,7 @@ document.addEventListener("offline", e => {
 });
 
 document.addEventListener("publishClicked", publishPalindrome);
+document.addEventListener("integrateClicked", integrate);
 document.addEventListener("eraseClicked", eraseText);
 document.addEventListener("flipClicked", flipText);
 document.addEventListener("freezeClicked", freezePalindrome);
