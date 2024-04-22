@@ -25,12 +25,31 @@ const isPalindrome = text => {
   return text.split("").reverse().join("") === text;
 };
 
-const getChunks = text => {
+const normalize = text => {
+  text = text.toLowerCase();
+  for (let chr in ascii) {
+    text = text.replaceAll(chr, ascii[chr]);
+  }
+  const textArray = text.split("");
+  const normArray = [];
+  const map = {};
+  for (let i = 0; i < textArray.length; i++) {
+    if (textArray[i].match(/[a-z0-9ñçß]/)) {
+      map[normArray.length] = i;
+      normArray.push(textArray[i]);
+    }
+  }
+  map[normArray.length] = textArray.length;
+  const norm = normArray.join("");
+  return {norm, map};
+};
+
+const getChunks = norm => {
   const chunks = [];
-  for (let i = 0; i < text.length; i++) {
-    for (let j = i+1; j <= text.length; j++) {
-      if (text[i] !== text[j]) {
-        chunks.push(text.substring(i, j));
+  for (let i = 0; i < norm.length; i++) {
+    for (let j = i+1; j <= norm.length; j++) {
+      if (norm[i] !== norm[j]) {
+        chunks.push(norm.substring(i, j));
         i = j-1;
         break;
       }
@@ -86,23 +105,4 @@ const split = (chunks, coreIndex, map, text) => {
   return {start, core, end};
 };
 
-const normalize = text => {
-  text = text.toLowerCase();
-  for (let chr in ascii) {
-    text = text.replaceAll(chr, ascii[chr]);
-  }
-  const textArray = text.split("");
-  const normArray = [];
-  const map = {};
-  for (let i = 0; i < textArray.length; i++) {
-    if (textArray[i].match(/[a-z0-9ñçß]/)) {
-      map[normArray.length] = i;
-      normArray.push(textArray[i]);
-    }
-  }
-  map[normArray.length] = textArray.length;
-  const norm = normArray.join("");
-  return {norm, map};
-};
-
-export default { isPalindrome, getChunks, suggest, split, normalize };
+export default { isPalindrome, normalize, getChunks, suggest, split };
