@@ -44,65 +44,72 @@ const normalize = text => {
   return {norm, map};
 };
 
-const getChunks = norm => {
-  const chunks = [];
-  for (let i = 0; i < norm.length; i++) {
-    for (let j = i+1; j <= norm.length; j++) {
-      if (norm[i] !== norm[j]) {
-        chunks.push(norm.substring(i, j));
-        i = j-1;
-        break;
-      }
-    }
-  }
-  return chunks;
-};
-
-const suggest = chunks => {
+/**
+   Given a normalized text, provide all the different ways in which that text
+   can become a palindrome. Return an array of suggestions, the first of which
+   is the recommended one, i.e., the shortest, with prelation to tail
+   suggestions.
+*/
+const suggest = norm => {
   const suggestions = [];
-  for (let i = 1; i < chunks.length; i++) {
-    const start = chunks.slice(0, i).join("");
-    const end = chunks.slice(i+1).join("");
-    const length = Math.min(start.length, end.length);
-    for(let j = 0; j < length; j++) {
-      if (start[start.length - 1 - j] !== end[j]) {
-        break;
-      }
-      if (j === length - 1) {
-        const unmatchedEnd = end.substring(j + 1);
-        const head = unmatchedEnd.split("").reverse().join("");
-        const unmatchedStart = start.substring(0, start.length - 1 - j);
-        const tail = unmatchedStart.split("").reverse().join("");
-        suggestions.push({coreIndex: i, head, tail});
-      }
-    }
+  for (let div = 0; div < norm.length / 2; div++) {
+    const start = norm.substring(0, div).split("").reverse().join("");
+    const subEnd = norm.substring(div, div + start.length);
+    const subEndCore = norm.substring(div + 1, div + 1 + start.length);
+    if (start === subEnd) suggestions.push({
+      div,
+      core: false,
+      text: norm.substring(div + start.length).split("").reverse().join(""),
+      location: "head",
+    });
+    if (start === subEndCore) suggestions.push({
+      div,
+      core: true,
+      text: norm.substring(div + 1 + start.length).split("").reverse().join(""),
+      location: "head",
+    });
   }
-  suggestions.sort((a, b) => {
-    const lengthA = a.head.length + a.tail.length;
-    const lengthB = b.head.length + b.tail.length;
-    if (lengthA === lengthB) {
-      return a.head.length - b.head.length;
-    } else return lengthA - lengthB;
+  for (let div = norm.length - 1; div >= norm.length / 2; div--) {
+    const end = norm.substring(div).split("").reverse().join("");
+    const subStart = norm.substring(div - end.length, div);
+    const endCore = norm.substring(div + 1).split("").reverse().join("");
+    const subStartCore = norm.substring(div - endCore.length, div);
+    if (end === subStart) suggestions.push({
+      div,
+      core: false,
+      text: norm.substring(0, div - end.length).split("").reverse().join(""),
+      location: "tail",
+    });
+    if (endCore === subStartCore) suggestions.push({
+      div,
+      core: true,
+      text: norm.substring(0, div - endCore.length)
+        .split("").reverse().join(""),
+      location: "tail",
+    });
+  }
+  suggestions.push({
+    div: norm.length,
+    core: false,
+    text: norm.split("").reverse().join(""),
+    location: "tail",
   });
-  const tail = chunks.slice(0, chunks.length - 1).reverse().join("");
-  suggestions.push({coreIndex: chunks.length - 1, head: "", tail});
-  if (tail === "") return suggestions;
-  const head = chunks.slice(1).reverse().join("");
-  suggestions.push({coreIndex: 0, head, tail: ""});
+  suggestions.sort((a, b) => {
+    if (a.text.length === b.text.length) {
+      if (a.location === "tail") return -1;
+      else return 1;
+    }
+    else return a.text.length - b.text.length;
+  });
   return suggestions;
 };
 
-const split = (chunks, coreIndex, map, text) => {
-  if (chunks.length === 0) return {start: "", core: "", end: ""};
-  const normStart = chunks.slice(0, coreIndex).join("");
-  const normStartIndex = normStart.length;
-  const startIndex = map[normStartIndex];
-  const normEndIndex = normStartIndex + chunks[coreIndex].length - 1;
-  const endIndex = map[normEndIndex];
-  const start = text.substring(0, startIndex);
-  const core = text.substring(startIndex, endIndex + 1);
-  const end = text.substring(endIndex + 1);
+const split = (norm, div, hasCore, map, text) => {
+  if (norm.length === 0) return {start: "", core: "", end: ""};
+  const start = text.substring(0, map[div]);
+  const core = hasCore ? text.charAt(map[div]) : "";
+  const end = hasCore ? text.substring(map[div] + 1) : text.substring(map[div]);
   return {start, core, end};
 };
 
-export default { isPalindrome, normalize, getChunks, suggest, split };
+export default { isPalindrome, normalize, suggest, split, };
