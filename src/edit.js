@@ -4,15 +4,12 @@ import palindrome from "./palindrome.js";
 import tools from "./tools.js";
 import freezer from "./freezer.js";
 import suggest from "./suggest.js";
+import input from "./input.js";
 
 const PUBLISH = new Event("publish");
 
-const selection = window.getSelection();
-
-let lastCaret = 0;
-
 const publishPalindrome = async () => {
-  const palindrome = freezer.pre() + input.innerText + freezer.post();
+  const palindrome = freezer.pre() + input.get() + freezer.post();
   if (!confirm(palindrome)) return;
   tools.publishLoading(true);
   let response;
@@ -38,75 +35,47 @@ const publishPalindrome = async () => {
   tools.publishLoading(false);
 };
 
-const saveCaret = () => {
-  lastCaret = selection.anchorOffset;
-};
-
-const restoreCaret = () => {
-  selection.selectAllChildren(input);
-  selection.collapseToStart();
-  for(let i = 0; i < lastCaret; i++) {
-    selection.modify("move", "forward", "character");
-  }
-};
-
-const caretEnd = () => {
-  selection.selectAllChildren(input);
-  selection.collapseToEnd();
-  selection.modify("move", "backward", "character");
-  selection.modify("move", "forward", "character");
-};
-
 const eraseText = () => {
-  input.innerText = "";
+  input.erase();
   freezer.erase();
   update();
 };
 
 const flipText = () => {
-  const flipped = endHigh.innerText + coreHigh.innerText + startHigh.innerText;
-  input.innerText = flipped;
+  input.flip();
   update();
 };
 
 const freezePalindrome = () => {
-  freezer.add(startHigh.innerText, endHigh.innerText);
-  input.innerText = coreHigh.innerText;
+  freezer.add(input.get("start"), input.get("end"));
+  input.coreOnly();
   update();
 };
 
 const thaw = () => {
-  input.innerText = freezer.pre() + input.innerText + freezer.post();
+  input.add(freezer.pre(), freezer.post());
   freezer.erase();
   update();
 };
 
 const update = () => {
-  const text = input.innerText;
+  const text = input.get();
   const {norm, map} = palindrome.normalize(text);
   const chunks = palindrome.getChunks(norm);
   const suggestions = palindrome.suggest(chunks);
   const {head, coreIndex, tail} = suggestions[0];
   suggest.set(head, tail);
   const {start, core, end} = palindrome.split(chunks, coreIndex, map, text);
-  startHigh.innerText = start;
-  coreHigh.innerText = core;
-  endHigh.innerText = end;
+  input.highlight(start, core, end);
   if (norm && palindrome.isPalindrome(norm)) {
-    startHigh.style.borderColor = palette.palindrome;
-    coreHigh.style.backgroundColor = palette.palindrome;
-    coreHigh.style.borderColor = palette.palindrome;
-    endHigh.style.borderColor = palette.palindrome;
+    input.togglePalindrome(true);
     suggest.togglePalindrome(true);
     if (end !== start) tools.toggleFlip(true);
     else tools.toggleFlip(false);
     if (start !== "") tools.toggleFreeze(true);
     else tools.toggleFreeze(false);
   } else {
-    startHigh.style.borderColor = "transparent";
-    coreHigh.style.backgroundColor = "transparent";
-    coreHigh.style.borderColor = palette.core;
-    endHigh.style.borderColor = "transparent";
+    input.togglePalindrome(false);
     suggest.togglePalindrome(false);
     tools.togglePublish(false);
     tools.toggleFlip(false);
@@ -123,13 +92,14 @@ const update = () => {
 };
 
 const integrate = () => {
-  input.innerHTML = suggest.head() + input.innerHTML + suggest.tail();
+  input.add(suggest.head(), suggest.tail());
   suggest.erase();
-  caretEnd();
+  input.caretEnd();
   update();
 };
 
-const keyPress = e => {
+const keyPress = customEvent => {
+  const e = customEvent.detail;
   if (["Enter", "Tab", "End"].includes(e.key)) {
     integrate();
     e.preventDefault();
@@ -139,18 +109,16 @@ const keyPress = e => {
 };
 
 const blur = e => {
-  saveCaret();
+  input.saveCaret();
   suggest.unblink();
 };
 
 const focus = e => {
-  if (input.innerHTML === "") suggest.blink();
+  if (input.get() === "") suggest.blink();
 };
 
 const click = e => {
-  if (document.activeElement === input) return;
   input.focus();
-  caretEnd();
 }
 
 document.addEventListener("online", e => {
@@ -168,24 +136,11 @@ document.addEventListener("freezeClicked", freezePalindrome);
 document.addEventListener("thawClicked", thaw);
 document.addEventListener("headClicked", integrate);
 document.addEventListener("tailClicked", integrate);
-
-const startHigh = document.createElement("span");
-startHigh.id = "startHigh";
-startHigh.style.borderWidth = "0.3rem";
-startHigh.style.borderStyle = "solid none";
-startHigh.style.borderColor = "transparent";
-
-const coreHigh = document.createElement("span");
-coreHigh.id = "coreHigh";
-coreHigh.style.borderWidth = "0.3rem";
-coreHigh.style.borderStyle = "solid none";
-coreHigh.style.borderColor = palette.core;
-
-const endHigh = document.createElement("span");
-endHigh.id = "endHigh";
-endHigh.style.borderWidth = "0.3rem";
-endHigh.style.borderStyle = "solid none";
-endHigh.style.borderColor = "transparent";
+document.addEventListener("inputKeyDown", keyPress);
+document.addEventListener("inputKeyUp", update);
+document.addEventListener("inputCut", update);
+document.addEventListener("inputFocus", focus);
+document.addEventListener("inputBlur", blur);
 
 const highlight = document.createElement("div");
 highlight.id = "highlight";
@@ -193,35 +148,11 @@ highlight.style.height = "0px";
 highlight.style.color = "transparent";
 highlight.append(freezer.preHigh);
 highlight.append(suggest.headHigh);
-highlight.append(startHigh);
-highlight.append(coreHigh);
-highlight.append(endHigh);
+highlight.append(input.startHigh);
+highlight.append(input.coreHigh);
+highlight.append(input.endHigh);
 highlight.append(suggest.tailHigh);
 highlight.append(freezer.postHigh);
-
-const input = document.createElement("span");
-input.id = "input";
-input.contentEditable = "true";
-input.setAttribute("autofocus", "autofocus");
-input.setAttribute("autocomplete", "off");
-input.setAttribute("autocorrect", "off");
-input.setAttribute("autocapitalize", "off");
-input.setAttribute("spellcheck", "false");
-input.style.outline = "none";
-input.style.borderWidth = "0.3rem";
-input.style.borderStyle = "solid none";
-input.style.borderColor = "transparent";
-input.style.color = palette.input;
-input.onkeydown = keyPress;
-input.onkeyup = () => update();
-input.oncut = () => setTimeout(update, 0);
-input.onpaste = e => e.preventDefault();
-input.onblur = blur;
-input.onfocus = focus;
-
-const angel = document.createElement("div");
-angel.id = "angel";
-angel.style.display = "inline-block";
 
 const canvas = document.createElement("div");
 canvas.id = "canvas";
@@ -239,8 +170,8 @@ canvas.append(tools.publishNode);
 canvas.append(highlight);
 canvas.append(freezer.preNode);
 canvas.append(suggest.headNode);
-canvas.append(input);
-canvas.append(angel);
+canvas.append(input.input);
+canvas.append(input.angel);
 canvas.append(suggest.tailNode);
 canvas.append(freezer.postNode);
 canvas.append(tools.tools);
@@ -248,8 +179,6 @@ canvas.append(tools.tools);
 if (window.location.search === "?dev") {
   canvas.style.border = "2px dashed green";
   highlight.style.border = "2px solid fuchsia";
-  coreHigh.style.color = "red";
-  input.style.border = "2px dashed red";
 }
 
 export default { blink: suggest.blink, canvas };
