@@ -122,6 +122,11 @@ const click = e => {
   input.focus();
 }
 
+const headClicked = () => {
+  if (suggest.head()) integrate();
+  else input.caretStart();
+};
+
 document.addEventListener("online", e => {
   if (input.innerText) update();
 });
@@ -136,7 +141,7 @@ document.addEventListener("eraseClicked", eraseText);
 document.addEventListener("flipClicked", flipText);
 document.addEventListener("freezeClicked", freezePalindrome);
 document.addEventListener("thawClicked", thaw);
-document.addEventListener("headClicked", integrate);
+document.addEventListener("headClicked", headClicked);
 document.addEventListener("tailClicked", integrate);
 document.addEventListener("inputKeyDown", keyPress);
 document.addEventListener("inputKeyUp", update);

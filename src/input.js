@@ -29,6 +29,11 @@ const caretEnd = () => {
   selection.modify("move", "forward", "character");
 };
 
+const caretStart = () => {
+  selection.selectAllChildren(input);
+  selection.collapseToStart();
+};
+
 const focus = () => {
   if (document.activeElement === input) return;
   input.focus();
@@ -133,6 +138,7 @@ export default {
   focus,
   saveCaret,
   caretEnd,
+  caretStart,
   flip,
   erase,
   coreOnly,
