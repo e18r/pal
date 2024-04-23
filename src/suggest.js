@@ -23,11 +23,15 @@ const unblink = () => {
   input.style.caretColor = palette.input;
 };
 
-const set = (head, tail) => {
-  headNode.innerText = head;
-  headHigh.innerText = head;
-  tailNode.innerText = tail;
-  tailHigh.innerText = tail;
+const set = (suggestion, location) => {
+  erase();
+  if (location === "head") {
+    headNode.innerText = suggestion;
+    headHigh.innerText = suggestion;
+  } else if (location === "tail") {
+    tailNode.innerText = suggestion;
+    tailHigh.innerText = suggestion;
+  }
 };
 
 const togglePalindrome = isPalindrome => {

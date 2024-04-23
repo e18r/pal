@@ -61,11 +61,10 @@ const thaw = () => {
 const update = () => {
   const text = input.get();
   const {norm, map} = palindrome.normalize(text);
-  const chunks = palindrome.getChunks(norm);
-  const suggestions = palindrome.suggest(chunks);
-  const {head, coreIndex, tail} = suggestions[0];
-  suggest.set(head, tail);
-  const {start, core, end} = palindrome.split(chunks, coreIndex, map, text);
+  const suggestions = palindrome.suggest(norm);
+  const { div, hasCore, suggestion, location } = suggestions[0];
+  suggest.set(suggestion, location);
+  const {start, core, end} = palindrome.split(norm, div, hasCore, map, text);
   input.highlight(start, core, end);
   if (norm && palindrome.isPalindrome(norm)) {
     input.togglePalindrome(true);
@@ -86,7 +85,7 @@ const update = () => {
   else tools.togglePublish(false);
   if (text) suggest.unblink();
   else suggest.blink();
-  if (head || tail) tools.toggleIntegrate(true);
+  if (suggestion) tools.toggleIntegrate(true);
   else tools.toggleIntegrate(false);
   if (text || freezer.pre()) tools.toggleErase(true);
   else tools.toggleErase(false);
@@ -171,6 +170,7 @@ canvas.style.lineHeight = 1.3;
 canvas.style.fontFamily = "serif";
 canvas.style.wordBreak = "break-all";
 canvas.style.textAlign = "center";
+canvas.style.whiteSpace = "break-spaces";
 canvas.onclick = click;
 canvas.style.fontVariantLigatures = "none";
 canvas.append(tools.publishNode);

@@ -58,14 +58,16 @@ const suggest = norm => {
     const subEndCore = norm.substring(div + 1, div + 1 + start.length);
     if (start === subEnd) suggestions.push({
       div,
-      core: false,
-      text: norm.substring(div + start.length).split("").reverse().join(""),
+      hasCore: false,
+      suggestion: norm.substring(div + start.length)
+        .split("").reverse().join(""),
       location: "head",
     });
     if (start === subEndCore) suggestions.push({
       div,
-      core: true,
-      text: norm.substring(div + 1 + start.length).split("").reverse().join(""),
+      hasCore: true,
+      suggestion: norm.substring(div + 1 + start.length)
+        .split("").reverse().join(""),
       location: "head",
     });
   }
@@ -76,30 +78,31 @@ const suggest = norm => {
     const subStartCore = norm.substring(div - endCore.length, div);
     if (end === subStart) suggestions.push({
       div,
-      core: false,
-      text: norm.substring(0, div - end.length).split("").reverse().join(""),
+      hasCore: false,
+      suggestion: norm.substring(0, div - end.length)
+        .split("").reverse().join(""),
       location: "tail",
     });
     if (endCore === subStartCore) suggestions.push({
       div,
-      core: true,
-      text: norm.substring(0, div - endCore.length)
+      hasCore: true,
+      suggestion: norm.substring(0, div - endCore.length)
         .split("").reverse().join(""),
       location: "tail",
     });
   }
   suggestions.push({
     div: norm.length,
-    core: false,
-    text: norm.split("").reverse().join(""),
+    hasCore: false,
+    suggestion: norm.split("").reverse().join(""),
     location: "tail",
   });
   suggestions.sort((a, b) => {
-    if (a.text.length === b.text.length) {
+    if (a.suggestion.length === b.suggestion.length) {
       if (a.location === "tail") return -1;
       else return 1;
     }
-    else return a.text.length - b.text.length;
+    else return a.suggestion.length - b.suggestion.length;
   });
   return suggestions;
 };
