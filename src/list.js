@@ -1,7 +1,17 @@
 import indr from "./indr.js";
 
-const LOADING_CARD_TEXT = "Se dice: de ti seré si te decides";
-const LOADING_CARD_AMOUNT = 5;
+const LOADING_CARDS = [
+  "Se dice: de ti seré si te decides",
+  "Amarte me trama",
+  "De Mahoma a Mohamed",
+  "Olor a rolo :(",
+  "Un bon snob nu",
+  "Yo soy",
+  "Aroma a mora",
+  "Atila sale de la salitA",
+  "no binarie e iraní, bon?",
+  "sometemos",
+];
 
 const loadingCards = [];
 const cardIds = [];
@@ -21,9 +31,9 @@ const createCard = () => {
   return card;
 };
 
-const setLoading = card => {
+const setLoading = (card, text) => {
   card.className = "loading";
-  card.innerText = LOADING_CARD_TEXT;
+  card.innerText = text;
   card.style.color = "transparent";
   card.style.userSelect = "none";
   card.animate(
@@ -52,9 +62,9 @@ const setText = (card, text) => {
 };
 
 const addLoadingCards = () => {
-  for (let i = 0; i < LOADING_CARD_AMOUNT; i++) {
+  for (let text of LOADING_CARDS) {
     const card = createCard();
-    setLoading(card);
+    setLoading(card, text);
     list.prepend(card);
     loadingCards.unshift(card);
   }
