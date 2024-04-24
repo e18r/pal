@@ -21,8 +21,5 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
   },
-  "type": "module",
-  "engines": {
-    "node": ">=20.11"
-  }
+  "type": "module"
 }
