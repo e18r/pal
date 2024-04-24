@@ -109,9 +109,10 @@ const suggest = norm => {
 
 const split = (norm, div, hasCore, map, text) => {
   if (norm.length === 0) return {start: "", core: "", end: ""};
-  const start = text.substring(0, map[div]);
-  const core = hasCore ? text.charAt(map[div]) : "";
-  const end = hasCore ? text.substring(map[div] + 1) : text.substring(map[div]);
+  const start = text.substring(0, map[div - 1] + 1);
+  const core = text.substring(map[div - 1] + 1,
+                              hasCore ? map[div + 1] : map[div]);
+  const end = text.substring(hasCore ? map[div + 1] : map[div]);
   return {start, core, end};
 };
 
