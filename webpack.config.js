@@ -28,7 +28,6 @@ export default () => {
         overlay: false
       }
     },
-    context: process.cwd(),
     // devtool: "eval-cheap-source-map"
     // disable for production
   };
