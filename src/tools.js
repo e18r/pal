@@ -79,7 +79,7 @@ const publishNode = document.createElement("div");
 publishNode.id = "publishNode";
 publishNode.style.lineHeight = "initial";
 publishNode.style.fontSize = "initial";
-publishNode.style.marginBottom = "1rem";
+publishNode.style.marginBottom = "2rem";
 publishNode.append(publish);
 
 const integrate = document.createElement("img");

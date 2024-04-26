@@ -5,6 +5,7 @@ import tools from "./tools.js";
 import freezer from "./freezer.js";
 import suggest from "./suggest.js";
 import input from "./input.js";
+import cores from "./cores.js";
 
 const PUBLISH = new Event("publish");
 
@@ -66,25 +67,46 @@ const update = () => {
   suggest.set(suggestion, location);
   const {start, core, end} = palindrome.split(norm, div, hasCore, map, text);
   input.highlight(start, core, end);
-  if (norm && palindrome.isPalindrome(norm)) {
-    input.togglePalindrome(true);
+  const isPalindrome = palindrome.isPalindrome(norm);
+  if (norm && isPalindrome) {
+    input.togglePalindrome(true, hasCore);
     suggest.togglePalindrome(true);
     if (end !== start) tools.toggleFlip(true);
     else tools.toggleFlip(false);
     if (start !== "") tools.toggleFreeze(true);
     else tools.toggleFreeze(false);
   } else {
-    input.togglePalindrome(false);
+    input.togglePalindrome(false, hasCore);
     suggest.togglePalindrome(false);
     tools.togglePublish(false);
     tools.toggleFlip(false);
     tools.toggleFreeze(false);
   }
-  if (indr.isOnline() && palindrome.isPalindrome(norm) &&
+  if (indr.isOnline() && isPalindrome &&
       (norm || freezer.pre())) tools.togglePublish(true);
   else tools.togglePublish(false);
-  if (text) suggest.unblink();
-  else suggest.blink();
+  if (text) {
+    suggest.unblink();
+    const rect = input.coreHigh.getClientRects()[0];
+    const width = input.coreHigh.offsetWidth;
+    if (isPalindrome) {
+      cores.coreSuggest.style.display = "none";
+      cores.corePalindrome.style.display = "block";
+      cores.corePalindrome.style.top = rect.top - 19 + "px";
+      cores.corePalindrome.style.left = (rect.left + width / 2 - 8) + "px";
+    }  else {
+      cores.corePalindrome.style.display = "none";
+      cores.coreSuggest.style.display = "block";
+      cores.coreSuggest.style.top = rect.top - 22 + "px";
+      cores.coreSuggest.style.left = (rect.left + width / 2 - 8) + "px";
+    }
+  }
+  else {
+    cores.coreSuggest.style.display = "none";
+    cores.corePalindrome.style.display = "none";
+    input.coreHigh.style.borderColor = "transparent";
+    suggest.blink();
+  }
   if (suggestion) tools.toggleIntegrate(true);
   else tools.toggleIntegrate(false);
   if (text || freezer.pre()) tools.toggleErase(true);
@@ -174,6 +196,8 @@ canvas.style.whiteSpace = "break-spaces";
 canvas.onclick = click;
 canvas.style.fontVariantLigatures = "none";
 canvas.append(tools.publishNode);
+canvas.append(cores.coreSuggest);
+canvas.append(cores.corePalindrome);
 canvas.append(highlight);
 canvas.append(freezer.preNode);
 canvas.append(suggest.headNode);

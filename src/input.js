@@ -59,16 +59,22 @@ const highlight = (start, core, end) => {
   endHigh.innerText = end;
 };
 
-const togglePalindrome = isPalindrome => {
+const togglePalindrome = (isPalindrome, hasCore) => {
   if (isPalindrome) {
     startHigh.style.borderColor = palette.palindrome;
-    coreHigh.style.borderColor = palette.palindrome;
     coreHigh.style.backgroundColor = palette.palindrome;
+    coreHigh.style.borderRadius = "initial";
+    coreHigh.style.borderWidth = "0.3rem";
+    coreHigh.style.borderStyle = hasCore ? "solid none" : "solid";
+    coreHigh.style.borderColor = palette.palindrome;
     endHigh.style.borderColor = palette.palindrome;
   } else {
     startHigh.style.borderColor = "transparent";
     coreHigh.style.backgroundColor = "transparent";
-    coreHigh.style.borderColor = palette.core;
+    coreHigh.style.borderRadius = "10px";
+    coreHigh.style.borderWidth = "0.1rem";
+    coreHigh.style.borderStyle = "solid";
+    coreHigh.style.borderColor = palette.suggest;
     endHigh.style.borderColor = "transparent";
   }
 };
@@ -92,9 +98,7 @@ startHigh.style.borderColor = "transparent";
 
 const coreHigh = document.createElement("span");
 coreHigh.id = "coreHigh";
-coreHigh.style.borderWidth = "0.3rem";
-coreHigh.style.borderStyle = "solid none";
-coreHigh.style.borderColor = palette.core;
+coreHigh.style.borderColor = "transparent";
 
 const endHigh = document.createElement("span");
 endHigh.id = "endHigh";
