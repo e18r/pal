@@ -62,20 +62,24 @@ const highlight = (start, core, end) => {
 const togglePalindrome = (isPalindrome, hasCore) => {
   if (isPalindrome) {
     startHigh.style.borderColor = palette.palindrome;
+    startHigh.style.right = "-0.3rem";
     coreHigh.style.backgroundColor = palette.palindrome;
     coreHigh.style.borderRadius = "initial";
     coreHigh.style.borderWidth = "0.3rem";
     coreHigh.style.borderStyle = hasCore ? "solid none" : "solid";
     coreHigh.style.borderColor = palette.palindrome;
     endHigh.style.borderColor = palette.palindrome;
+    endHigh.style.left = "-0.3rem";
   } else {
     startHigh.style.borderColor = "transparent";
+    startHigh.style.right = "-0.1rem";
     coreHigh.style.backgroundColor = "transparent";
     coreHigh.style.borderRadius = "10px";
     coreHigh.style.borderWidth = "0.1rem";
     coreHigh.style.borderStyle = "solid";
     coreHigh.style.borderColor = palette.suggest;
     endHigh.style.borderColor = "transparent";
+    endHigh.style.left = "-0.1rem";
   }
 };
 
@@ -95,6 +99,7 @@ startHigh.id = "startHigh";
 startHigh.style.borderWidth = "0.3rem";
 startHigh.style.borderStyle = "solid none";
 startHigh.style.borderColor = "transparent";
+startHigh.style.position = "relative";
 
 const coreHigh = document.createElement("span");
 coreHigh.id = "coreHigh";
@@ -105,6 +110,7 @@ endHigh.id = "endHigh";
 endHigh.style.borderWidth = "0.3rem";
 endHigh.style.borderStyle = "solid none";
 endHigh.style.borderColor = "transparent";
+endHigh.style.position = "relative";
 
 const input = document.createElement("span");
 input.id = "input";
@@ -119,6 +125,7 @@ input.style.borderWidth = "0.3rem";
 input.style.borderStyle = "solid none";
 input.style.borderColor = "transparent";
 input.style.color = palette.input;
+input.style.position = "relative";
 input.onkeydown = e => {
   const KEY_DOWN = new CustomEvent("inputKeyDown", { detail: e });
   document.dispatchEvent(KEY_DOWN);
